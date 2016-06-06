@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tomasky.doms.dao.IOtaInfoDao" >
+
+        <resultMap id="otaInfoRefId" type="com.tomasky.doms.dto.qunar.OtaInfoRefDto">
+            <result column="id" property="id" />
+            <result column="ota_id" property="otaId" />
+            <result column="ota_info_id" property="otaInfoId" />
+            <result column="ota_info" property="otaInfo"/>
+            <result column="ota_type" property="otaType"/>
+            <result column="appkey" property="appKey"/>
+            <result column="appsecret" property="appSecret"/>
+            <result column="sessionkey" property="sessionKey"/>
+            <result column="company_id" property="companyId"/>
+            <result column="company_code" property="companyCode"/>
+            <result column="sort" property="sort"/>
+            <!--<result column="used_price_model" property="usedPriceModel"/>-->
+            <!--<result column="tb_type" property="tbType"/>-->
+           <!-- <result column="create_date" property="createdDate"/>-->
+            <result column="xc_user_name" property="xcUserName"/>
+            <result column="xc_password" property="xcPassword"/>
+         <!--   <result column="updated_date" property="updatedDate"/>-->
+             <result column="user_id" property="userId"/>
+             <result column="status" property="status"/>
+             <result column="vendor_id" property="vendorId"/>
+        </resultMap>
+
+
+
+       <select id="selectOtaInfoList" resultMap="otaInfoRefId" >
+          SELECT oi.ota_info,oi.ota_type ,oi.sort,c.company_code,o.* from ota_info oi
+          LEFT  JOIN otainfo_company_ref o ON oi.id = o.ota_info_id
+          left JOIN  company c on c.id = o.company_id
+          where oi.deleted=0 and o.status=1
+       </select>
+
+
+</mapper>
