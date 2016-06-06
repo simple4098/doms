@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+        version="2.1">
+
+    <description>toms library</description>
+    <display-name>TOMS core</display-name>
+    <tlib-version>1.0</tlib-version>
+    <short-name>toms</short-name>
+
+    <tag>
+        <name>page</name>
+        <tag-class>com.fanqie.support.PagerTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>linkUrl</name>
+            <required>true</required>
+        </attribute>
+        <attribute>
+            <name>param</name>
+            <required>false</required>
+        </attribute>
+        <attribute>
+            <name>pagerDecorator</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+            <type>com.fanqie.support.PageDecorator</type>
+        </attribute>
+    </tag>
+    <tag>
+        <name>currentUser</name>
+        <tag-class>com.fanqielaile.toms.support.tag.CurrentUserTag</tag-class>
+        <body-content>empty</body-content>
+        <attribute>
+            <name>var</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>writeName</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>defaultUsername</name>
+            <required>false</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+    <tag>
+        <name>authorize</name>
+        <tag-class>com.fanqielaile.toms.support.tag.AuthorizeTag</tag-class>
+        <body-content>JSP</body-content>
+        <attribute>
+            <name>uri</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>currencyCode</name>
+        <tag-class>com.fanqielaile.toms.support.tag.CurrencyCodeTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+
+    <tag>
+        <name>payMethod</name>
+        <tag-class>com.fanqielaile.toms.support.tag.PayMethodTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    <tag>
+        <name>bedType</name>
+        <tag-class>com.fanqielaile.toms.support.tag.BedTypeTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    <tag>
+        <name>companyType</name>
+        <tag-class>com.fanqielaile.toms.support.tag.CompanyTypeTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    <tag>
+        <name>usedPriceModel</name>
+        <tag-class>com.fanqielaile.toms.support.tag.UsedPriceModelTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+    <tag>
+        <name>currentCompanyType</name>
+        <tag-class>com.fanqielaile.toms.support.tag.CurrentCompanyTypeTag</tag-class>
+        <body-content>empty</body-content>
+    </tag>
+</taglib>
