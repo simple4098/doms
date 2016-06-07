@@ -1,7 +1,7 @@
 package com.tomasky.doms.controller;
 
 import com.alibaba.dubbo.common.json.JSON;
-import com.tomasky.doms.dto.qunar.OtaInfoRefDto;
+import com.tomasky.doms.dto.OtaInfoDto;
 import com.tomasky.doms.service.IOtaInfoService;
 import com.tomasky.doms.support.util.JsonModel;
 import org.slf4j.Logger;
@@ -41,7 +41,7 @@ public class APIController  {
     public Object hotelTimer() throws IOException {
         log.info("=======start=======");
         JsonModel jsonModel = new JsonModel();
-        List<OtaInfoRefDto> infoDtoList = otaInfoService.findOtaInfoList();
+        List<OtaInfoDto> infoDtoList = otaInfoService.findOtaInfoList();
         jsonModel.setMessage(JSON.json(infoDtoList));
         log.info("============end============");
         return  jsonModel;

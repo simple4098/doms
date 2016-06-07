@@ -1,8 +1,8 @@
 package com.tomasky.doms.service.impl;
 
+import com.tomasky.doms.dto.OtaInfoDto;
 import com.tomasky.doms.service.IOtaInfoService;
 import com.tomasky.doms.dao.IOtaInfoDao;
-import com.tomasky.doms.dto.qunar.OtaInfoRefDto;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -23,7 +23,7 @@ public class OtaInfoService implements IOtaInfoService {
 
 
     @Override
-    public List<OtaInfoRefDto> findOtaInfoList() {
+    public List<OtaInfoDto> findOtaInfoList() {
         return otaInfoDao.selectOtaInfoList();
     }
 

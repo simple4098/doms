@@ -1,7 +1,7 @@
 package com.tomasky.doms.dao;
 
-import com.tomasky.doms.dto.qunar.OtaInfoRefDto;
-import org.apache.ibatis.annotations.Param;
+import com.tomasky.doms.dto.OtaInfoDto;
+import com.tomasky.doms.model.OtaInfo;
 
 import java.util.List;
 
@@ -14,5 +14,7 @@ import java.util.List;
 public interface IOtaInfoDao {
 
     //查询所有企业开通的ota ，以及OTA_ID
-    List<OtaInfoRefDto> selectOtaInfoList();
+    List<OtaInfoDto> selectOtaInfoList();
+
+    OtaInfo selectByOtaId(String otaId);
 }

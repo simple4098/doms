@@ -1,5 +1,6 @@
 package com.tomasky.doms.controller;
 
+import com.tomasky.doms.dto.qunar.QunarMobile;
 import com.tomasky.doms.support.util.JsonModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/direct")
-public class DirectOtaController {
+public class QunarOtaController {
 
     @RequestMapping("/sendCode")
     @ResponseBody
-    public Object sendCode(){
+    public Object sendCode(QunarMobile qunarMobile){
         JsonModel jsonModel = new JsonModel();
 
         return jsonModel;

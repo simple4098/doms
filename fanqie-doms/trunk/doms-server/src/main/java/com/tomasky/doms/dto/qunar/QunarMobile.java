@@ -1,8 +1,7 @@
 package com.tomasky.doms.dto.qunar;
 
 /**
- * DESC :
- *
+ * DESC : 去哪儿渠道 发送动态验证码
  * @author : 番茄木-ZLin
  * @data : 2016/6/6
  * @version: v1.0.0

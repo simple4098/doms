@@ -1,7 +1,6 @@
 package com.tomasky.doms.service;
 
-import com.tomasky.doms.dto.*;
-import com.tomasky.doms.dto.qunar.OtaInfoRefDto;
+import com.tomasky.doms.dto.OtaInfoDto;
 
 import java.util.List;
 
@@ -16,6 +15,6 @@ public interface IOtaInfoService {
     /**
      *  全部的渠道的关联表信息
      */
-    List<OtaInfoRefDto> findOtaInfoList();
+    List<OtaInfoDto> findOtaInfoList();
 
 }
