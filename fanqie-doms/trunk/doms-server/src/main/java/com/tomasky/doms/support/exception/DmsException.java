@@ -1,4 +1,4 @@
-package com.fanqielaile.toms.exception;
+package com.tomasky.doms.support.exception;
 
 
 public class DmsException extends Exception{
