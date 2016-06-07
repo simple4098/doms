@@ -2,9 +2,8 @@
 package com.doms.test;
 
 import com.alibaba.dubbo.common.json.JSON;
-import com.tomasky.doms.dto.qunar.QunarBase;
 import com.tomasky.doms.dto.qunar.QunarMobile;
-import com.tomasky.doms.support.util.Demo;
+import com.tomasky.doms.support.util.DemoUtil;
 import com.tomasky.doms.support.util.HttpClientUtil;
 import com.tomasky.doms.support.util.JacksonUtil;
 import org.junit.Test;
@@ -40,7 +39,7 @@ public class QunarApiTest {
 
         String obj2json = JacksonUtil.obj2json(qunarMobile);
         Map<String,String> param = JacksonUtil.json2map(obj2json);
-        String hmac = Demo.buildMyHMAC(param, "srT4Vrx0LWRT8LjbE6ajanIjigGRx8iR");
+        String hmac = DemoUtil.buildMyHMAC(param, "srT4Vrx0LWRT8LjbE6ajanIjigGRx8iR");
         qunarMobile.setHmac(hmac);
         String json = JSON.json(qunarMobile);
         String httpPost = HttpClientUtil.httpKvPost("http://link.beta.quhuhu.com/api/tomasky/docking/sendVerificationCode.do", qunarMobile);
