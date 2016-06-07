@@ -11,6 +11,13 @@ public class QunarAccountAndHotel extends QunarBase {
     //pms 酒店代码
     private String hotelNo;
 
+    public QunarAccountAndHotel() {
+    }
+
+    public QunarAccountAndHotel( String hotelNo) {
+        this.hotelNo = hotelNo;
+    }
+
     public String getHotelNo() {
         return hotelNo;
     }

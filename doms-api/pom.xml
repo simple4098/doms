@@ -30,4 +30,11 @@
             <url>http://repo.afanqie.cn/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
+    <dependencies>
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.2.8</version>
+        </dependency>
+    </dependencies>
 </project>

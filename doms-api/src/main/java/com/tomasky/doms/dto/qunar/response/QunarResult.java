@@ -12,6 +12,14 @@ public class QunarResult {
 
     private String msg;
 
+    public QunarResult() {
+    }
+
+    public QunarResult(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
     public String getCode() {
         return code;
     }

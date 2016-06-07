@@ -1,6 +1,7 @@
 package com.tomasky.doms.service;
 
 import com.tomasky.doms.dto.OtaInfoDto;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -16,5 +17,7 @@ public interface IOtaInfoService {
      *  全部的渠道的关联表信息
      */
     List<OtaInfoDto> findOtaInfoList();
+
+    OtaInfoDto findByOtaId(@Param("otaId") String otaId);
 
 }
