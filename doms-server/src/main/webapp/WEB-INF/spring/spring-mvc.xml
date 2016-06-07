@@ -21,54 +21,43 @@
        <bean class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
               <constructor-arg index="0" value="zh_CN"/>
        </bean>
-       <bean
-               class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+       <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
               <property name="messageConverters">
                      <list>
-                            <bean
-                                    class="org.springframework.http.converter.StringHttpMessageConverter">
-                                   <property name="supportedMediaTypes">
-                                          <list>
-                                                 <value>text/plain;charset=UTF-8</value>
-                                          </list>
-                                   </property>
-                            </bean>
-                            <bean
-                                    class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
                                    <property name="supportedMediaTypes">
                                           <list>
                                                  <value>text/html;charset=UTF-8</value>
-                                                 <!--
-                                                        <value>application/json;charset=UTF-8</value>
-                                                         -->
+                                                 <value>application/json;charset=UTF-8</value>
+                                          </list>
+                                   </property>
+                            </bean>
+                            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                                   <property name="supportedMediaTypes">
+                                          <list>
+                                                 <value>text/html;charset=UTF-8</value>
+                                                 <value>application/json;charset=UTF-8</value>
                                           </list>
                                    </property>
                             </bean>
                      </list>
               </property>
        </bean>
-       <bean id="c" class="org.springframework.web.accept.ContentNegotiationManager">
 
+       <bean id= "contentNegotiationManager" class= "org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+              <property name="mediaTypes">
+                     <map>
+                            <entry key="xml" value="application/xml"/>
+                            <entry key="json" value="application/json"/>
+                     </map>
+              </property>
        </bean>
        <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
               <property name="order" value="1"/>
-              <property name="contentNegotiationManager" ref="c"/>
+              <property name="contentNegotiationManager" ref="contentNegotiationManager"/>
 
               <property name="defaultViews">
                      <list>
-                            <!--<bean name="xml" class="org.springframework.web.servlet.view.xml.MarshallingView">
-                                   <constructor-arg>
-                                          <bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-                                                 <property name="classesToBeBound">
-                                                        <list>
-                                                               <value>
-                                                                      com.fanqielaile.toms.model.Order
-                                                               </value>
-                                                        </list>
-                                                 </property>
-                                          </bean>
-                                   </constructor-arg>
-                            </bean>-->
                             <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView"/>
                      </list>
               </property>

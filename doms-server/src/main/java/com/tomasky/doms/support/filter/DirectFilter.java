@@ -9,14 +9,13 @@ import javax.servlet.*;
 import java.io.IOException;
 
 /**
- * DESC : 及时推送过滤器
- *
+ * DESC : 直连请求过滤
  * @author : 番茄木-ZLin
  * @data : 2015/7/27
  * @version: v1.0.0
  */
-public class RouterRestFilter implements Filter {
-    private static final Logger log = LoggerFactory.getLogger(RouterRestFilter.class);
+public class DirectFilter implements Filter {
+    private static final Logger log = LoggerFactory.getLogger(DirectFilter.class);
 
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
