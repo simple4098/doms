@@ -2,10 +2,15 @@
 package com.doms.test;
 
 import com.alibaba.dubbo.common.json.JSON;
+import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.qunar.QunarMobile;
-import com.tomasky.doms.support.util.SecurityUtil;
+import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
+import com.tomasky.doms.dto.qunar.response.QunarResult;
+import com.tomasky.doms.exception.DmsException;
+import com.tomasky.doms.service.IQunarService;
 import com.tomasky.doms.support.util.HttpClientUtil;
 import com.tomasky.doms.support.util.JacksonUtil;
+import com.tomasky.doms.support.util.SecurityUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
@@ -14,6 +19,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 
@@ -27,8 +33,11 @@ import java.util.Map;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles(value = "dev")
 @ContextConfiguration(locations = "classpath:conf/spring/spring-content.xml")
-public class QunarApiTest {
-    private static  final Logger log = LoggerFactory.getLogger(QunarApiTest.class);
+public class QunarServiceTest {
+    private static  final Logger log = LoggerFactory.getLogger(QunarServiceTest.class);
+
+    @Resource
+    private IQunarService qunarService;
 
 
 
@@ -36,16 +45,18 @@ public class QunarApiTest {
     public void  testSendCode() throws Exception {
 
         QunarMobile qunarMobile = new QunarMobile("218.89.222.245","fanqie_test","番茄测试","15281017068");
-
-        String obj2json = JacksonUtil.obj2json(qunarMobile);
-        Map<String,String> param = JacksonUtil.json2map(obj2json);
-        String hmac = SecurityUtil.buildMyHMAC(param, "srT4Vrx0LWRT8LjbE6ajanIjigGRx8iR");
-        qunarMobile.setHmac(hmac);
-        String json = JSON.json(qunarMobile);
-        String httpPost = HttpClientUtil.httpKvPost("http://link.beta.quhuhu.com/api/tomasky/docking/sendVerificationCode.do", qunarMobile);
-
-
+        QunarResult qunarResult = qunarService.sendQunarPhoneCode("999", qunarMobile);
+        log.info(JacksonUtil.obj2json(qunarResult));
     }
 
+    @Test
+    public void testCreateQunarPmsHotel(){
+        OmsPram omsPram = new OmsPram(124,"15281017068","999","123456","fanqie_test","番茄测试");
+        try {
+            QunarHotelInfo qunarPmsHotel = qunarService.createQunarPmsHotel(omsPram);
+        } catch (DmsException e) {
+            e.printStackTrace();
+        }
+    }
 }
 

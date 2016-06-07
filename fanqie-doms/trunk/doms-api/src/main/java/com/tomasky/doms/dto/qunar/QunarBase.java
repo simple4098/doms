@@ -1,5 +1,6 @@
 package com.tomasky.doms.dto.qunar;
 
+import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.common.Constants;
 
 /**
@@ -13,9 +14,9 @@ public class QunarBase {
     //参数校验码
     private String  hmac;
     //接口版本号 所使用的 api 文档提供的版本号
-    private String version = Constants.version;
+    private String version = CommonApi.version;
     //PMS 代码
-    private String pmsId=Constants.pmsId;
+    private String pmsId= CommonApi.pmsId;
     private String channelCode=Constants.channelCode;
     //IP 地址 String 否 用户的真实 IP， Qunar 验证账号需要
     private String userIp ;

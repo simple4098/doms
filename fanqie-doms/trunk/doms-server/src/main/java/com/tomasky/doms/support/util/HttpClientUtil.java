@@ -1,8 +1,8 @@
 package com.tomasky.doms.support.util;
 
 
+import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.dto.qunar.QunarBase;
-import com.tomasky.doms.dto.qunar.QunarMobile;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpHost;
@@ -76,6 +76,10 @@ public class HttpClientUtil {
 	public static <T extends QunarBase> String httpKvPost(String url, T t) throws Exception {
 		HttpClient httpClient = obtHttpClient();
 		HttpPost httpPost = new HttpPost(url);
+		String obj2json = JacksonUtil.obj2json(t);
+		Map<String,String> param = JacksonUtil.json2map(obj2json);
+		String hmac = SecurityUtil.buildMyHMAC(param, CommonApi.signkey);
+		t.setHmac(hmac);
 		List<NameValuePair> nameValuePairs = commonParam(t);
 		httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
 		HttpResponse response = httpClient.execute(httpPost);

@@ -12,10 +12,10 @@ import java.util.*;
  * @data : 2016/6/7
  * @version: v1.0.0
  */
-public class DemoUtil {
+public class SecurityUtil {
     private static String InputCharset = "UTF-8";
 
-    private DemoUtil(){}
+    private SecurityUtil(){}
     /**
      * 生成签名结果
      * @param paramMap 要签名的参数数组
@@ -116,7 +116,7 @@ public class DemoUtil {
         paramMap.put("channelCode", "QUNAR");
         paramMap.put("pmsId", "去呼呼分配给PMS的唯一标识");
         paramMap.put("version", "1.0");
-        String hmac = DemoUtil.buildMyHMAC(paramMap , "去呼呼分配给PMS的唯一签名token");
+        String hmac = SecurityUtil.buildMyHMAC(paramMap, "去呼呼分配给PMS的唯一签名token");
         System.out.println(hmac);
     }
 }

@@ -16,5 +16,5 @@ public interface IOtaInfoDao {
     //查询所有企业开通的ota ，以及OTA_ID
     List<OtaInfoDto> selectOtaInfoList();
 
-    OtaInfo selectByOtaId(String otaId);
+    OtaInfoDto selectByOtaId(String otaId);
 }
