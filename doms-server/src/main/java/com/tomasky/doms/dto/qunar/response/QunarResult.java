@@ -1,4 +1,4 @@
-package com.tomasky.doms.dto;
+package com.tomasky.doms.dto.qunar.response;
 
 /**
  * DESC :去哪儿返回数据
@@ -6,7 +6,7 @@ package com.tomasky.doms.dto;
  * @data : 2016/6/6
  * @version: v1.0.0
  */
-public class RequestQunar {
+public class QunarResult {
 
     private String code;
 
