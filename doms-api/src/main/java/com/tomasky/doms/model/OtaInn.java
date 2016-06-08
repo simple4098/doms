@@ -14,18 +14,46 @@ import com.tomasky.doms.model.base.Domain;
     private Integer innId;
     //客栈名称
     private String innName;
+    //客栈渠道accountId
+    private String accountId;
     //渠道id
     private String otaId;
-    //true 匹配成功
-    private boolean status;
     //true 开通成功； false 开通失败
-    private boolean open;
-    //渠道酒店code
-    private String otaInnCode;
+    private Boolean openStatus;
     //客栈code
     private String innCode;
     //渠道code
     private OtaCode otaCode;
+
+    public OtaInn() {
+    }
+
+
+    public OtaInn(Integer innId, String innName, String accountId, String otaId, Boolean openStatus, OtaCode otaCode) {
+        this.innId = innId;
+        this.innName = innName;
+        this.accountId = accountId;
+        this.otaId = otaId;
+        this.openStatus = openStatus;
+
+        this.otaCode = otaCode;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
+
+    public Boolean getOpenStatus() {
+        return openStatus;
+    }
+
+    public void setOpenStatus(Boolean openStatus) {
+        this.openStatus = openStatus;
+    }
 
     public Integer getInnId() {
         return innId;
@@ -51,21 +79,6 @@ import com.tomasky.doms.model.base.Domain;
         this.otaId = otaId;
     }
 
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public String getOtaInnCode() {
-        return otaInnCode;
-    }
-
-    public void setOtaInnCode(String otaInnCode) {
-        this.otaInnCode = otaInnCode;
-    }
 
     public String getInnCode() {
         return innCode;
@@ -82,4 +95,6 @@ import com.tomasky.doms.model.base.Domain;
     public void setOtaCode(OtaCode otaCode) {
         this.otaCode = otaCode;
     }
+
+
 }

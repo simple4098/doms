@@ -11,14 +11,24 @@ public class QunarAccount extends QunarBase {
     private String userAccount;
     //手机动态码
     private String verificationCode;
+    private String hotelNo;
 
     public QunarAccount() {
     }
 
-    public QunarAccount(String userIp, String operatorGuid, String operatorName, String userAccount, String verificationCode) {
+    public QunarAccount(String userIp, String operatorGuid, String operatorName, String userAccount, String verificationCode,String hotelNo) {
         super(userIp, operatorGuid, operatorName);
         this.userAccount = userAccount;
         this.verificationCode = verificationCode;
+        this.hotelNo = hotelNo;
+    }
+
+    public String getHotelNo() {
+        return hotelNo;
+    }
+
+    public void setHotelNo(String hotelNo) {
+        this.hotelNo = hotelNo;
     }
 
     public String getUserAccount() {

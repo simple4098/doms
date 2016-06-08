@@ -13,7 +13,7 @@ public class CommonApi {
 
     public static String qunarHostApi;
 
-    public static String qunarUrl = qunarHostApi+pmsId;
+    public static String qunarUrl ;
 
     public static String signkey;
     public static String version;
@@ -58,4 +58,11 @@ public class CommonApi {
     public  void setVersion(String version) {
         CommonApi.version = version;
     }
+
+    public static String getQunarUrl() {
+        qunarUrl =  CommonApi.qunarHostApi+CommonApi.pmsId;
+        return qunarUrl;
+    }
+
+
 }

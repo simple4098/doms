@@ -16,7 +16,7 @@ public class QunarUrlUtil {
      */
     public static String sendCodeUrl(){
         String sendUrl = ResourceBundleUtil.getString("qunar.sendCode.uri");
-        return CommonApi.qunarUrl+sendUrl;
+        return CommonApi.getQunarUrl()+sendUrl;
     }
 
     /**
@@ -24,7 +24,7 @@ public class QunarUrlUtil {
      */
     public static String openAccountUrl(){
         String sendUrl = ResourceBundleUtil.getString("qunar.openAccount.uri");
-        return CommonApi.qunarUrl+sendUrl;
+        return CommonApi.getQunarUrl()+sendUrl;
     }
 
     /**
@@ -32,13 +32,13 @@ public class QunarUrlUtil {
      */
     public static String closeAccountUrl(){
         String sendUrl = ResourceBundleUtil.getString("qunar.closeAccount.uri");
-        return CommonApi.qunarUrl+sendUrl;
+        return CommonApi.getQunarUrl()+sendUrl;
     }
     /**
      * 去哪儿查询渠道酒店列表接口地址
      */
     public static String searchHotelListUrl(){
         String sendUrl = ResourceBundleUtil.getString("qunar.searchHotelList.uri");
-        return CommonApi.qunarUrl+sendUrl;
+        return CommonApi.getQunarUrl()+sendUrl;
     }
 }

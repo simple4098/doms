@@ -17,18 +17,36 @@ public class OmsPram {
     private String phoneCode;
     private String operatorGuid;
     private String operatorName;
-    private String innCode;
+    private String innName;
+    private String userIp;
 
-    public OmsPram(Integer innId, String mobile, String otaId, String phoneCode, String operatorGuid, String operatorName) {
+    public OmsPram(Integer innId, String mobile, String otaId, String phoneCode,String innName,String operatorGuid,String operatorName) {
         this.innId = innId;
         this.mobile = mobile;
         this.otaId = otaId;
         this.phoneCode = phoneCode;
-        this.operatorGuid = operatorGuid;
-        this.operatorName = operatorName;
+        this.innName = innName;
+        this.operatorGuid=operatorGuid;
+        this.operatorName=operatorName;
     }
 
     public OmsPram() {
+    }
+
+    public String getUserIp() {
+        return userIp;
+    }
+
+    public void setUserIp(String userIp) {
+        this.userIp = userIp;
+    }
+
+    public String getInnName() {
+        return innName;
+    }
+
+    public void setInnName(String innName) {
+        this.innName = innName;
     }
 
     public String getOperatorGuid() {
@@ -79,10 +97,7 @@ public class OmsPram {
         this.phoneCode = phoneCode;
     }
 
-    public String getInnCode() {
-        innCode = otaId+"_"+innId;
-        return innCode;
-    }
+
 
 
 }
