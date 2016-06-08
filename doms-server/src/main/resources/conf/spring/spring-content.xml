@@ -9,146 +9,166 @@
                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
-       <context:component-scan base-package="com.tomasky.doms" use-default-filters="true">
-              <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
-       </context:component-scan>
-       <context:annotation-config/>
+    <context:component-scan base-package="com.tomasky.doms" use-default-filters="true">
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+    <context:annotation-config/>
     <context:property-placeholder location="classpath:config.properties"/>
 
 
-       <bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource"
-             p:basenames="message"/>
+    <bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource"
+          p:basenames="message"/>
 
 
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
 
-       <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-              <property name="dataSource" ref="dataSource"/>
-       </bean>
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:conf/mybatis/sqlMapConfig.xml"/>
+        <property name="mapperLocations" value="classpath:com/fanqielaile/toms/mapper/*.xml"/>
+        <property name="plugins">
+            <ref bean="paginationInterceptor"></ref>
+        </property>
+    </bean>
+    <bean id="paginationInterceptor" class="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
+        <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.PostgreSQLDialect"/>
+    </bean>
+    <bean class="org.mybatis.spring.SqlSessionTemplate" id="templateDc">
+        <constructor-arg index="0" ref="sqlSessionFactory"/>
+    </bean>
 
-       <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-              <property name="dataSource" ref="dataSource"/>
-              <property name="configLocation" value="classpath:conf/mybatis/sqlMapConfig.xml"/>
-              <property name="mapperLocations" value="classpath:com/fanqielaile/toms/mapper/*.xml"/>
-              <property name="plugins">
-                     <ref bean="paginationInterceptor"></ref>
-              </property>
-       </bean>
-       <bean id="paginationInterceptor" class="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
-              <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.PostgreSQLDialect"/>
-       </bean>
-       <bean class="org.mybatis.spring.SqlSessionTemplate" id="templateDc">
-              <constructor-arg index="0" ref="sqlSessionFactory" />
-       </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" id="mapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+        <property name="basePackage" value="com.tomasky.doms.dao"/>
+    </bean>
 
-       <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" id="mapperScannerConfigurer">
-              <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
-              <property name="basePackage" value="com.tomasky.doms.dao"/>
-       </bean>
+    <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="add*" propagation="REQUIRED"/>
+            <tx:method name="append*" propagation="REQUIRED"/>
+            <tx:method name="insert*" propagation="REQUIRED"/>
+            <tx:method name="save*" propagation="REQUIRED"/>
+            <tx:method name="update*" propagation="REQUIRED"/>
+            <tx:method name="validated*" propagation="REQUIRED"/>
+            <tx:method name="modify*" propagation="REQUIRED"/>
+            <tx:method name="edit*" propagation="REQUIRED"/>
+            <tx:method name="delete*" propagation="REQUIRED"/>
+            <tx:method name="remove*" propagation="REQUIRED"/>
+            <tx:method name="repair" propagation="REQUIRED"/>
+            <tx:method name="delAndRepair" propagation="REQUIRED"/>
 
-       <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
-       <tx:advice id="txAdvice" transaction-manager="transactionManager">
-              <tx:attributes>
-                     <tx:method name="add*" propagation="REQUIRED" />
-                     <tx:method name="append*" propagation="REQUIRED" />
-                     <tx:method name="insert*" propagation="REQUIRED" />
-                     <tx:method name="save*" propagation="REQUIRED" />
-                     <tx:method name="update*" propagation="REQUIRED" />
-                     <tx:method name="validated*" propagation="REQUIRED" />
-                     <tx:method name="modify*" propagation="REQUIRED" />
-                     <tx:method name="edit*" propagation="REQUIRED" />
-                     <tx:method name="delete*" propagation="REQUIRED" />
-                     <tx:method name="remove*" propagation="REQUIRED" />
-                     <tx:method name="repair" propagation="REQUIRED" />
-                     <tx:method name="delAndRepair" propagation="REQUIRED" />
+            <tx:method name="get*" propagation="SUPPORTS"/>
+            <tx:method name="find*" propagation="SUPPORTS"/>
+            <tx:method name="load*" propagation="SUPPORTS"/>
+            <tx:method name="search*" propagation="SUPPORTS"/>
+            <tx:method name="datagrid*" propagation="SUPPORTS"/>
 
-                     <tx:method name="get*" propagation="SUPPORTS" />
-                     <tx:method name="find*" propagation="SUPPORTS" />
-                     <tx:method name="load*" propagation="SUPPORTS" />
-                     <tx:method name="search*" propagation="SUPPORTS" />
-                     <tx:method name="datagrid*" propagation="SUPPORTS" />
+            <tx:method name="*" propagation="SUPPORTS"/>
+        </tx:attributes>
+    </tx:advice>
 
-                     <tx:method name="*" propagation="SUPPORTS" />
-              </tx:attributes>
-       </tx:advice>
+    <aop:config proxy-target-class="true">
+        <aop:pointcut id="serviceMethods" expression="execution(public * com.tomasky.doms.service.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
+    </aop:config>
 
-       <aop:config proxy-target-class="true">
-              <aop:pointcut id="serviceMethods" expression="execution(public * com.tomasky.doms.service.*.*(..))"/>
-              <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
-       </aop:config>
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize">
+            <value>32212254720</value>
+        </property>
+        <property name="maxInMemorySize">
+            <value>4096</value>
+        </property>
+    </bean>
+    <!--<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>-->
 
-       <bean id="multipartResolver"
-             class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-              <property name="maxUploadSize">
-                     <value>32212254720</value>
-              </property>
-              <property name="maxInMemorySize">
-                     <value>4096</value>
-              </property>
-       </bean>
-
-
-
-       <beans profile="dev">
-              <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-                 <property name="driverClassName" value="org.postgresql.Driver"/>
-                 <property name="url" value="jdbc:postgresql://192.168.1.17:5432/compare_price?autoReconnectForPools=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull"/>
-                 <property name="username" value="ota"/>
-                 <property name="password" value="ota"/>
-                 <property name="maxWait" value="1000" />
-                 <property name="initialSize" value="5" />
-                 <property name="maxActive" value="20" />
-                 <property name="testWhileIdle" value="false" />
-                 <property name="timeBetweenEvictionRunsMillis" value="15000" />
-                 <property name="removeAbandoned" value="true" />
-                 <property name="removeAbandonedTimeout" value="1800" />
-                 <property name="validationQuery" value="select 1"/>
-              </bean>
-              <bean class="com.tomasky.doms.common.CommonApi">
-                 <property name="pmsId" value="tomasky"/>
-                 <property name="qunarHostApi" value="http://link.beta.quhuhu.com/api/"/>
-                 <property name="signkey" value="srT4Vrx0LWRT8LjbE6ajanIjigGRx8iR"/>
-                 <property name="userIp" value="218.89.222.245"/>
-                 <property name="version" value="1.0"/>
-              </bean>
+    <!--<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
+    <property name="connectionFactory"   ref="connectionFactory" />
+    </bean>
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        &lt;!&ndash;是否启用后进先出, 默认true&ndash;&gt;
+        <property name="lifo" value="false"></property>
+        &lt;!&ndash;最大空闲连接数, 默认8个&ndash;&gt;
+        <property name="maxIdle" value="5"></property>
+        &lt;!&ndash;//最大连接数, 默认8个&ndash;&gt;
+        <property name="maxTotal" value="10"></property>
+        <property name="minIdle" value="2"></property>
+        &lt;!&ndash;获取连接时的最大等待毫秒数(如果设置为阻塞时BlockWhenExhausted),如果超时就抛异常, 小于零:阻塞不确定的时间,  默认-1&ndash;&gt;
+        <property name="maxWaitMillis" value="1000"></property>
+        <property name="testOnBorrow" value="true"></property>
+        <property name="testWhileIdle" value="true"></property>
+    </bean>-->
 
 
-       </beans>
-       <beans profile="staging">
-              <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-                     <property name="driverClassName" value="org.postgresql.Driver"/>
-                     <property name="url"  value="jdbc:postgresql://10.163.227.13:9999/oms_db"/>
-                     <property name="username" value="ota"/>
-                     <property name="password" value="ota@fanqie.COM888"/>
-                     <property name="maxWait" value="1000" />
-                     <property name="initialSize" value="5" />
-                     <property name="maxActive" value="20" />
-                     <property name="testWhileIdle" value="false" />
-                     <property name="timeBetweenEvictionRunsMillis" value="15000" />
-                     <property name="removeAbandoned" value="true" />
-                     <property name="removeAbandonedTimeout" value="1800" />
-                     <property name="validationQuery" value="select 1"/>
-              </bean>
-           <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-               <property name="hostName" value="10.144.10.151"/>
-               <property name="port" value="6379"/>
-               <property name="password" value="mfgkftoajpvH3lds8ykgcnzeWcaAuwhlo0lqzqsappsfacjfenwqiJtadydqwfjrN2obv3xrmfoV6l5jl2ofwgPqndqaemcuppgYkzK4fotunwlznjhb1opvaiaozaYq"/>
-               <property name="database" value="10"/>
-               <property name="poolConfig" ref="jedisPoolConfig"></property>
-           </bean>
+    <beans profile="dev">
+        <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+              destroy-method="close">
+            <property name="driverClassName" value="org.postgresql.Driver"/>
+            <property name="url"
+                      value="jdbc:postgresql://192.168.1.17:5432/compare_price?autoReconnectForPools=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull"/>
+            <property name="username" value="ota"/>
+            <property name="password" value="ota"/>
+            <property name="maxWait" value="1000"/>
+            <property name="initialSize" value="5"/>
+            <property name="maxActive" value="20"/>
+            <property name="testWhileIdle" value="false"/>
+            <property name="timeBetweenEvictionRunsMillis" value="15000"/>
+            <property name="removeAbandoned" value="true"/>
+            <property name="removeAbandonedTimeout" value="1800"/>
+            <property name="validationQuery" value="select 1"/>
+        </bean>
+
+        <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+            <property name="hostName" value="192.168.1.27"/>
+            <property name="port" value="6379"/>
+            <property name="password" value="111111"/>
+            <property name="database" value="0"/>
+
+        </bean>
 
 
-       </beans>
+    </beans>
+    <beans profile="staging">
+        <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+              destroy-method="close">
+            <property name="driverClassName" value="org.postgresql.Driver"/>
+            <property name="url" value="jdbc:postgresql://10.163.227.13:9999/oms_db"/>
+            <property name="username" value="ota"/>
+            <property name="password" value="ota@fanqie.COM888"/>
+            <property name="maxWait" value="1000"/>
+            <property name="initialSize" value="5"/>
+            <property name="maxActive" value="20"/>
+            <property name="testWhileIdle" value="false"/>
+            <property name="timeBetweenEvictionRunsMillis" value="15000"/>
+            <property name="removeAbandoned" value="true"/>
+            <property name="removeAbandonedTimeout" value="1800"/>
+            <property name="validationQuery" value="select 1"/>
+        </bean>
+        <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+            <property name="hostName" value="10.144.10.151"/>
+            <property name="port" value="6379"/>
+            <property name="password"
+                      value="mfgkftoajpvH3lds8ykgcnzeWcaAuwhlo0lqzqsappsfacjfenwqiJtadydqwfjrN2obv3xrmfoV6l5jl2ofwgPqndqaemcuppgYkzK4fotunwlznjhb1opvaiaozaYq"/>
+            <property name="database" value="10"/>
+        </bean>
 
-       <beans profile="production">
-           <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/tomato-toms"/>
 
-           <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-               <property name="hostName" value="10.144.10.151"/>
-               <property name="port" value="6379"/>
-               <property name="password" value="mfgkftoajpvH3lds8ykgcnzeWcaAuwhlo0lqzqsappsfacjfenwqiJtadydqwfjrN2obv3xrmfoV6l5jl2ofwgPqndqaemcuppgYkzK4fotunwlznjhb1opvaiaozaYq"/>
-               <property name="database" value="11"/>
-               <property name="poolConfig" ref="jedisPoolConfig"></property>
-           </bean>
+    </beans>
 
-       </beans>
+    <beans profile="production">
+        <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/tomato-toms"/>
+
+        <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
+            <property name="hostName" value="10.144.10.151"/>
+            <property name="port" value="6379"/>
+            <property name="password"
+                      value="mfgkftoajpvH3lds8ykgcnzeWcaAuwhlo0lqzqsappsfacjfenwqiJtadydqwfjrN2obv3xrmfoV6l5jl2ofwgPqndqaemcuppgYkzK4fotunwlznjhb1opvaiaozaYq"/>
+            <property name="database" value="11"/>
+        </bean>
+
+    </beans>
 </beans>
