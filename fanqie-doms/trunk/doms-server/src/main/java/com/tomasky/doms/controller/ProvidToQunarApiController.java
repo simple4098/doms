@@ -126,15 +126,7 @@ public class ProvidToQunarApiController {
     public QunarDataResult queryRoomCount(String hotelNos, String roomTypeCodes, String checkInDate, String checkOutDate) {
         QunarDataResult result;
         try {
-            if (StringUtils.isEmpty(hotelNos)) {
-                result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
-            } else if (!CommonUtil.isDate(checkInDate)) {
-                result = new QunarDataResult(QunarStatusCode.ERROR_1011, "开始日期参数错误", null);
-            } else if (!CommonUtil.isDate(checkInDate)) {
-                result = new QunarDataResult(QunarStatusCode.ERROR_1012, "结束日期参数错误", null);
-            } else {
-                result = getRoomCount(hotelNos, roomTypeCodes, checkInDate, checkOutDate);
-            }
+            result = getRoomTemplateResult(hotelNos, roomTypeCodes, checkInDate, checkOutDate, "count");
         } catch (Exception e) {
             log.error("====查询实时房量服务=====queryRoomCount===方法异常", e);
             result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房量服务出错", null);
@@ -142,40 +134,98 @@ public class ProvidToQunarApiController {
         return result;
     }
 
-
-
-
     /**
-     * 查询实时房量服务 - 数据组装
+     * 查询实时房态服务
      *
      * @param hotelNos
      * @param
      * @return
      */
-    private QunarDataResult getRoomCount(String hotelNos, String roomTypeCodes, String checkInDate, String checkOutDate) throws ProvidToQunarApiException {
+    @RequestMapping("/tomasky/roomStatus/queryRoomStatus.do.json")
+    @ResponseBody
+    public QunarDataResult queryRoomStatus(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate) {
         QunarDataResult result;
         try {
-            List<Integer> innList = CommonUtil.StrByCommaToArray(hotelNos, Integer.class);
-            if (StringUtils.isEmpty(roomTypeCodes)) {
-                for (int i = 0; i < innList.size(); i++) {
-                    roomTypeCodes += " ,";
-                }
-            }
-            List<String> roomTypeList = CommonUtil.StrByCommaToArray(roomTypeCodes, String.class);
-            if (innList.size() != roomTypeList.size()) {
-                result = new QunarDataResult(QunarStatusCode.ERROR_1000, "参数格式不正确", null);
-            } else {
-                result = getRoomCountResultByOms(hotelNos, roomTypeCodes, checkInDate, checkOutDate);
-            }
+            result = getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, "status");
         } catch (Exception e) {
-            log.error("=====查询实时房量服务 - 数据组装 - getRoomCount=====异常", e);
-            throw new ProvidToQunarApiException("=====查询实时房量服务 - 数据组装 - getRoomCount=====异常", e);
+            log.error("====查询实时房态服务=====queryRoomStatus===方法异常", e);
+            result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房态服务", null);
         }
         return result;
     }
 
     /**
-     * 查询实时房量服务 - 获取oms数据组装
+     * 查询实时房价服务
+     *
+     * @param hotelNos
+     * @param
+     * @return
+     */
+    @RequestMapping("/tomasky/roomStatus/queryRoomPrice.do.json")
+    @ResponseBody
+    public QunarDataResult queryRoomPrice(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate) {
+        QunarDataResult result;
+        try {
+            result = getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, "price");
+        } catch (Exception e) {
+            log.error("====查询实时房价服务=====queryRoomStatus===方法异常", e);
+            result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房价服务", null);
+        }
+        return result;
+    }
+
+    /**
+     * 查询房态 - 参数校验
+     *
+     * @param hotelNos
+     * @param phyRoomTypeCode
+     * @param checkInDate
+     * @param checkOutDate
+     * @param type
+     * @return
+     */
+    private QunarDataResult getRoomTemplateResult(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String type) {
+        QunarDataResult result;
+        if (StringUtils.isEmpty(hotelNos)) {
+            result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
+        } else if (!CommonUtil.isDate(checkInDate)) {
+            result = new QunarDataResult(QunarStatusCode.ERROR_1011, "开始日期参数错误", null);
+        } else if (!CommonUtil.isDate(checkInDate)) {
+            result = new QunarDataResult(QunarStatusCode.ERROR_1012, "结束日期参数错误", null);
+        } else {
+            result = getRoomStatusTemplate(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, type);
+        }
+        return result;
+    }
+
+
+    /**
+     * 查询房态模版 - 数据组装
+     *
+     * @param hotelNos
+     * @param
+     * @return
+     */
+    private QunarDataResult getRoomStatusTemplate(String hotelNos, String roomTypeCodes, String fromDate, String toDate, String type) throws ProvidToQunarApiException {
+        QunarDataResult result;
+        try {
+            List<Integer> innList = CommonUtil.StrByCommaToArray(hotelNos, Integer.class);
+            roomTypeCodes = getRoomTypeCodes(roomTypeCodes, innList);
+            List<String> roomTypeList = CommonUtil.StrByCommaToArray(roomTypeCodes, String.class);
+            if (innList.size() != roomTypeList.size()) {
+                result = new QunarDataResult(QunarStatusCode.ERROR_1000, "参数格式不正确", null);
+            } else {
+                result = getRoomTemplateResultByOms(hotelNos, roomTypeCodes, fromDate, toDate, type);
+            }
+        } catch (Exception e) {
+            log.error("====查询房态模版 - 数据组装 - getRoomStatusTemplate=====异常", e);
+            throw new ProvidToQunarApiException("=====查询房态模版 - 数据组装- getRoomStatusTemplate=====异常", e);
+        }
+        return result;
+    }
+
+    /**
+     * 查询房态模版 - 获取oms数据组装
      *
      * @param hotelNos
      * @param roomTypeCodes
@@ -183,10 +233,17 @@ public class ProvidToQunarApiController {
      * @param toDate
      * @return
      */
-    private QunarDataResult getRoomCountResultByOms(String hotelNos, String roomTypeCodes, String fromDate, String toDate) throws ProvidToQunarApiException {
+    private QunarDataResult getRoomTemplateResultByOms(String hotelNos, String roomTypeCodes, String fromDate, String toDate, String type) throws ProvidToQunarApiException {
         QunarDataResult result;
         try {
-            String url = BASE_PATH + "/getRoomCount";
+            String url = "";
+            if ("count".equals(type)) {
+                url = BASE_PATH + "/getRoomCount";
+            } else if ("price".equals(type)) {
+                url = BASE_PATH + "/getRoomPrice";
+            } else if ("status".equals(type)) {
+                url = BASE_PATH + "/getRoomStatus";
+            }
             log.debug("=========url=======" + url);
             List<NameValuePair> paramList = new ArrayList<>();
             BasicNameValuePair nvp = new BasicNameValuePair("innIds", hotelNos);
@@ -204,12 +261,12 @@ public class ProvidToQunarApiController {
                 List<Map> domsListMap = (List<Map>) omsResult.getData();
                 result = new QunarDataResult(QunarStatusCode.SUCCESS, QunarStatusCode.SUCCESS_MSG, domsListMap);
             } else {
-                log.error("调用oms查询实时房量返回错误");
-                result = new QunarDataResult(QunarStatusCode.ERROR_10001, "获取实时房量出错," + omsResult.getMessage(), null);
+                log.error("调用oms查询房态模版返回错误");
+                result = new QunarDataResult(QunarStatusCode.ERROR_10001, "获取房态出错," + omsResult.getMessage(), null);
             }
         } catch (Exception e) {
-            log.error("=====查询实时房量服务 - 获取oms数据组装 - getRoomCountResultByOms=====异常", e);
-            throw new ProvidToQunarApiException("=====查询实时房量服务 - 获取oms数据组装 - getRoomCountResultByOms=====异常", e);
+            log.error("=====查询房态模版 - 获取oms数据组装 - getRoomTemplateResultByOms=====异常", e);
+            throw new ProvidToQunarApiException("=====查询房态模版 - 获取oms数据组装 getRoomTemplateResultByOms=====异常", e);
         }
         return result;
     }
@@ -250,11 +307,7 @@ public class ProvidToQunarApiController {
         QunarDataResult result;
         try {
             List<Integer> innList = CommonUtil.StrByCommaToArray(hotelNos, Integer.class);
-            if (StringUtils.isEmpty(roomTypeCodes)) {
-                for (int i = 0; i < innList.size(); i++) {
-                    roomTypeCodes += " ,";
-                }
-            }
+            roomTypeCodes = getRoomTypeCodes(roomTypeCodes, innList);
             List<String> roomTypeList = CommonUtil.StrByCommaToArray(roomTypeCodes, String.class);
             if (innList.size() != roomTypeList.size()) {
                 result = new QunarDataResult(QunarStatusCode.ERROR_1000, "参数格式不正确", null);
@@ -266,6 +319,21 @@ public class ProvidToQunarApiController {
             throw new ProvidToQunarApiException("=====查询酒店房型列表服务- 数据组装 - getRoomTypeList=====异常", e);
         }
         return result;
+    }
+
+    /**
+     * 校验房型是否为空，如果为空则重新组装
+     * @param roomTypeCodes
+     * @param innList
+     * @return
+     */
+    private String getRoomTypeCodes(String roomTypeCodes, List<Integer> innList) {
+        if (StringUtils.isEmpty(roomTypeCodes)) {
+            for (int i = 0; i < innList.size(); i++) {
+                roomTypeCodes += " ,";
+            }
+        }
+        return roomTypeCodes;
     }
 
     /**
@@ -321,7 +389,7 @@ public class ProvidToQunarApiController {
                         for (Map detail : roomTypeList) {
                             Map domsDetail = new HashMap();
                             domsDetail.put("roomTypeCode", detail.get("id"));
-                            domsDetail.put("roomTypeNam", detail.get("room_type_name"));
+                            domsDetail.put("roomTypeName", detail.get("room_type_name"));
                             domsRoomTypeList.add(domsDetail);
                         }
                     }
