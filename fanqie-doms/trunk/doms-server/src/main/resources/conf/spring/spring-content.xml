@@ -27,7 +27,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="configLocation" value="classpath:conf/mybatis/sqlMapConfig.xml"/>
-        <property name="mapperLocations" value="classpath:com/fanqielaile/toms/mapper/*.xml"/>
+        <property name="mapperLocations" value="classpath:com/tomasky/doms/mapper/*.xml"/>
         <property name="plugins">
             <ref bean="paginationInterceptor"></ref>
         </property>
@@ -84,24 +84,7 @@
             <value>4096</value>
         </property>
     </bean>
-    <!--<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.Md5PasswordEncoder"/>-->
 
-    <!--<bean id="redisTemplate" class="org.springframework.data.redis.core.StringRedisTemplate">
-    <property name="connectionFactory"   ref="connectionFactory" />
-    </bean>
-    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
-        &lt;!&ndash;是否启用后进先出, 默认true&ndash;&gt;
-        <property name="lifo" value="false"></property>
-        &lt;!&ndash;最大空闲连接数, 默认8个&ndash;&gt;
-        <property name="maxIdle" value="5"></property>
-        &lt;!&ndash;//最大连接数, 默认8个&ndash;&gt;
-        <property name="maxTotal" value="10"></property>
-        <property name="minIdle" value="2"></property>
-        &lt;!&ndash;获取连接时的最大等待毫秒数(如果设置为阻塞时BlockWhenExhausted),如果超时就抛异常, 小于零:阻塞不确定的时间,  默认-1&ndash;&gt;
-        <property name="maxWaitMillis" value="1000"></property>
-        <property name="testOnBorrow" value="true"></property>
-        <property name="testWhileIdle" value="true"></property>
-    </bean>-->
 
 
     <beans profile="dev">
@@ -122,13 +105,14 @@
             <property name="validationQuery" value="select 1"/>
         </bean>
 
-        <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-            <property name="hostName" value="192.168.1.27"/>
-            <property name="port" value="6379"/>
-            <property name="password" value="111111"/>
-            <property name="database" value="0"/>
-
+        <bean class="com.tomasky.doms.common.CommonApi">
+            <property name="pmsId" value="tomasky"/>
+            <property name="qunarHostApi" value="http://link.beta.quhuhu.com/api/"/>
+            <property name="signkey" value="srT4Vrx0LWRT8LjbE6ajanIjigGRx8iR"/>
+            <property name="userIp" value="218.89.222.245"/>
+            <property name="version" value="1.0"/>
         </bean>
+
 
 
     </beans>
@@ -148,12 +132,13 @@
             <property name="removeAbandonedTimeout" value="1800"/>
             <property name="validationQuery" value="select 1"/>
         </bean>
-        <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-            <property name="hostName" value="10.144.10.151"/>
-            <property name="port" value="6379"/>
-            <property name="password"
-                      value="mfgkftoajpvH3lds8ykgcnzeWcaAuwhlo0lqzqsappsfacjfenwqiJtadydqwfjrN2obv3xrmfoV6l5jl2ofwgPqndqaemcuppgYkzK4fotunwlznjhb1opvaiaozaYq"/>
-            <property name="database" value="10"/>
+
+        <bean class="com.tomasky.doms.common.CommonApi">
+            <property name="pmsId" value="tomasky"/>
+            <property name="qunarHostApi" value="http://link.beta.quhuhu.com/api/"/>
+            <property name="signkey" value="srT4Vrx0LWRT8LjbE6ajanIjigGRx8iR"/>
+            <property name="userIp" value="218.89.222.245"/>
+            <property name="version" value="1.0"/>
         </bean>
 
 
@@ -162,13 +147,14 @@
     <beans profile="production">
         <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/tomato-toms"/>
 
-        <bean id="connectionFactory" class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory">
-            <property name="hostName" value="10.144.10.151"/>
-            <property name="port" value="6379"/>
-            <property name="password"
-                      value="mfgkftoajpvH3lds8ykgcnzeWcaAuwhlo0lqzqsappsfacjfenwqiJtadydqwfjrN2obv3xrmfoV6l5jl2ofwgPqndqaemcuppgYkzK4fotunwlznjhb1opvaiaozaYq"/>
-            <property name="database" value="11"/>
+        <bean class="com.tomasky.doms.common.CommonApi">
+            <property name="pmsId" value="tomasky"/>
+            <property name="qunarHostApi" value="http://link.beta.quhuhu.com/api/"/>
+            <property name="signkey" value="srT4Vrx0LWRT8LjbE6ajanIjigGRx8iR"/>
+            <property name="userIp" value="218.89.222.245"/>
+            <property name="version" value="1.0"/>
         </bean>
+
 
     </beans>
 </beans>

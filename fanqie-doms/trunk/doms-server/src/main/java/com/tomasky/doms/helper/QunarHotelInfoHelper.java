@@ -27,13 +27,13 @@ public class QunarHotelInfoHelper {
             httpKvPost = HttpClientUtil.httpKvPost(QunarUrlUtil.searchHotelListUrl(), qunarAccountAndHotel);
             JSONObject jsonObject = JSONObject.parseObject(httpKvPost);
             String data = jsonObject.getString("data");
-            if (Constants.SUCCESS_QUNAR.equals(jsonObject.get("code")) && jsonObject.get("data")!=null){
+            if (Constants.SUCCESS_QUNAR.equals(jsonObject.getString("code")) && jsonObject.get("data")!=null){
                 return JacksonUtil.json2obj(data, QunarHotelInfo.class);
             }else {
                 throw new DmsException(jsonObject.getString("msg"));
             }
         } catch (Exception e) {
-           throw new DmsException("查询渠道酒店列表异常");
+           throw new DmsException("查询渠道酒店列表异常",e);
         }
     }
 }

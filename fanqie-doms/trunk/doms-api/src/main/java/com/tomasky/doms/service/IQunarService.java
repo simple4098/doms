@@ -29,4 +29,6 @@ public interface IQunarService {
      */
     QunarHotelInfo createQunarPmsHotel(OmsPram omsPram) throws DmsException;
 
+    QunarResult removeDockingAccount(OmsPram omsPram)throws DmsException;
+
 }
