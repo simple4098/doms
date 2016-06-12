@@ -41,4 +41,46 @@ public class QunarUrlUtil {
         String sendUrl = ResourceBundleUtil.getString("qunar.searchHotelList.uri");
         return CommonApi.getQunarUrl()+sendUrl;
     }
+    /**
+     * 去哪儿查询渠道酒店列表接口地址
+     */
+    public static String matchHotelUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.dockingHotel.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
+
+    /**
+     * 去哪儿房型列表接口地址
+     * @return
+     */
+    public static String searchRoomTypeUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.roomType.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
+
+    /**
+     * 解除酒店匹配接口地址
+     * @return
+     */
+    public static String removeDockingHotelUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.removeDockingHotelUrl.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
+
+    /**
+     * 匹配房型接口地址
+     * @return
+     */
+    public static String matchRoomTypeUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.dockingPhyRoomType.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
+
+    /**
+     * 解除房型匹配接口地址
+     */
+    public static String removeMatchRoomTypeUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.removeDockingPhyRoomType.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
 }

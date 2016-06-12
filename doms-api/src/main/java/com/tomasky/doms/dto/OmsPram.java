@@ -1,5 +1,7 @@
 package com.tomasky.doms.dto;
 
+import com.tomasky.doms.dto.oms.ChannelInfo;
+
 /**
  * DESC :
  * @author : 番茄木-ZLin
@@ -19,6 +21,9 @@ public class OmsPram {
     private String operatorName;
     private String innName;
     private String userIp;
+    private String data;
+    //渠道酒店code
+    private String channelHotelNo;
 
     public OmsPram(Integer innId, String mobile, String otaId, String phoneCode,String innName,String operatorGuid,String operatorName) {
         this.innId = innId;
@@ -30,7 +35,27 @@ public class OmsPram {
         this.operatorName=operatorName;
     }
 
+    public String getChannelHotelNo() {
+        return channelHotelNo;
+    }
+
+    public void setChannelHotelNo(String channelHotelNo) {
+        this.channelHotelNo = channelHotelNo;
+    }
+
+    public OmsPram(String data) {
+        this.data = data;
+    }
+
     public OmsPram() {
+    }
+
+    public String getData() {
+        return data;
+    }
+
+    public void setData(String data) {
+        this.data = data;
     }
 
     public String getUserIp() {
