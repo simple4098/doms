@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.tomasky.doms.common.Constants;
 import com.tomasky.doms.dto.qunar.QunarAccountAndHotel;
 import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
+import com.tomasky.doms.dto.qunar.response.QunarRoomTypeData;
 import com.tomasky.doms.exception.DmsException;
 import com.tomasky.doms.support.util.HttpClientUtil;
 import com.tomasky.doms.support.util.JacksonUtil;
@@ -16,10 +17,11 @@ import org.springframework.stereotype.Component;
  * @data : 2016/6/7
  * @version: v1.0.0
  */
-@Component
+
 public class QunarHotelInfoHelper {
 
 
+    private QunarHotelInfoHelper(){}
     public static QunarHotelInfo obtQunarHotelInfo(String pmsInnCode)throws DmsException{
         QunarAccountAndHotel qunarAccountAndHotel = new QunarAccountAndHotel(pmsInnCode);
         String httpKvPost = null;
@@ -34,6 +36,16 @@ public class QunarHotelInfoHelper {
             }
         } catch (Exception e) {
            throw new DmsException("查询渠道酒店列表异常",e);
+        }
+    }
+
+    public static QunarRoomTypeData obtQunarRoomTypeData(String json)throws DmsException{
+        JSONObject jsonObject = JSONObject.parseObject(json);
+        String data = jsonObject.getString("data");
+        if (Constants.SUCCESS_QUNAR.equals(jsonObject.getString("code")) && jsonObject.get("data")!=null){
+            return JacksonUtil.json2obj(data, QunarRoomTypeData.class);
+        }else {
+            throw new DmsException(jsonObject.getString("msg"));
         }
     }
 }
