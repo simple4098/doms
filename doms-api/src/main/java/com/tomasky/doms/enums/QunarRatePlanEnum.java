@@ -7,8 +7,8 @@ package com.tomasky.doms.enums;
  * DOTO:  去哪儿直连价格计划
  */
 public enum QunarRatePlanEnum {
-    ratePlanCode("价格计划CODE"),
-    ratePlanName("价格计划NAME");
+    ratePlanCode("QR001"),
+    ratePlanName("价格优惠-预付");
 
     QunarRatePlanEnum(String value) {
         this.value = value;

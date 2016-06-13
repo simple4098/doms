@@ -4,6 +4,7 @@ package com.tomasky.doms.support.util;
 import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.common.Constants;
 import com.tomasky.doms.dto.qunar.QunarBase;
+import com.tomasky.doms.dto.qunar.QunarBaseBean;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
@@ -81,7 +82,7 @@ public class HttpClientUtil {
         return value;
     }
 
-    public static <T extends QunarBase> String httpKvPost(String url, T t) throws Exception {
+    public static <T extends QunarBaseBean> String httpKvPost(String url, T t) throws Exception {
         HttpClient httpClient = obtHttpClient();
         HttpPost httpPost = new HttpPost(url);
         String obj2json = JacksonUtil.obj2json(t);

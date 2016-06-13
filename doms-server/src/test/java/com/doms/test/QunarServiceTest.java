@@ -3,11 +3,10 @@ package com.doms.test;
 
 import com.tomasky.doms.dao.IOtaInnDao;
 import com.tomasky.doms.dto.OmsPram;
-import com.tomasky.doms.dto.oms.ChannelInfo;
-import com.tomasky.doms.dto.oms.ChannelInfoData;
-import com.tomasky.doms.dto.oms.OmsQunarHotel;
+import com.tomasky.doms.dto.oms.*;
 import com.tomasky.doms.dto.qunar.QunarMobile;
 import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
+import com.tomasky.doms.dto.qunar.response.QunarProductionData;
 import com.tomasky.doms.dto.qunar.response.QunarResult;
 import com.tomasky.doms.dto.qunar.response.QunarRoomTypeData;
 import com.tomasky.doms.enums.OtaCode;
@@ -67,7 +66,7 @@ public class QunarServiceTest {
         String data = "{\"hotelNo\":\"124\",\"accountChannelHotelList\":[{\"userAccount\":\"15281017068\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"dockingStatus\":\"2\",\"channelHotelNo\":\"1000156065\",\"channelHotelName\":\"番茄测试酒店\"}]}],\"channelCode\":\"QUNAR\"}";
         String s = "{\"hotelNo\":\"124\",\"channelCode\":\"QUNAR\",\"accountChannelHotelList\":[{\"userAccount\":\"15281017068\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"channelHotelNo\":\"1000156065\",\"channelHotelName\":\"番茄测试酒店\",\"dockingStatus\":\"2\",\"otherRelationHotelNo\":null,\"otherRelationHotelName\":null}]}]}";
         //QunarHotelInfo qunarHotelInfo = JacksonUtil.json2obj(data, QunarHotelInfo.class);
-        OmsPram omsPram = new OmsPram(124,"15281017068","107","999329","番茄测试客栈","fanqie_test","番茄测试");
+        OmsPram omsPram = new OmsPram("124","15281017068","107","999329","番茄测试客栈","fanqie_test","番茄测试");
         //otaInnDao.saveOtaInn(new OtaInn(omsPram.getInnId(),omsPram.getInnName(),null,omsPram.getOtaId(),true,omsPram.getInnCode(), OtaCode.QUNAR));
         try {
             QunarHotelInfo qunarPmsHotel = qunarService.createQunarPmsHotel(omsPram);
@@ -82,7 +81,7 @@ public class QunarServiceTest {
      */
     @Test
     public void testRemoveAccount(){
-        OmsPram omsPram = new OmsPram(124,"15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
+        OmsPram omsPram = new OmsPram("124","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
         try {
             QunarResult qunarResult = qunarService.removeDockingAccount(omsPram);
             log.info("去呼呼返回结果:"+JacksonUtil.obj2json(qunarResult));
@@ -123,7 +122,7 @@ public class QunarServiceTest {
     @Test
     public void testSearchQunarRoomList(){
         OmsPram omsPram = new OmsPram();
-        omsPram.setInnId(124);
+        omsPram.setAccountId("124");
         try {
             QunarRoomTypeData qunarRoomTypeData = qunarService.searchQunarRoomList(omsPram);
             log.info("返回结果:"+JacksonUtil.obj2json(qunarRoomTypeData));
@@ -135,7 +134,8 @@ public class QunarServiceTest {
     //解绑酒店
     @Test
     public void testRemoveDockingHotel(){
-        OmsPram omsPram = new OmsPram("json");
+        OmsPram omsPram = new OmsPram();
+        omsPram.setParam("json");
         try {
             QunarResult qunarResult = qunarService.removeDockingHotel(omsPram);
             log.info("返回结果:"+JacksonUtil.obj2json(qunarResult));
@@ -147,7 +147,8 @@ public class QunarServiceTest {
     //房型匹配
     @Test
     public void  testMatchRoomType(){
-        OmsPram omsPram = new OmsPram("json");
+        OmsPram omsPram = new OmsPram();
+        omsPram.setParam("json");
         try {
             QunarResult qunarResult = qunarService.matchRoomType(omsPram);
             log.info("testMatchRoomType返回结果:"+JacksonUtil.obj2json(qunarResult));
@@ -159,10 +160,80 @@ public class QunarServiceTest {
     //房型解绑匹配
     @Test
     public void  testRemoveRoomType(){
-        OmsPram omsPram = new OmsPram("json");
+        OmsPram omsPram = new OmsPram();
+        omsPram.setParam("json");
         try {
             QunarResult qunarResult = qunarService.removeRoomType(omsPram);
             log.info("testRemoveRoomType返回结果:"+JacksonUtil.obj2json(qunarResult));
+        } catch (DmsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //查询产品列表
+    @Test
+    public void testSearchQunarProductList(){
+        OmsPram omsPram = new OmsPram();
+        omsPram.setAccountId("124");
+        try {
+            QunarProductionData qunarProductionData = qunarService.searchQunarProductList(omsPram);
+            log.info("返回结果:"+JacksonUtil.obj2json(qunarProductionData));
+
+        } catch (DmsException e) {
+            e.printStackTrace();
+        }
+    }
+    //匹配产品信息
+    @Test
+    public void testMatchQunarProduct(){
+
+        OmsSjRoomType omsSjRoomType = new OmsSjRoomType();
+        omsSjRoomType.setOperatorName("番茄测试");
+        omsSjRoomType.setOperatorGuid("fanqie_test");
+        omsSjRoomType.setAccountId("124");
+        omsSjRoomType.setChannelPhyRoomTypeCode("90000237");
+        omsSjRoomType.setChannelPhyRoomTypeName("豪华大床房");
+        omsSjRoomType.setChannelHotelNo("1000156065");
+        omsSjRoomType.setChannelRatePlanName("现付");
+        omsSjRoomType.setChannelRatePlanCode("90000370");
+        omsSjRoomType.setRoomTypeId("123456");
+        omsSjRoomType.setRoomTypeName("番茄房型名称");
+        List<OmsSjRoomType> list = new ArrayList<>();
+        list.add(omsSjRoomType);
+        String obj2json = JacksonUtil.obj2json(list);
+        OmsPram omsPram = new OmsPram("124","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
+        omsPram.setParam(obj2json);
+        try {
+            QunarResult qunarResult = qunarService.matchQunarProduct(omsPram);
+            log.info("返回结果:"+JacksonUtil.obj2json(qunarResult));
+        } catch (DmsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    //匹配产品信息
+    @Test
+    public void testRemoveMatchQunarProduct(){
+
+        OmsXjRoomType omsSjRoomType = new OmsXjRoomType();
+        omsSjRoomType.setOperatorName("番茄测试");
+        omsSjRoomType.setOperatorGuid("fanqie_test");
+        omsSjRoomType.setAccountId("124");
+        omsSjRoomType.setChannelPhyRoomTypeCode("90000237");
+        //omsSjRoomType.setChannelPhyRoomTypeName("豪华大床房");
+        omsSjRoomType.setChannelHotelNo("1000156065");
+        //omsSjRoomType.setChannelRatePlanName("现付");
+        omsSjRoomType.setChannelRatePlanCode("90000370");
+        omsSjRoomType.setRoomTypeId("123456");
+        //omsSjRoomType.setRoomTypeName("番茄房型名称");
+        List<OmsXjRoomType> list = new ArrayList<>();
+        list.add(omsSjRoomType);
+        String obj2json = JacksonUtil.obj2json(list);
+        OmsPram omsPram = new OmsPram("124","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
+        omsPram.setParam(obj2json);
+        try {
+            QunarResult qunarResult = qunarService.removeDockingProduct(omsPram);
+            log.info("返回结果:"+JacksonUtil.obj2json(qunarResult));
         } catch (DmsException e) {
             e.printStackTrace();
         }

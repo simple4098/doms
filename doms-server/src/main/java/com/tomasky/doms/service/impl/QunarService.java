@@ -6,6 +6,7 @@ import com.tomasky.doms.common.Constants;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.qunar.*;
 import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
+import com.tomasky.doms.dto.qunar.response.QunarProductionData;
 import com.tomasky.doms.dto.qunar.response.QunarResult;
 import com.tomasky.doms.dto.qunar.response.QunarRoomTypeData;
 import com.tomasky.doms.enums.LogDec;
@@ -40,8 +41,6 @@ public class QunarService implements IQunarService {
 
     @Override
     public QunarResult sendQunarPhoneCode(String otaId, QunarMobile qunarMobile) {
-        //OtaInfoDto otaInfo = otaInfoDao.selectByOtaId(otaId);
-
         try {
             qunarServiceHelper.checkQunarMobile(qunarMobile);
             String httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.sendCodeUrl(), qunarMobile);
@@ -71,8 +70,8 @@ public class QunarService implements IQunarService {
             //开通成功
             if (QunarResultUtil.isSuccess(httpPost,qunarResult)){
                 //todo 开通成功 记录日志
-                MessageCenterUtils.saveDomsLog(OtaCode.QUNAR,omsPram.getInnId(),null,omsPram.getOperatorName(), LogDec.OPEN_ACCOUNT,LogDec.OPEN_ACCOUNT.getValue()+qunarResult.getMsg());
-                QunarHotelInfo qunarHotelInfo = QunarHotelInfoHelper.obtQunarHotelInfo(omsPram.getInnId().toString());
+                //MessageCenterUtils.saveDomsLog(OtaCode.QUNAR,omsPram,null,omsPram.getOperatorName(), LogDec.OPEN_ACCOUNT,LogDec.OPEN_ACCOUNT.getValue()+qunarResult.getMsg());
+                QunarHotelInfo qunarHotelInfo = QunarHotelInfoHelper.obtQunarHotelInfo(omsPram.getAccountId());
                 if (qunarHotelInfo!=null){
                     logger.info("渠道酒店列表:"+JacksonUtil.obj2json(qunarHotelInfo));
                 }
@@ -118,7 +117,7 @@ public class QunarService implements IQunarService {
                 }
             }
         } catch (Exception e) {
-            throw  new DmsException("酒店匹配异常 innId:"+omsPram.getInnId(),e);
+            throw  new DmsException("酒店匹配异常",e);
         }
         return qunarResult;
     }
@@ -134,11 +133,91 @@ public class QunarService implements IQunarService {
             if (  QunarResultUtil.isSuccess(httpPost,qunarResult)){
                 return QunarHotelInfoHelper.obtQunarRoomTypeData(httpPost);
             }else {
-                throw  new DmsException("查询去哪儿房型列表异常 InnId"+omsPram.getInnId());
+                throw  new DmsException("查询去哪儿房型列表异常 accountId"+omsPram.getParam());
             }
         } catch (Exception e) {
-            logger.error("查询去哪儿房型列表异常 innId:"+omsPram.getInnId(),e);
-            throw  new DmsException("查询去哪儿房型列表异常 InnId"+omsPram.getInnId(),e);
+            logger.error("查询去哪儿房型列表异常 accountId:"+omsPram.getAccountId(),e);
+            throw  new DmsException("查询去哪儿房型列表异常 accountId"+omsPram.getAccountId(),e);
+        }
+    }
+
+    @Override
+    public QunarProductionData searchQunarProductList(OmsPram omsPram) throws DmsException {
+        QunarAccountAndHotel qunarAccountAndHotel = qunarServiceHelper.checkQunarAccountAndHotel(omsPram);
+        try {
+            String httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionSearchUrl(), qunarAccountAndHotel);
+            QunarResult qunarResult = JSON.parseObject(httpPost, new TypeReference<QunarResult>() {
+            });
+            if (  QunarResultUtil.isSuccess(httpPost,qunarResult)){
+                return QunarHotelInfoHelper.obtQunarProductionData(httpPost);
+            }else {
+                throw  new DmsException("查询去哪儿产品列表异常 accountId"+omsPram.getAccountId());
+            }
+        } catch (Exception e) {
+            logger.error("查询去哪儿产品列表异常 accountId:"+omsPram.getAccountId(),e);
+            throw  new DmsException("查询去哪儿产品列表异常 accountId"+omsPram.getAccountId(),e);
+        }
+    }
+
+    @Override
+    public QunarResult matchQunarProduct(OmsPram omsPram) throws DmsException {
+
+        QunarResult qunarResult = null;
+        String httpPost = null;
+        try {
+            List<QunarDockingPhyRoomType> list = qunarServiceHelper.checkQunarDockingPhyRoomType(omsPram);
+            for(QunarDockingPhyRoomType qunarDockingPhyRoomType:list){
+                httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionDockingUrl(), qunarDockingPhyRoomType);
+                qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+                if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
+                    throw  new DmsException("去哪儿产品匹配异常 innId:"+qunarDockingPhyRoomType.getHotelNo()+qunarResult.getMsg());
+                }
+            }
+            return qunarResult;
+        } catch (Exception e) {
+            logger.error("去哪儿产品匹配异常", e);
+            throw  new DmsException("去哪儿产品匹配异常",e);
+        }
+    }
+
+    @Override
+    public QunarResult removeDockingProduct(OmsPram omsPram) throws DmsException {
+        QunarResult qunarResult = null;
+        String httpPost = null;
+        try {
+            List<QunarDockingRemovePhyRoomType> list = qunarServiceHelper.checkQunarDockingRemovePhyRoomType(omsPram);
+            for(QunarDockingRemovePhyRoomType qunarDockingRemovePhyRoomType:list){
+                httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionRemoveDockingUrl(), qunarDockingRemovePhyRoomType);
+                qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+                if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
+                    throw  new DmsException("去哪儿删除产品匹配异常 account:"+qunarDockingRemovePhyRoomType.getHotelNo()+qunarResult.getMsg());
+                }
+            }
+            return qunarResult;
+        } catch (Exception e) {
+            logger.error("去哪儿删除产品匹配异常", e);
+            throw  new DmsException("去哪儿删除产品匹配异常",e);
+        }
+    }
+
+    @Override
+    public QunarResult deletePhyRoomType(OmsPram omsPram) throws DmsException {
+
+        QunarResult qunarResult = null;
+        String httpPost = null;
+        try {
+            List<QunarDeletePhyRoomType> list = qunarServiceHelper.checkQunarDeletePhyRoomType(omsPram);
+            for(QunarDeletePhyRoomType qunarDeletePhyRoomType:list){
+                httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.deletePhyRoomTypeUrl(), qunarDeletePhyRoomType);
+                qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+                if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
+                    throw  new DmsException("去哪儿产品匹配异常 innId:"+qunarDeletePhyRoomType.getHotelNo()+qunarResult.getMsg());
+                }
+            }
+            return qunarResult;
+        } catch (Exception e) {
+            logger.error("去哪儿删除产品匹配异常", e);
+            throw  new DmsException("去哪儿删除产品匹配异常",e);
         }
     }
 

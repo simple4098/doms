@@ -10,7 +10,8 @@ import com.tomasky.doms.dto.oms.ChannelInfo;
  */
 public class OmsPram {
     //客栈id
-    private Integer innId;
+    //private Integer innId;
+    private String accountId;
     //手机号码
     private String mobile;
     //渠道id
@@ -21,12 +22,15 @@ public class OmsPram {
     private String operatorName;
     private String innName;
     private String userIp;
-    private String data;
+    private String param;
     //渠道酒店code
     private String channelHotelNo;
 
-    public OmsPram(Integer innId, String mobile, String otaId, String phoneCode,String innName,String operatorGuid,String operatorName) {
-        this.innId = innId;
+    public OmsPram() {
+    }
+
+    public OmsPram(String accountId, String mobile, String otaId, String phoneCode,String innName,String operatorGuid,String operatorName) {
+        this.accountId = accountId;
         this.mobile = mobile;
         this.otaId = otaId;
         this.phoneCode = phoneCode;
@@ -43,19 +47,16 @@ public class OmsPram {
         this.channelHotelNo = channelHotelNo;
     }
 
-    public OmsPram(String data) {
-        this.data = data;
+    public OmsPram(String param) {
+        this.param = param;
     }
 
-    public OmsPram() {
+    public String getParam() {
+        return param;
     }
 
-    public String getData() {
-        return data;
-    }
-
-    public void setData(String data) {
-        this.data = data;
+    public void setParam(String param) {
+        this.param = param;
     }
 
     public String getUserIp() {
@@ -90,13 +91,7 @@ public class OmsPram {
         this.operatorName = operatorName;
     }
 
-    public Integer getInnId() {
-        return innId;
-    }
 
-    public void setInnId(Integer innId) {
-        this.innId = innId;
-    }
 
     public String getMobile() {
         return mobile;
@@ -122,7 +117,11 @@ public class OmsPram {
         this.phoneCode = phoneCode;
     }
 
+    public String getAccountId() {
+        return accountId;
+    }
 
-
-
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
+    }
 }

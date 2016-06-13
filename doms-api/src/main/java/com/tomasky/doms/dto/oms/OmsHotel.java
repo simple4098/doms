@@ -9,10 +9,12 @@ package com.tomasky.doms.dto.oms;
 public class OmsHotel {
 
     private String channelHotelNo;
-    private String innId;
+    //private String innId;
     private String operatorGuid;
     private String operatorName;
-    private String otaId;
+    //private String otaId;
+    private String accountId;
+
 
     public String getChannelHotelNo() {
         return channelHotelNo;
@@ -22,13 +24,6 @@ public class OmsHotel {
         this.channelHotelNo = channelHotelNo;
     }
 
-    public String getInnId() {
-        return innId;
-    }
-
-    public void setInnId(String innId) {
-        this.innId = innId;
-    }
 
     public String getOperatorGuid() {
         return operatorGuid;
@@ -46,11 +41,19 @@ public class OmsHotel {
         this.operatorName = operatorName;
     }
 
-    public String getOtaId() {
+    /*public String getOtaId() {
         return otaId;
     }
 
     public void setOtaId(String otaId) {
         this.otaId = otaId;
+    }*/
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 }
