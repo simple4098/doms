@@ -1,5 +1,6 @@
 package com.tomasky.doms.controller;
 
+import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.common.Constants;
 import com.tomasky.doms.dto.oms.response.OmsResult;
 import com.tomasky.doms.dto.qunar.QunarStatusCode;
@@ -46,7 +47,7 @@ public class ProvidToQunarApiController {
      * @param hotelNos
      * @return
      */
-    @RequestMapping("/tomasky/hotel/queryList.do.json")
+    @RequestMapping("/tomasky/hotel/queryList.do")
     @ResponseBody
     public QunarDataResult queryHotelList(String hotelNos) {
         log.debug("=====hotelNos====" + hotelNos);
@@ -71,7 +72,7 @@ public class ProvidToQunarApiController {
      * @param roomTypeCodes
      * @return
      */
-    @RequestMapping("/tomasky/roomType/queryList.do.json")
+    @RequestMapping("/tomasky/roomType/queryList.do")
     @ResponseBody
     public QunarDataResult queryRoomTypeList(String hotelNos, String roomTypeCodes) {
         log.debug("=====hotelNos====" + hotelNos);
@@ -96,7 +97,7 @@ public class ProvidToQunarApiController {
      * @param
      * @return
      */
-    @RequestMapping("/tomasky/rateCode/queryRateCode.do.json")
+    @RequestMapping("/tomasky/rateCode/queryRateCode.do")
     @ResponseBody
     public QunarDataResult queryRateCode(String hotelNos) {
         log.debug("=====hotelNos====" + hotelNos);
@@ -121,7 +122,7 @@ public class ProvidToQunarApiController {
      * @param
      * @return
      */
-    @RequestMapping("/tomasky/roomStatus/queryRoomCount.do.json")
+    @RequestMapping("/tomasky/roomStatus/queryRoomCount.do")
     @ResponseBody
     public QunarDataResult queryRoomCount(String hotelNos, String roomTypeCodes, String checkInDate, String checkOutDate) {
         QunarDataResult result;
@@ -141,7 +142,7 @@ public class ProvidToQunarApiController {
      * @param
      * @return
      */
-    @RequestMapping("/tomasky/roomStatus/queryRoomStatus.do.json")
+    @RequestMapping("/tomasky/roomStatus/queryRoomStatus.do")
     @ResponseBody
     public QunarDataResult queryRoomStatus(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate) {
         QunarDataResult result;
@@ -161,7 +162,7 @@ public class ProvidToQunarApiController {
      * @param
      * @return
      */
-    @RequestMapping("/tomasky/roomStatus/queryRoomPrice.do.json")
+    @RequestMapping("/tomasky/roomStatus/queryRoomPrice.do")
     @ResponseBody
     public QunarDataResult queryRoomPrice(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate) {
         QunarDataResult result;
@@ -213,7 +214,7 @@ public class ProvidToQunarApiController {
             roomTypeCodes = getRoomTypeCodes(roomTypeCodes, innList);
             List<String> roomTypeList = CommonUtil.StrByCommaToArray(roomTypeCodes, String.class);
             if (innList.size() != roomTypeList.size()) {
-                result = new QunarDataResult(QunarStatusCode.ERROR_1000, "参数格式不正确", null);
+                result = new QunarDataResult(QunarStatusCode.ERROR_10001, "参数格式不正确", null);
             } else {
                 result = getRoomTemplateResultByOms(hotelNos, roomTypeCodes, fromDate, toDate, type);
             }
@@ -310,7 +311,7 @@ public class ProvidToQunarApiController {
             roomTypeCodes = getRoomTypeCodes(roomTypeCodes, innList);
             List<String> roomTypeList = CommonUtil.StrByCommaToArray(roomTypeCodes, String.class);
             if (innList.size() != roomTypeList.size()) {
-                result = new QunarDataResult(QunarStatusCode.ERROR_1000, "参数格式不正确", null);
+                result = new QunarDataResult(QunarStatusCode.ERROR_10001, "参数格式不正确", null);
             } else {
                 result = getRoomTypeResultByOms(hotelNos, roomTypeCodes);
             }
@@ -323,6 +324,7 @@ public class ProvidToQunarApiController {
 
     /**
      * 校验房型是否为空，如果为空则重新组装
+     *
      * @param roomTypeCodes
      * @param innList
      * @return

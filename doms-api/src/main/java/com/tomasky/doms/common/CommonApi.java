@@ -18,7 +18,12 @@ public class CommonApi {
     public static String signkey;
     public static String version;
 
+    public static String operatorGuid;
+    public static String operatorName;
 
+    public static void setQunarUrl(String qunarUrl) {
+        CommonApi.qunarUrl = qunarUrl;
+    }
     public static String getUserIp() {
         return userIp;
     }
@@ -64,5 +69,19 @@ public class CommonApi {
         return qunarUrl;
     }
 
+    public void setOperatorGuid(String operatorGuid) {
+        this.operatorGuid = operatorGuid;
+    }
 
+    public String getOperatorGuid() {
+        return operatorGuid;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
 }
