@@ -107,6 +107,8 @@
         <property name="signkey" value="srT4Vrx0LWRT8LjbE6ajanIjigGRx8iR"/>
         <property name="userIp" value="218.89.222.245"/>
         <property name="version" value="1.0"/>
+        <property name="operatorGuid" value="afanqie"/>
+        <property name="operatorName" value="番茄来了"/>
     </bean>
 
 </beans>
