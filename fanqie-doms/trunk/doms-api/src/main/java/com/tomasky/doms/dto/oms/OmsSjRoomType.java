@@ -12,6 +12,8 @@ public class OmsSjRoomType extends OmsXjRoomType {
     private String channelPhyRoomTypeName;
     //oms房型mingc
     private String roomTypeName;
+    //渠道价格名称
+    private String channelRatePlanName;
 
     public String getChannelPhyRoomTypeName() {
         return channelPhyRoomTypeName;
@@ -27,5 +29,13 @@ public class OmsSjRoomType extends OmsXjRoomType {
 
     public void setRoomTypeName(String roomTypeName) {
         this.roomTypeName = roomTypeName;
+    }
+
+    public String getChannelRatePlanName() {
+        return channelRatePlanName;
+    }
+
+    public void setChannelRatePlanName(String channelRatePlanName) {
+        this.channelRatePlanName = channelRatePlanName;
     }
 }

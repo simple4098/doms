@@ -83,4 +83,43 @@ public class QunarUrlUtil {
         String sendUrl = ResourceBundleUtil.getString("qunar.removeDockingPhyRoomType.uri");
         return CommonApi.getQunarUrl()+sendUrl;
     }
+
+    /**
+     * 5.1 渠道产品信息查询
+     */
+    public static String productionSearchUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.searchChannelProduction.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
+
+    /**
+     * #5.2 匹配渠道产品信息
+     */
+    public static String productionDockingUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.dockingProduction.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
+    /**
+     * #5.3 查询产品级信息匹配关系
+     */
+    public static String productionDockingSearchUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.searchProductionDocking.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
+
+    /**
+     * #5.4 解除产品匹配
+     */
+    public static String productionRemoveDockingUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.removeDockingProduction.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
+
+    /**
+     * #10.2 PMS 物理房型删除通知
+     */
+    public static String deletePhyRoomTypeUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.deletePhyRoomType.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
 }

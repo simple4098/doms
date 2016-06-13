@@ -14,6 +14,7 @@ public class ChannelInfoData {
     private List<ChannelInfo> channelInfo;
     private Integer innId;
     private String innName;
+    private String accountId;
     private String operatorGuid;
     private String operatorName;
 
@@ -65,5 +66,13 @@ public class ChannelInfoData {
 
     public void setOperatorName(String operatorName) {
         this.operatorName = operatorName;
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId;
     }
 }

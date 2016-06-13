@@ -3,6 +3,7 @@ package com.tomasky.doms.service;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.qunar.QunarMobile;
 import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
+import com.tomasky.doms.dto.qunar.response.QunarProductionData;
 import com.tomasky.doms.dto.qunar.response.QunarResult;
 import com.tomasky.doms.dto.qunar.response.QunarRoomTypeData;
 import com.tomasky.doms.exception.DmsException;
@@ -51,7 +52,34 @@ public interface IQunarService {
      * @return
      * @throws DmsException
      */
+    @Deprecated
     QunarRoomTypeData searchQunarRoomList(OmsPram omsPram) throws DmsException;
+
+    /**
+     * 获取去哪儿酒店产品列表列表
+     * @param omsPram oms 参数列表
+     * @return
+     */
+    QunarProductionData searchQunarProductList(OmsPram omsPram) throws DmsException;
+
+    /**
+     * 匹配渠道产品信息
+     * @param omsPram oms参数列表
+     */
+    QunarResult matchQunarProduct(OmsPram omsPram) throws DmsException;
+
+    /**
+     *  解除产品匹配
+     * @param omsPram oms参数列表
+     * @throws DmsException
+     */
+    QunarResult removeDockingProduct(OmsPram omsPram) throws DmsException;
+
+    /**
+     * 10.2 PMS 物理房型删除通知
+     * @param omsPram oms参数列表
+     */
+    QunarResult deletePhyRoomType(OmsPram omsPram) throws DmsException;
 
     /**
      * 去哪儿酒店解绑
@@ -64,6 +92,7 @@ public interface IQunarService {
      * @param omsPram oms参数列表
      * @throws DmsException
      */
+    @Deprecated
     QunarResult matchRoomType(OmsPram omsPram) throws  DmsException;
 
     /**
@@ -71,6 +100,7 @@ public interface IQunarService {
      * @param omsPram oms参数列表
      * @throws DmsException
      */
+    @Deprecated
     QunarResult removeRoomType(OmsPram omsPram) throws  DmsException;
 
 }

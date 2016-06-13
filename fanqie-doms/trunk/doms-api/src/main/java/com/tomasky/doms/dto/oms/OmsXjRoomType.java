@@ -12,6 +12,8 @@ public class OmsXjRoomType extends OmsHotel {
     private String channelPhyRoomTypeCode;
     //oms房型id
     private String roomTypeId;
+    //渠道价格计划code
+    private String channelRatePlanCode;
 
     public String getChannelPhyRoomTypeCode() {
         return channelPhyRoomTypeCode;
@@ -27,5 +29,13 @@ public class OmsXjRoomType extends OmsHotel {
 
     public void setRoomTypeId(String roomTypeId) {
         this.roomTypeId = roomTypeId;
+    }
+
+    public String getChannelRatePlanCode() {
+        return channelRatePlanCode;
+    }
+
+    public void setChannelRatePlanCode(String channelRatePlanCode) {
+        this.channelRatePlanCode = channelRatePlanCode;
     }
 }
