@@ -2,14 +2,18 @@ package com.tomasky.doms.controller;
 
 import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.dto.TomatoOmsOtaInfo;
 import com.tomasky.doms.dto.oms.response.OmsResult;
 import com.tomasky.doms.dto.qunar.QunarStatusCode;
 import com.tomasky.doms.dto.qunar.response.QunarDataResult;
+import com.tomasky.doms.enums.EnumOta;
+import com.tomasky.doms.service.ITomatoOmsOtaInfoService;
 import com.tomasky.doms.support.exception.ProvidToQunarApiException;
 import com.tomasky.doms.support.system.SysConfig;
 import com.tomasky.doms.support.util.CommonUtil;
 import com.tomasky.doms.support.util.HttpClientUtil;
 import com.tomasky.doms.support.util.JacksonUtil;
+import com.tomasky.doms.support.util.PassWordUtil;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
@@ -20,6 +24,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +40,17 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ProvidToQunarApiController {
     private Logger log = LoggerFactory.getLogger(ProvidToQunarApiController.class);
+
+    TomatoOmsOtaInfo tomatoOmsOtaInfo;
+    @Autowired
+    ITomatoOmsOtaInfoService tomatoOmsOtaInfoService;
+
+    @PostConstruct
+    public void init() {
+        TomatoOmsOtaInfo otainfo = new TomatoOmsOtaInfo();
+        otainfo.setOtaId(EnumOta.qunar_conn.getValue());
+        tomatoOmsOtaInfo = tomatoOmsOtaInfoService.query(otainfo);
+    }
 
     @Autowired
     SysConfig sysConfig;
@@ -251,6 +267,7 @@ public class ProvidToQunarApiController {
             BasicNameValuePair roomTypeNvp = new BasicNameValuePair("roomTypeCodes", roomTypeCodes);
             BasicNameValuePair fromDateNvp = new BasicNameValuePair("fromDate", fromDate);
             BasicNameValuePair toDateNvp = new BasicNameValuePair("toDate", toDate);
+            initOmsSecurityParam(paramList);
             paramList.add(nvp);
             paramList.add(roomTypeNvp);
             paramList.add(fromDateNvp);
@@ -285,6 +302,7 @@ public class ProvidToQunarApiController {
         List<NameValuePair> paramList = new ArrayList<>();
         BasicNameValuePair nvp = new BasicNameValuePair("innIds", hotelNos);
         paramList.add(nvp);
+        initOmsSecurityParam(paramList);
         log.debug("=====参数====" + JacksonUtil.obj2json(paramList));
         String data = HttpClientUtil.getResponseInfoByPost(Constants.HTTP_GET_TYPE_STRING, url, paramList);
         OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
@@ -355,6 +373,7 @@ public class ProvidToQunarApiController {
             BasicNameValuePair roomTypeNvp = new BasicNameValuePair("roomTypeIds", roomTypeCodes);
             paramList.add(nvp);
             paramList.add(roomTypeNvp);
+            initOmsSecurityParam(paramList);
             log.debug("=====参数====" + JacksonUtil.obj2json(paramList));
             String data = HttpClientUtil.getResponseInfoByPost(Constants.HTTP_GET_TYPE_STRING, url, paramList);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
@@ -413,7 +432,6 @@ public class ProvidToQunarApiController {
      * @param hotelNos
      * @return
      */
-
     private QunarDataResult getHotelList(String hotelNos) throws ProvidToQunarApiException {
         QunarDataResult result;
         try {
@@ -422,6 +440,7 @@ public class ProvidToQunarApiController {
             List<NameValuePair> paramList = new ArrayList<>();
             BasicNameValuePair nvp = new BasicNameValuePair("innIds", hotelNos);
             paramList.add(nvp);
+            initOmsSecurityParam(paramList);
             log.debug("=====参数====" + JacksonUtil.obj2json(paramList));
             String data = HttpClientUtil.getResponseInfoByPost(Constants.HTTP_GET_TYPE_STRING, url, paramList);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
@@ -446,5 +465,25 @@ public class ProvidToQunarApiController {
             throw new ProvidToQunarApiException("=====查询酒店列表服务- 数据组装 - getHotelList=====异常", e);
         }
         return result;
+    }
+
+
+    /**
+     * oms签名参数
+     * @param paramList
+     * @throws ProvidToQunarApiException
+     */
+    private void initOmsSecurityParam(List<NameValuePair> paramList) throws ProvidToQunarApiException{
+        BasicNameValuePair otaNvp = new BasicNameValuePair("otaId", tomatoOmsOtaInfo.getOtaId().toString());
+        Long time = System.currentTimeMillis();
+        String signature =  tomatoOmsOtaInfo.getOtaId().toString() + "" + time + tomatoOmsOtaInfo.getUserCode() + tomatoOmsOtaInfo.getUserPassword();
+        log.debug("生成key参数字符串:" + signature);
+        signature = PassWordUtil.getMd5Pwd(signature);
+        log.debug("生成的key字符串:" + signature);
+        BasicNameValuePair signatureNvp = new BasicNameValuePair("signature", signature);
+        BasicNameValuePair timestampNvp = new BasicNameValuePair("timestamp", time.toString());
+        paramList.add(otaNvp);
+        paramList.add(signatureNvp);
+        paramList.add(timestampNvp);
     }
 }

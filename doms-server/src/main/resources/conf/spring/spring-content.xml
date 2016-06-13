@@ -92,7 +92,7 @@
               destroy-method="close">
             <property name="driverClassName" value="org.postgresql.Driver"/>
             <property name="url"
-                      value="jdbc:postgresql://192.168.1.17:5432/compare_price?autoReconnectForPools=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull"/>
+                      value="jdbc:postgresql://192.168.1.17:5432/oms?autoReconnectForPools=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull"/>
             <property name="username" value="ota"/>
             <property name="password" value="ota"/>
             <property name="maxWait" value="1000"/>
@@ -149,7 +149,7 @@
     </beans>
 
     <beans profile="production">
-        <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/tomato-toms"/>
+        <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/tomato-oms"/>
 
         <bean class="com.tomasky.doms.common.CommonApi">
             <property name="pmsId" value="tomasky"/>
