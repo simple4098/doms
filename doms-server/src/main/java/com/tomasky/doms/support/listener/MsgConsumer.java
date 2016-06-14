@@ -20,6 +20,8 @@ public class MsgConsumer implements MsgEventListener {
     private static  final Logger log = LoggerFactory.getLogger(MsgConsumer.class);
     private String systemName;
 
+    public MsgConsumer() {
+    }
 
     public MsgConsumer(String systemName) {
         this.systemName = systemName;
