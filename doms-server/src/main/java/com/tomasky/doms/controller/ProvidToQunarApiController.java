@@ -191,6 +191,45 @@ public class ProvidToQunarApiController {
     }
 
     /**
+     * 查询订单入驻信息服务
+     *
+     * @param hotelNos
+     * @param channelOrderNos
+     * @return
+     */
+    @RequestMapping("/tomasky/roomStatus/queryOrderStatus.do")
+    @ResponseBody
+    public QunarDataResult queryOrderStatus(String hotelNos, String channelOrderNos) {
+        log.debug("=====hotelNos====" + hotelNos);
+        QunarDataResult result;
+        try {
+            if (StringUtils.isEmpty(hotelNos)) {
+                result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
+            } else {
+                result = getOderStatus(hotelNos, channelOrderNos);
+            }
+        } catch (Exception e) {
+            log.error("====查询订单入住信息出错=====queryOrderStatus===方法异常", e);
+            result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询订单入住信息出错", null);
+        }
+        return result;
+    }
+
+    /**
+     * 查询订单入驻信息服务  - 数据组装
+     *
+     * @param hotelNos
+     * @param channelOrderNos
+     * @return
+     */
+    private QunarDataResult getOderStatus(String hotelNos, String channelOrderNos) {
+        QunarDataResult result = new QunarDataResult();
+
+        return result;
+    }
+
+
+    /**
      * 查询房态 - 参数校验
      *
      * @param hotelNos
@@ -273,6 +312,7 @@ public class ProvidToQunarApiController {
             paramList.add(toDateNvp);
             log.debug("=====参数====" + JacksonUtil.obj2json(paramList));
             String data = HttpClientUtil.getResponseInfoByPost(Constants.HTTP_GET_TYPE_STRING, url, paramList);
+            log.debug("=======返回值=======" + data);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
             if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
                 List<Map> domsListMap = (List<Map>) omsResult.getData();
@@ -304,6 +344,7 @@ public class ProvidToQunarApiController {
         initOmsSecurityParam(paramList);
         log.debug("=====参数====" + JacksonUtil.obj2json(paramList));
         String data = HttpClientUtil.getResponseInfoByPost(Constants.HTTP_GET_TYPE_STRING, url, paramList);
+        log.debug("=======返回值=======" + data);
         OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
         if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
             result = new QunarDataResult(QunarStatusCode.SUCCESS, QunarStatusCode.SUCCESS_MSG, omsResult.getData());
@@ -375,6 +416,7 @@ public class ProvidToQunarApiController {
             initOmsSecurityParam(paramList);
             log.debug("=====参数====" + JacksonUtil.obj2json(paramList));
             String data = HttpClientUtil.getResponseInfoByPost(Constants.HTTP_GET_TYPE_STRING, url, paramList);
+            log.debug("=======返回值=======" + data);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
             if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
                 List<Map> domsListMap = dealRoomTypeData(omsResult);
@@ -442,6 +484,7 @@ public class ProvidToQunarApiController {
             initOmsSecurityParam(paramList);
             log.debug("=====参数====" + JacksonUtil.obj2json(paramList));
             String data = HttpClientUtil.getResponseInfoByPost(Constants.HTTP_GET_TYPE_STRING, url, paramList);
+            log.debug("=====返回值===" + data);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
             if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
                 List<Map> omsListMap = (List<Map>) omsResult.getData();
@@ -469,13 +512,14 @@ public class ProvidToQunarApiController {
 
     /**
      * oms签名参数
+     *
      * @param paramList
      * @throws ProvidToQunarApiException
      */
-    private void initOmsSecurityParam(List<NameValuePair> paramList) throws ProvidToQunarApiException{
+    private void initOmsSecurityParam(List<NameValuePair> paramList) throws ProvidToQunarApiException {
         BasicNameValuePair otaNvp = new BasicNameValuePair("otaId", tomatoOmsOtaInfo.getOtaId().toString());
         Long time = System.currentTimeMillis();
-        String signature =  tomatoOmsOtaInfo.getOtaId().toString() + "" + time + tomatoOmsOtaInfo.getUserCode() + tomatoOmsOtaInfo.getUserPassword();
+        String signature = tomatoOmsOtaInfo.getOtaId().toString() + "" + time + tomatoOmsOtaInfo.getUserCode() + tomatoOmsOtaInfo.getUserPassword();
         log.debug("生成key参数字符串:" + signature);
         signature = PassWordUtil.getMd5Pwd(signature);
         log.debug("生成的key字符串:" + signature);
