@@ -24,7 +24,7 @@ public class UtilTest {
     @Test
     public void  testFromDate(){
         String fromDate = DateUtil.fromDate(0);
-        String date = DateUtil.fromDate(ResourceBundleUtil.getInt("quarn.day"));
+        String date = DateUtil.fromDate(ResourceBundleUtil.getInt("qunar.day"));
         log.info(fromDate+"---"+date);
     }
 }

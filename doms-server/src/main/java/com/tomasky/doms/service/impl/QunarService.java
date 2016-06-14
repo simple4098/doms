@@ -177,7 +177,7 @@ public class QunarService implements IQunarService {
                     RoomOnOff roomOnOff = new RoomOnOff();
                     BeanUtils.copyProperties(roomOnOff,qunarDockingPhyRoomType);
                     roomOnOff.setFromDate(DateUtil.fromDate(0));
-                    roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("quarn.day")));
+                    roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("qunar.day")));
                     String roomOn = HttpClientUtil.httpKvPost(QunarUrlUtil.roomOn(), roomOnOff);
                     qunarResult = JacksonUtil.json2obj(roomOn, QunarResult.class);
                     logger.error("开房结果"+JacksonUtil.obj2json(qunarResult));
@@ -205,7 +205,7 @@ public class QunarService implements IQunarService {
                     RoomOnOff roomOnOff = new RoomOnOff();
                     BeanUtils.copyProperties(roomOnOff,qunarDockingRemovePhyRoomType);
                     roomOnOff.setFromDate(DateUtil.fromDate(0));
-                    roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("quarn.day")));
+                    roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("qunar.day")));
                     String roomOn = HttpClientUtil.httpKvPost(QunarUrlUtil.roomOff(), roomOnOff);
                     qunarResult = JacksonUtil.json2obj(roomOn, QunarResult.class);
                     logger.error("关房房结果"+JacksonUtil.obj2json(qunarResult));
