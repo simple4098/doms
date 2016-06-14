@@ -19,10 +19,9 @@ public interface IQunarService {
 
     /**
      * 去哪儿发送动态验证码
-     * @param otaId 渠道id
      * @param qunarMobile 调用去哪儿接口参数对象
      */
-    QunarResult sendQunarPhoneCode(String otaId,QunarMobile qunarMobile);
+    QunarResult sendQunarPhoneCode(QunarMobile qunarMobile);
 
     /**
      * 1 去哪儿开通渠道 2 查询渠道酒店列表
@@ -102,5 +101,7 @@ public interface IQunarService {
      */
     @Deprecated
     QunarResult removeRoomType(OmsPram omsPram) throws  DmsException;
+
+
 
 }

@@ -18,8 +18,8 @@ public class ChannelInfoData {
     private String operatorGuid;
     private String operatorName;
 
-    public ChannelInfoData(Integer innId, String innName, String operatorGuid, String operatorName) {
-        this.innId = innId;
+    public ChannelInfoData(String accountId, String innName, String operatorGuid, String operatorName) {
+        this.accountId = accountId;
         this.innName = innName;
         this.operatorGuid = operatorGuid;
         this.operatorName = operatorName;

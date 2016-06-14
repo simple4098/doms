@@ -82,7 +82,7 @@ public class QunarServiceHelper {
         ChannelInfoData channelInfoData = JacksonUtil.json2obj(data, ChannelInfoData.class);
         Assert.notNull(channelInfoData.getOperatorGuid());
         Assert.notNull(channelInfoData.getOperatorName());
-        Assert.notNull(channelInfoData.getInnId());
+        //Assert.notNull(channelInfoData.getInnId());
         Assert.notNull(channelInfoData.getAccountId());
         QunarDockingHotel qunarDockingHotel = null;
         List<ChannelInfo> channelInfoList = channelInfoData.getChannelInfo();
@@ -123,12 +123,13 @@ public class QunarServiceHelper {
     public List<QunarDockingRemoveHotel> checkQunarDockingRemoveHotel(OmsPram omsPram) {
         String data = omsPram.getParam();
         Assert.notNull(data);
+        Assert.notNull(omsPram.getAccountId());
         List<OmsHotel> omsHotelList = JacksonUtil.json2list(data,OmsHotel.class);
         List<QunarDockingRemoveHotel> removeHotelList = new ArrayList<>();
         QunarDockingRemoveHotel qunarDockingRemoveHotel = null;
         for (OmsHotel omsHotel:omsHotelList){
             qunarDockingRemoveHotel = new QunarDockingRemoveHotel();
-            qunarDockingRemoveHotel.setHotelNo(omsHotel.getAccountId());
+            qunarDockingRemoveHotel.setHotelNo(omsPram.getAccountId());
             qunarDockingRemoveHotel.setChannelHotelNo(omsHotel.getChannelHotelNo());
             qunarDockingRemoveHotel.setOperatorGuid(omsHotel.getOperatorGuid());
             qunarDockingRemoveHotel.setOperatorName(omsHotel.getOperatorName());
@@ -189,12 +190,12 @@ public class QunarServiceHelper {
     public List<QunarDeletePhyRoomType> checkQunarDeletePhyRoomType(OmsPram omsPram) {
         String data = omsPram.getParam();
         Assert.notNull(data);
+        Assert.notNull(omsPram.getAccountId());
         List<OmsXjRoomType> omsXjRoomTypeList = JacksonUtil.json2list(data, OmsXjRoomType.class);
         List<QunarDeletePhyRoomType> list = new ArrayList<>();
         QunarDeletePhyRoomType qunarDeletePhyRoomType = null;
         for (OmsXjRoomType omsXjRoomType:omsXjRoomTypeList){
             qunarDeletePhyRoomType = new QunarDeletePhyRoomType();
-            //BeanUtils.copyProperties(qunarDockingRemovePhyRoomType,omsXjRoomType);
             qunarDeletePhyRoomType.setHotelNo(omsXjRoomType.getAccountId());
             qunarDeletePhyRoomType.setPhyRoomTypeCode(omsXjRoomType.getRoomTypeId());
             list.add(qunarDeletePhyRoomType);

@@ -122,4 +122,22 @@ public class QunarUrlUtil {
         String sendUrl = ResourceBundleUtil.getString("qunar.deletePhyRoomType.uri");
         return CommonApi.getQunarUrl()+sendUrl;
     }
+
+    /**
+     * 开房接口地址
+     * @return
+     */
+    public static String roomOn(){
+        String roomOnUri = ResourceBundleUtil.getString("qunar.roomOn.uri");
+        return CommonApi.getQunarUrl()+roomOnUri;
+    }
+
+    /**
+     * 关房接口地址
+     * @return
+     */
+    public static String roomOff(){
+        String roomOffUri = ResourceBundleUtil.getString("qunar.roomOff.uri");
+        return CommonApi.getQunarUrl()+roomOffUri;
+    }
 }
