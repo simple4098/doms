@@ -9,6 +9,9 @@ public class Constants {
      * 返回结果
      */
     public final static String SUCCESS = "success";
+    public final static String STATUS200 = "200";
+    public final static String STATUS400 = "400";
+    public final static String HANDLE_SUCCESS = " 处理成功";
     //去哪儿渠道 version号
     public final static String version = "1.0";
     //PMS 代码

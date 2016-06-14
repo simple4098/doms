@@ -1,6 +1,7 @@
 
 package com.doms.test;
 
+import com.tomasky.doms.common.Constants;
 import com.tomasky.doms.dao.IOtaInnDao;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.oms.*;
@@ -13,6 +14,7 @@ import com.tomasky.doms.enums.OtaCode;
 import com.tomasky.doms.exception.DmsException;
 import com.tomasky.doms.model.OtaInn;
 import com.tomasky.doms.service.IQunarService;
+import com.tomasky.doms.support.util.HttpClientUtil;
 import com.tomasky.doms.support.util.JacksonUtil;
 import com.tomato.mq.client.support.SystemConfig;
 import org.junit.Test;
@@ -25,7 +27,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -53,7 +57,7 @@ public class QunarServiceTest {
     public void  testSendCode() throws Exception {
 
         QunarMobile qunarMobile = new QunarMobile("218.89.222.245","fanqie_test","番茄测试","15281017068");
-        QunarResult qunarResult = qunarService.sendQunarPhoneCode("999", qunarMobile);
+        QunarResult qunarResult = qunarService.sendQunarPhoneCode( qunarMobile);
         log.info(JacksonUtil.obj2json(qunarResult));
     }
 
@@ -93,7 +97,7 @@ public class QunarServiceTest {
 
     @Test
     public void matchHotel(){
-        ChannelInfoData channelInfoData = new ChannelInfoData(124,"番茄测试客栈","fanqie_test","番茄测试");
+        ChannelInfoData channelInfoData = new ChannelInfoData("124","番茄测试客栈","fanqie_test","番茄测试");
         List<ChannelInfo> channelInfo = new ArrayList<>();
         ChannelInfo channelInfo1 = new ChannelInfo("15281017068");
         //ChannelInfo channelInfo2 = new ChannelInfo("15281017062");
@@ -134,8 +138,16 @@ public class QunarServiceTest {
     //解绑酒店
     @Test
     public void testRemoveDockingHotel(){
-        OmsPram omsPram = new OmsPram();
-        omsPram.setParam("json");
+        List<OmsHotel> omsHotelList = new ArrayList<>();
+        OmsHotel omsHotel = new OmsHotel();
+        omsHotel.setAccountId("124");
+        omsHotel.setChannelHotelNo("1000156065");
+        omsHotel.setOperatorGuid("fanqie_test");
+        omsHotel.setOperatorName("番茄测试");
+        omsHotelList.add(omsHotel);
+        String s = JacksonUtil.obj2json(omsHotelList);
+        OmsPram omsPram = new OmsPram("124","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
+        omsPram.setParam(s);
         try {
             QunarResult qunarResult = qunarService.removeDockingHotel(omsPram);
             log.info("返回结果:"+JacksonUtil.obj2json(qunarResult));
@@ -191,13 +203,13 @@ public class QunarServiceTest {
         omsSjRoomType.setOperatorName("番茄测试");
         omsSjRoomType.setOperatorGuid("fanqie_test");
         omsSjRoomType.setAccountId("124");
-        omsSjRoomType.setChannelPhyRoomTypeCode("90000237");
+        omsSjRoomType.setChannelPhyRoomTypeCode("90000238");
         omsSjRoomType.setChannelPhyRoomTypeName("豪华大床房");
         omsSjRoomType.setChannelHotelNo("1000156065");
-        omsSjRoomType.setChannelRatePlanName("现付");
-        omsSjRoomType.setChannelRatePlanCode("90000370");
-        omsSjRoomType.setRoomTypeId("123456");
-        omsSjRoomType.setRoomTypeName("番茄房型名称");
+        omsSjRoomType.setChannelRatePlanName("预付");
+        omsSjRoomType.setChannelRatePlanCode("90000371");
+        omsSjRoomType.setRoomTypeId("1234567");
+        omsSjRoomType.setRoomTypeName("番茄房型名称1");
         List<OmsSjRoomType> list = new ArrayList<>();
         list.add(omsSjRoomType);
         String obj2json = JacksonUtil.obj2json(list);
@@ -219,12 +231,12 @@ public class QunarServiceTest {
         omsSjRoomType.setOperatorName("番茄测试");
         omsSjRoomType.setOperatorGuid("fanqie_test");
         omsSjRoomType.setAccountId("124");
-        omsSjRoomType.setChannelPhyRoomTypeCode("90000237");
+        omsSjRoomType.setChannelPhyRoomTypeCode("90000238");
         //omsSjRoomType.setChannelPhyRoomTypeName("豪华大床房");
         omsSjRoomType.setChannelHotelNo("1000156065");
         //omsSjRoomType.setChannelRatePlanName("现付");
-        omsSjRoomType.setChannelRatePlanCode("90000370");
-        omsSjRoomType.setRoomTypeId("123456");
+        omsSjRoomType.setChannelRatePlanCode("90000371");
+        omsSjRoomType.setRoomTypeId("1234567");
         //omsSjRoomType.setRoomTypeName("番茄房型名称");
         List<OmsXjRoomType> list = new ArrayList<>();
         list.add(omsSjRoomType);
@@ -235,6 +247,47 @@ public class QunarServiceTest {
             QunarResult qunarResult = qunarService.removeDockingProduct(omsPram);
             log.info("返回结果:"+JacksonUtil.obj2json(qunarResult));
         } catch (DmsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testDeleteRoomType(){
+        OmsXjRoomType omsSjRoomType = new OmsXjRoomType();
+        omsSjRoomType.setOperatorName("番茄测试");
+        omsSjRoomType.setOperatorGuid("fanqie_test");
+        omsSjRoomType.setAccountId("124");
+        omsSjRoomType.setChannelPhyRoomTypeCode("90000238");
+        //omsSjRoomType.setChannelPhyRoomTypeName("豪华大床房");
+        omsSjRoomType.setChannelHotelNo("1000156065");
+        //omsSjRoomType.setChannelRatePlanName("现付");
+        omsSjRoomType.setChannelRatePlanCode("90000371");
+        omsSjRoomType.setRoomTypeId("1234567");
+        //omsSjRoomType.setRoomTypeName("番茄房型名称");
+        List<OmsXjRoomType> list = new ArrayList<>();
+        list.add(omsSjRoomType);
+        String obj2json = JacksonUtil.obj2json(list);
+        OmsPram omsPram = new OmsPram("124","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
+        omsPram.setParam(obj2json);
+        try {
+            QunarResult qunarResult = qunarService.deletePhyRoomType(omsPram);
+            log.info("testDeleteRoomType返回结果:"+JacksonUtil.obj2json(qunarResult));
+        } catch (DmsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testOmsUrl(){
+        //String data = HttpClientUtil.getResponseInfoByPost(Constants.HTTP_GET_TYPE_STRING, url, paramList);
+        Map<String,String> param = new HashMap<>();
+        param.put("innIds","4126");
+        param.put("name","木木");
+        String obj2json = JacksonUtil.obj2json(param);
+        String data1 = "{\"innIds\":\"4126,木木\"}";
+        try {
+            String post = HttpClientUtil.httpKvPost("http://192.168.1.193:8080/api/qunar/conn/getInnList", obj2json);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

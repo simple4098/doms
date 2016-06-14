@@ -40,7 +40,7 @@ public class APIController  {
     @ResponseBody
     public Object hotelTimer() throws IOException {
         log.info("=======start=======");
-        JsonModel jsonModel = new JsonModel();
+        JsonModel jsonModel = new JsonModel("200","sdsd");
         List<OtaInfoDto> infoDtoList = otaInfoService.findOtaInfoList();
         jsonModel.setMessage(JSON.json(infoDtoList));
         log.info("============end============");
