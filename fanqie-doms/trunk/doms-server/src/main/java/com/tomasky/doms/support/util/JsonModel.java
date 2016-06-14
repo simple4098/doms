@@ -69,6 +69,7 @@ public class JsonModel extends ExtendedModelMap {
     }
 
     public void setData(Object data) {
+        this.addAttribute("data", data);
         this.data = data;
     }
 
