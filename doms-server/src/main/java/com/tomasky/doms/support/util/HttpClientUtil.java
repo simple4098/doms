@@ -82,6 +82,41 @@ public class HttpClientUtil {
         return value;
     }
 
+    /**
+     * post http请求
+     * @param url 请求url
+     * @param data 参数json字符串
+     */
+    public static  String httpKvPost(String url, String data) throws Exception {
+        HttpClient httpClient = obtHttpClient();
+        HttpPost httpPost = new HttpPost(url);
+        Map<String, String> param = JacksonUtil.json2map(data);
+        List<NameValuePair> nameValuePairs = commonParam(param);
+        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        HttpResponse response = httpClient.execute(httpPost);
+        HttpEntity entity = response.getEntity();
+        String value = EntityUtils.toString(entity, "utf-8");
+        return value;
+    }
+
+    /**
+     * post http请求
+     * @param url 请求url
+     * @param data 参数对象
+     */
+    public static  String httpKvPost(String url, Object data) throws Exception {
+        HttpClient httpClient = obtHttpClient();
+        HttpPost httpPost = new HttpPost(url);
+        String json = JacksonUtil.obj2json(data);
+        Map<String, String> param = JacksonUtil.json2map(json);
+        List<NameValuePair> nameValuePairs = commonParam(param);
+        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        HttpResponse response = httpClient.execute(httpPost);
+        HttpEntity entity = response.getEntity();
+        String value = EntityUtils.toString(entity, "utf-8");
+        return value;
+    }
+
     public static <T extends QunarBaseBean> String httpKvPost(String url, T t) throws Exception {
         HttpClient httpClient = obtHttpClient();
         HttpPost httpPost = new HttpPost(url);
@@ -105,7 +140,14 @@ public class HttpClientUtil {
             nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
         }
         return nameValuePairs;
+    }
 
+    public static List<NameValuePair> commonParam(Map<String,String> map) {
+        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
+        for (Map.Entry<String, String> entry : map.entrySet()) {
+            nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+        }
+        return nameValuePairs;
     }
 
     //-----------------post方式根据请求类型无代理获取网页信息或者Cookies---------------------
