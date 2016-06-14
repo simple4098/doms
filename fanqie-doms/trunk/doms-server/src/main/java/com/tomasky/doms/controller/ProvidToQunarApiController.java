@@ -1,6 +1,5 @@
 package com.tomasky.doms.controller;
 
-import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.common.Constants;
 import com.tomasky.doms.dto.TomatoOmsOtaInfo;
 import com.tomasky.doms.dto.oms.response.OmsResult;
@@ -166,7 +165,7 @@ public class ProvidToQunarApiController {
             result = getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, "status");
         } catch (Exception e) {
             log.error("====查询实时房态服务=====queryRoomStatus===方法异常", e);
-            result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房态服务", null);
+            result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房态服务出错", null);
         }
         return result;
     }
@@ -186,7 +185,7 @@ public class ProvidToQunarApiController {
             result = getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, "price");
         } catch (Exception e) {
             log.error("====查询实时房价服务=====queryRoomStatus===方法异常", e);
-            result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房价服务", null);
+            result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房价服务出错", null);
         }
         return result;
     }
