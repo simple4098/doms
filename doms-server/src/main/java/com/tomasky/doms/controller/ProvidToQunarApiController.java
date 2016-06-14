@@ -1,12 +1,12 @@
 package com.tomasky.doms.controller;
 
+import com.fanqie.util.PropertiesUtil;
 import com.tomasky.doms.common.Constants;
 import com.tomasky.doms.dto.TomatoOmsOtaInfo;
 import com.tomasky.doms.dto.oms.response.OmsResult;
 import com.tomasky.doms.dto.qunar.QunarStatusCode;
 import com.tomasky.doms.dto.qunar.response.QunarDataResult;
 import com.tomasky.doms.enums.EnumOta;
-import com.tomasky.doms.service.ITomatoOmsOtaInfoService;
 import com.tomasky.doms.support.exception.ProvidToQunarApiException;
 import com.tomasky.doms.support.system.SysConfig;
 import com.tomasky.doms.support.util.CommonUtil;
@@ -41,14 +41,12 @@ public class ProvidToQunarApiController {
     private Logger log = LoggerFactory.getLogger(ProvidToQunarApiController.class);
 
     TomatoOmsOtaInfo tomatoOmsOtaInfo;
-    @Autowired
-    ITomatoOmsOtaInfoService tomatoOmsOtaInfoService;
 
     @PostConstruct
     public void init() {
-        TomatoOmsOtaInfo otainfo = new TomatoOmsOtaInfo();
-        otainfo.setOtaId(EnumOta.qunar_conn.getValue());
-        tomatoOmsOtaInfo = tomatoOmsOtaInfoService.query(otainfo);
+        tomatoOmsOtaInfo.setOtaId(EnumOta.qunar_conn.getValue());
+        tomatoOmsOtaInfo.setUserCode(PropertiesUtil.readFile("/config.properties", "qunar_conn_ota_user_code"));
+        tomatoOmsOtaInfo.setUserPassword(PropertiesUtil.readFile("/config.properties", "qunar_conn_ota_user_pwd"));
     }
 
     @Autowired
