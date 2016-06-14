@@ -104,6 +104,6 @@ public class QunarStatusCode {
     public static final Integer ERROR_5000 = 5000;// HMAC校验失败
     public static final Integer ERROR_5001 = 5001;//酒店无此订单操作权限
     public static final Integer ERROR_5002 = 5002;//该版本API接口暂未开放
-
+    public static final Integer ERROR_6000 = 6000; //缺少token参数
     public static final String SUCCESS_MSG = "处理成功"; //处理成功
 }
