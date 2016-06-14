@@ -11,6 +11,9 @@ public class QunarMobile extends QunarBase {
     private String mobile;// 手机号码 String 否 绑定渠道账号的手机号码
 
 
+    public QunarMobile() {
+    }
+
     public QunarMobile(String mobile) {
         this.mobile = mobile;
     }

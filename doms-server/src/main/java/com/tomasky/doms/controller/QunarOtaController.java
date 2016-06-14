@@ -95,6 +95,7 @@ public class QunarOtaController {
      * @return
      */
     @RequestMapping("/relieveHotel")
+    @ResponseBody
     public Object relieveHotel(OmsPram omsPram){
         JsonModel jsonModel = new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
         try {

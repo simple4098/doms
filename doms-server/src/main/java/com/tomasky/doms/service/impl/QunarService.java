@@ -83,7 +83,7 @@ public class QunarService implements IQunarService {
             }
         }catch (Exception e){
             logger.error("createQunarPmsHotel 异常",e);
-            throw  new DmsException("获取渠道酒店列表异常",e);
+            throw  new DmsException("获取渠道酒店列表异常"+e.getMessage());
         }
     }
 
@@ -119,7 +119,7 @@ public class QunarService implements IQunarService {
                 }
             }
         } catch (Exception e) {
-            throw  new DmsException("酒店匹配异常",e);
+            throw  new DmsException("酒店匹配异常"+e.getMessage());
         }
         return qunarResult;
     }
@@ -186,7 +186,7 @@ public class QunarService implements IQunarService {
             return qunarResult;
         } catch (Exception e) {
             logger.error("去哪儿产品匹配异常", e);
-            throw  new DmsException("去哪儿产品匹配异常",e);
+            throw  new DmsException("去哪儿产品匹配异常"+e.getMessage());
         }
     }
 
@@ -214,7 +214,7 @@ public class QunarService implements IQunarService {
             return qunarResult;
         } catch (Exception e) {
             logger.error("去哪儿删除产品匹配异常", e);
-            throw  new DmsException("去哪儿删除产品匹配异常",e);
+            throw  new DmsException("去哪儿删除产品匹配异常"+e.getMessage());
         }
     }
 
@@ -255,7 +255,7 @@ public class QunarService implements IQunarService {
            return qunarResult;
         } catch (Exception e) {
             logger.error("去哪儿酒店解绑异常",e);
-            throw  new DmsException("去哪儿酒店解绑异常",e);
+            throw  new DmsException("去哪儿酒店解绑异常"+e.getMessage());
         }
     }
 
