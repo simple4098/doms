@@ -88,7 +88,7 @@
 
 
     <beans profile="dev">
-        <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+       <!-- <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
               destroy-method="close">
             <property name="driverClassName" value="org.postgresql.Driver"/>
             <property name="url"
@@ -104,7 +104,7 @@
             <property name="removeAbandonedTimeout" value="1800"/>
             <property name="validationQuery" value="select 1"/>
         </bean>
-
+-->
         <bean id="msgConsumer" class="com.tomasky.doms.support.listener.MsgConsumer">
             <property name="systemName" value="doms-dev"></property>
         </bean>
@@ -122,7 +122,7 @@
 
     </beans>
     <beans profile="staging">
-        <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
+        <!--<bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
               destroy-method="close">
             <property name="driverClassName" value="org.postgresql.Driver"/>
             <property name="url" value="jdbc:postgresql://10.163.227.13:9999/oms_db"/>
@@ -136,8 +136,10 @@
             <property name="removeAbandoned" value="true"/>
             <property name="removeAbandonedTimeout" value="1800"/>
             <property name="validationQuery" value="select 1"/>
+        </bean>-->
+        <bean id="msgConsumer" class="com.tomasky.doms.support.listener.MsgConsumer">
+            <property name="systemName" value="doms-staging"></property>
         </bean>
-
         <bean class="com.tomasky.doms.common.CommonApi">
             <property name="pmsId" value="tomasky"/>
             <property name="qunarHostApi" value="http://link.beta.quhuhu.com/api/"/>
@@ -152,8 +154,10 @@
     </beans>
 
     <beans profile="production">
-        <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/tomato-oms"/>
-
+        <!--<jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/tomato-oms"/>-->
+        <bean id="msgConsumer" class="com.tomasky.doms.support.listener.MsgConsumer">
+            <property name="systemName" value="doms-production"></property>
+        </bean>
         <bean class="com.tomasky.doms.common.CommonApi">
             <property name="pmsId" value="tomasky"/>
             <property name="qunarHostApi" value="http://link.beta.quhuhu.com/api/"/>
