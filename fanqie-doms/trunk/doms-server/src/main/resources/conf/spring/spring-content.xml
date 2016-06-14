@@ -105,6 +105,9 @@
             <property name="validationQuery" value="select 1"/>
         </bean>
 
+        <bean id="msgConsumer" class="com.tomasky.doms.support.listener.MsgConsumer">
+            <property name="systemName" value="doms-dev"></property>
+        </bean>
         <bean class="com.tomasky.doms.common.CommonApi">
             <property name="pmsId" value="tomasky"/>
             <property name="qunarHostApi" value="http://link.beta.quhuhu.com/api/"/>
