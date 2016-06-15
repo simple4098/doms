@@ -162,20 +162,20 @@ public class ProvidToQunarApiController {
     /**
      * 查询订单入驻信息服务
      *
-     * @param hotelNos
+     * @param hotelNo
      * @param channelOrderNos
      * @return
      */
     @RequestMapping("/tomasky/roomStatus/queryOrderStatus.do")
     @ResponseBody
-    public QunarDataResult queryOrderStatus(String hotelNos, String channelOrderNos) {
-        log.debug("=====hotelNos====" + hotelNos);
+    public QunarDataResult queryOrderStatus(String hotelNo, String channelOrderNos) {
+        log.debug("=====hotelNos====" + hotelNo);
         QunarDataResult result;
         try {
-            if (StringUtils.isEmpty(hotelNos)) {
+            if (StringUtils.isEmpty(hotelNo)) {
                 result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
             } else {
-                result = providToQunarService.getOderStatus(hotelNos, channelOrderNos);
+                result = providToQunarService.getOderStatus(hotelNo, channelOrderNos);
             }
         } catch (Exception e) {
             log.error("====查询订单入住信息出错=====queryOrderStatus===方法异常", e);

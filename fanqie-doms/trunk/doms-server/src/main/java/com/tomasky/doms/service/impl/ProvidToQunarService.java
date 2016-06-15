@@ -56,15 +56,36 @@ public class ProvidToQunarService {
 
 
     /**
-     * 查询订单入驻信息服务  - 数据组装
+     * c服务  - 数据组装
      *
-     * @param hotelNos
+     * @param hotelNo
      * @param channelOrderNos
      * @return
      */
-    public QunarDataResult getOderStatus(String hotelNos, String channelOrderNos) {
-        QunarDataResult result = new QunarDataResult();
-
+    public QunarDataResult getOderStatus(String hotelNo, String channelOrderNos) {
+        QunarDataResult result;
+        try {
+            String url = BASE_PATH + "/getOrderStatus";
+            log.debug("=========url=======" + url);
+            Map paramMap = new HashMap<>();
+            paramMap.put("innId", hotelNo);
+            paramMap.put("channelOrderNos", channelOrderNos);
+            initOmsSecurityParam(paramMap);
+            log.debug("=====参数====" + JacksonUtil.obj2json(paramMap));
+            String data = HttpClientUtil.httpKvPost(url, paramMap);
+            log.debug("=======返回值=======" + data);
+            OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
+            if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
+                Map omsData = (Map) omsResult.getData();
+                result = new QunarDataResult(QunarStatusCode.SUCCESS, QunarStatusCode.SUCCESS_MSG, omsData);
+            } else {
+                log.error("调用oms查询订单入住信息返回错误");
+                result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询订单入住信息出错," + omsResult.getMessage(), null);
+            }
+        } catch (Exception e) {
+            log.error("===== 查询订单入驻信息服务  - 数据组装 - getOderStatus=====异常", e);
+            throw new ProvidToQunarApiException("===== 查询订单入驻信息服务  - 数据组装 getOderStatus=====异常", e);
+        }
         return result;
     }
 
