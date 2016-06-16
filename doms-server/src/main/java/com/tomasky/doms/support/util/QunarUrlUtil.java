@@ -66,6 +66,14 @@ public class QunarUrlUtil {
         String sendUrl = ResourceBundleUtil.getString("qunar.removeDockingHotelUrl.uri");
         return CommonApi.getQunarUrl()+sendUrl;
     }
+    /**
+     * pms酒店删除通知接口地址
+     * @return
+     */
+    public static String removeHotelUrl(){
+        String sendUrl = ResourceBundleUtil.getString("qunar.deleteHotel.uri");
+        return CommonApi.getQunarUrl()+sendUrl;
+    }
 
     /**
      * 匹配房型接口地址

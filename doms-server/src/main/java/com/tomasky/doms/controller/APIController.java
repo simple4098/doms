@@ -33,9 +33,7 @@ public class APIController  {
 
 
 
-    /**
-     * 定时更新酒店
-     */
+
     @RequestMapping("/hotel/timer")
     @ResponseBody
     public Object hotelTimer() throws IOException {

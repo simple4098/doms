@@ -87,6 +87,12 @@ public interface IQunarService {
     QunarResult removeDockingHotel(OmsPram omsPram) throws  DmsException;
 
     /**
+     * PMS 酒店删除通知
+     * @throws DmsException
+     */
+    QunarResult deleteHotel(OmsPram omsPram) throws  DmsException;
+
+    /**
      * 去哪儿酒店匹配
      * @param omsPram oms参数列表
      * @throws DmsException

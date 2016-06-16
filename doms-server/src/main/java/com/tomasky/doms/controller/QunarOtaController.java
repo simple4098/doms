@@ -40,7 +40,6 @@ public class QunarOtaController {
     @ResponseBody
     public Object sendCode(QunarMobile qunarMobile){
         JsonModel jsonModel = null;
-        logger.info("发送验证码开始 参数列表:"+ JacksonUtil.obj2json(qunarMobile));
         QunarResult qunarResult = qunarService.sendQunarPhoneCode( qunarMobile);
         if (Constants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
             jsonModel =  new JsonModel(Constants.STATUS200,qunarResult.getMsg());
@@ -100,6 +99,7 @@ public class QunarOtaController {
         JsonModel jsonModel = new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
         try {
             QunarResult qunarResult = qunarService.removeDockingHotel(omsPram);
+            //QunarResult qunarResult = qunarService.deleteHotel(omsPram);
             if (!Constants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
                 jsonModel = new JsonModel(Constants.STATUS400,qunarResult.getMsg());
             }

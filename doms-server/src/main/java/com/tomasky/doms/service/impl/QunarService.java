@@ -64,15 +64,13 @@ public class QunarService implements IQunarService {
 
     @Override
     public QunarHotelInfo createQunarPmsHotel(OmsPram omsPram)throws DmsException{
-        //OtaInfoDto otaInfo = otaInfoDao.selectByOtaId(omsPram.getOtaId());
         try{
             QunarAccount qunarAccount = qunarServiceHelper.checkQunarAccount(omsPram);
             String httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.openAccountUrl(), qunarAccount);
             QunarResult qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
             //开通成功
             if (QunarResultUtil.isSuccess(httpPost,qunarResult)){
-                //todo 开通成功 记录日志
-                //MessageCenterUtils.saveDomsLog(OtaCode.QUNAR,omsPram,null,omsPram.getOperatorName(), LogDec.OPEN_ACCOUNT,LogDec.OPEN_ACCOUNT.getValue()+qunarResult.getMsg());
+                MessageCenterUtils.saveDomsLog(OtaCode.QUNAR,Integer.valueOf(omsPram.getAccountId()),null,omsPram.getOperatorName(), LogDec.OPEN_ACCOUNT,LogDec.OPEN_ACCOUNT.getValue()+qunarResult.getMsg());
                 QunarHotelInfo qunarHotelInfo = QunarHotelInfoHelper.obtQunarHotelInfo(omsPram.getAccountId());
                 if (qunarHotelInfo!=null){
                     logger.info("渠道酒店列表:"+JacksonUtil.obj2json(qunarHotelInfo));
@@ -115,7 +113,7 @@ public class QunarService implements IQunarService {
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.matchHotelUrl(), qunarDockingHotel);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
-                    throw  new DmsException("酒店匹配异常 innId:"+qunarDockingHotel.getHotelNo()+qunarResult.getMsg());
+                    throw  new DmsException("酒店匹配异常 account:"+qunarDockingHotel.getHotelNo()+qunarResult.getMsg());
                 }
             }
         } catch (Exception e) {
@@ -169,6 +167,7 @@ public class QunarService implements IQunarService {
         try {
             List<QunarDockingPhyRoomType> list = qunarServiceHelper.checkQunarDockingPhyRoomType(omsPram);
             for(QunarDockingPhyRoomType qunarDockingPhyRoomType:list){
+                logger.info("匹配产品(房型)参数："+JacksonUtil.obj2json(qunarDockingPhyRoomType));
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionDockingUrl(), qunarDockingPhyRoomType);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
@@ -197,6 +196,7 @@ public class QunarService implements IQunarService {
         try {
             List<QunarDockingRemovePhyRoomType> list = qunarServiceHelper.checkQunarDockingRemovePhyRoomType(omsPram);
             for(QunarDockingRemovePhyRoomType qunarDockingRemovePhyRoomType:list){
+                logger.info("解绑产品(房型)参数："+JacksonUtil.obj2json(qunarDockingRemovePhyRoomType));
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionRemoveDockingUrl(), qunarDockingRemovePhyRoomType);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
@@ -246,13 +246,34 @@ public class QunarService implements IQunarService {
         String httpPost = null;
         try {
             for (QunarDockingRemoveHotel dockingRemoveHotel:qunarDockingRemoveHotel){
+               logger.info("解绑酒店参数："+JacksonUtil.obj2json(dockingRemoveHotel));
                httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.removeDockingHotelUrl(), dockingRemoveHotel);
-                qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
-                if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
-                    throw  new DmsException("去哪儿酒店解绑异常 innId:"+dockingRemoveHotel.getHotelNo()+qunarResult.getMsg());
-                }
+               qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+               if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
+                  throw  new DmsException("去哪儿酒店解绑异常 innId:"+dockingRemoveHotel.getHotelNo()+qunarResult.getMsg());
+               }
             }
            return qunarResult;
+        } catch (Exception e) {
+            logger.error("去哪儿酒店解绑异常",e);
+            throw  new DmsException("去哪儿酒店解绑异常"+e.getMessage());
+        }
+    }
+
+    @Override
+    public QunarResult deleteHotel(OmsPram omsPram) throws DmsException {
+        List<QunarRemoveHotel> list = qunarServiceHelper.checkRemoveHotel(omsPram);
+        QunarResult qunarResult = null;
+        String httpPost = null;
+        try {
+            for (QunarRemoveHotel qunarRemoveHotel:list){
+                httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.removeHotelUrl(), qunarRemoveHotel);
+                qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+                if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
+                    throw  new DmsException("去哪儿酒店解绑异常 innId:"+qunarRemoveHotel.getHotelNo()+qunarResult.getMsg());
+                }
+            }
+            return qunarResult;
         } catch (Exception e) {
             logger.error("去哪儿酒店解绑异常",e);
             throw  new DmsException("去哪儿酒店解绑异常"+e.getMessage());
@@ -266,6 +287,7 @@ public class QunarService implements IQunarService {
         try {
             List<QunarDockingPhyRoomType> list = qunarServiceHelper.checkQunarDockingPhyRoomType(omsPram);
             for(QunarDockingPhyRoomType qunarDockingPhyRoomType:list){
+                logger.info("匹配房型参数："+JacksonUtil.obj2json(qunarDockingPhyRoomType));
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.removeDockingHotelUrl(), qunarDockingPhyRoomType);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
@@ -286,6 +308,7 @@ public class QunarService implements IQunarService {
         try {
             List<QunarDockingRemovePhyRoomType> list = qunarServiceHelper.checkQunarDockingRemovePhyRoomType(omsPram);
             for(QunarDockingRemovePhyRoomType qunarDockingRemovePhyRoomType:list){
+                logger.info("删除房型=参数："+JacksonUtil.obj2json(qunarDockingRemovePhyRoomType));
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.removeDockingHotelUrl(), qunarDockingRemovePhyRoomType);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
