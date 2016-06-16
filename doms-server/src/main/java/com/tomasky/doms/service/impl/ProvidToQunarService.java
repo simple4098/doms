@@ -350,7 +350,7 @@ public class ProvidToQunarService {
                 if (CommonUtil.isListNotEmpty(omsListMap)) {
                     for (Map oms : omsListMap) {
                         Map doms = new HashMap();
-                        doms.put("hotelNo", oms.get("inn_id"));
+                        doms.put("hotelNo", oms.get("account_id"));
                         doms.put("hotelName", oms.get("brand_name"));
                         domsListMap.add(doms);
                     }
