@@ -14,6 +14,7 @@ public class OmsPram {
     private String accountId;
     //手机号码
     private String mobile;
+    private String userAccount;
     //渠道id
     private String otaId;
     //手机验证码
@@ -32,6 +33,7 @@ public class OmsPram {
     public OmsPram(String accountId, String mobile, String otaId, String phoneCode,String innName,String operatorGuid,String operatorName) {
         this.accountId = accountId;
         this.mobile = mobile;
+        this.userAccount = mobile;
         this.otaId = otaId;
         this.phoneCode = phoneCode;
         this.innName = innName;
@@ -123,5 +125,13 @@ public class OmsPram {
 
     public void setAccountId(String accountId) {
         this.accountId = accountId;
+    }
+
+    public String getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(String userAccount) {
+        this.userAccount = userAccount;
     }
 }

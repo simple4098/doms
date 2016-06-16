@@ -1,5 +1,7 @@
 package com.tomasky.doms.helper;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.oms.*;
@@ -67,16 +69,16 @@ public class QunarServiceHelper {
 
     public QunarRemoveAccount checkQunarRemoveAccount(OmsPram omsPram) {
         Assert.notNull(omsPram.getOtaId());
-        Assert.notNull(omsPram.getMobile());
+        Assert.notNull(omsPram.getUserAccount());
         Assert.notNull(omsPram.getAccountId());
         Assert.notNull(omsPram.getOperatorGuid());
         Assert.notNull(omsPram.getOperatorName());
-
         QunarRemoveAccount qunarRemoveAccount = new QunarRemoveAccount();
         qunarRemoveAccount.setHotelNo(omsPram.getAccountId());
-        qunarRemoveAccount.setUserAccount(omsPram.getMobile());
+        qunarRemoveAccount.setUserAccount(omsPram.getUserAccount());
         qunarRemoveAccount.setOperatorGuid(omsPram.getOperatorGuid());
         qunarRemoveAccount.setOperatorName(omsPram.getOperatorName());
+        logger.info("解绑账号参数:"+JSON.toJSONString(qunarRemoveAccount));
         return qunarRemoveAccount;
     }
 
@@ -155,7 +157,9 @@ public class QunarServiceHelper {
         String data = omsPram.getParam();
         Assert.notNull(data);
         Assert.notNull(omsPram.getAccountId());
-        List<OmsSjRoomType> list = JacksonUtil.json2list(data, OmsSjRoomType.class);
+        //List<OmsSjRoomType> list = JacksonUtil.json2list(data, OmsSjRoomType.class);
+        List<OmsSjRoomType> list = JSON.parseObject(data, new TypeReference<List<OmsSjRoomType>>() {
+        });
         List<QunarDockingPhyRoomType> qunarDockingPhyRoomTypeList = new ArrayList<>();
         QunarDockingPhyRoomType qunarDockingPhyRoomType = null;
         for (OmsSjRoomType omsSjRoomType:list){
@@ -165,13 +169,6 @@ public class QunarServiceHelper {
             qunarDockingPhyRoomType.setChannelHotelNo(omsSjRoomType.getChannelHotelNo());
             qunarDockingPhyRoomType.setPhyRoomTypeCode(omsSjRoomType.getRoomTypeId());
             qunarDockingPhyRoomType.setPhyRoomTypeName(omsSjRoomType.getRoomTypeName());
-            /*qunarDockingPhyRoomType.setOperatorGuid(omsSjRoomType.getOperatorGuid());
-            qunarDockingPhyRoomType.setOperatorName(omsSjRoomType.getOperatorName());
-            qunarDockingPhyRoomType.setChannelPhyRoomTypeName(omsSjRoomType.getChannelPhyRoomTypeName());
-            qunarDockingPhyRoomType.setChannelPhyRoomTypeCode(omsSjRoomType.getChannelPhyRoomTypeCode());
-            qunarDockingPhyRoomType.setPhyRoomTypeName(omsSjRoomType.getRoomTypeName());
-            qunarDockingPhyRoomType.setChannelRatePlanCode(omsSjRoomType.getChannelRatePlanCode());
-            qunarDockingPhyRoomType.setChannelRatePlanName(omsSjRoomType.getChannelRatePlanName());*/
             qunarDockingPhyRoomTypeList.add(qunarDockingPhyRoomType);
          }
         return qunarDockingPhyRoomTypeList;
@@ -204,12 +201,13 @@ public class QunarServiceHelper {
         String data = omsPram.getParam();
         Assert.notNull(data);
         Assert.notNull(omsPram.getAccountId());
-        List<OmsXjRoomType> omsXjRoomTypeList = JacksonUtil.json2list(data, OmsXjRoomType.class);
+        List<OmsXjRoomType> omsXjRoomTypeList = JSON.parseObject(data, new TypeReference<List<OmsXjRoomType>>() {});
+        //List<OmsXjRoomType> omsXjRoomTypeList = JacksonUtil.json2list(data, OmsXjRoomType.class);
         List<QunarDeletePhyRoomType> list = new ArrayList<>();
         QunarDeletePhyRoomType qunarDeletePhyRoomType = null;
         for (OmsXjRoomType omsXjRoomType:omsXjRoomTypeList){
             qunarDeletePhyRoomType = new QunarDeletePhyRoomType();
-            qunarDeletePhyRoomType.setHotelNo(omsXjRoomType.getAccountId());
+            qunarDeletePhyRoomType.setHotelNo(omsPram.getAccountId());
             qunarDeletePhyRoomType.setPhyRoomTypeCode(omsXjRoomType.getRoomTypeId());
             list.add(qunarDeletePhyRoomType);
 
