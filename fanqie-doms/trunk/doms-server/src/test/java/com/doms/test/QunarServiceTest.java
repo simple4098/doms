@@ -70,7 +70,7 @@ public class QunarServiceTest {
         String data = "{\"hotelNo\":\"124\",\"accountChannelHotelList\":[{\"userAccount\":\"15281017068\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"dockingStatus\":\"2\",\"channelHotelNo\":\"1000156065\",\"channelHotelName\":\"番茄测试酒店\"}]}],\"channelCode\":\"QUNAR\"}";
         String s = "{\"hotelNo\":\"124\",\"channelCode\":\"QUNAR\",\"accountChannelHotelList\":[{\"userAccount\":\"15281017068\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"channelHotelNo\":\"1000156065\",\"channelHotelName\":\"番茄测试酒店\",\"dockingStatus\":\"2\",\"otherRelationHotelNo\":null,\"otherRelationHotelName\":null}]}]}";
         //QunarHotelInfo qunarHotelInfo = JacksonUtil.json2obj(data, QunarHotelInfo.class);
-        OmsPram omsPram = new OmsPram("124","15281017068","107","999329","番茄测试客栈","fanqie_test","番茄测试");
+        OmsPram omsPram = new OmsPram("124","15281017068","107","685424","番茄测试客栈","fanqie_test","番茄测试");
         //otaInnDao.saveOtaInn(new OtaInn(omsPram.getInnId(),omsPram.getInnName(),null,omsPram.getOtaId(),true,omsPram.getInnCode(), OtaCode.QUNAR));
         try {
             QunarHotelInfo qunarPmsHotel = qunarService.createQunarPmsHotel(omsPram);
@@ -97,7 +97,7 @@ public class QunarServiceTest {
 
     @Test
     public void matchHotel(){
-        ChannelInfoData channelInfoData = new ChannelInfoData("124","番茄测试客栈","fanqie_test","番茄测试");
+        ChannelInfoData channelInfoData = new ChannelInfoData("63866","番茄测试客栈","fanqie_test","番茄测试");
         List<ChannelInfo> channelInfo = new ArrayList<>();
         ChannelInfo channelInfo1 = new ChannelInfo("15281017068");
         //ChannelInfo channelInfo2 = new ChannelInfo("15281017062");
@@ -140,6 +140,26 @@ public class QunarServiceTest {
     public void testRemoveDockingHotel(){
         List<OmsHotel> omsHotelList = new ArrayList<>();
         OmsHotel omsHotel = new OmsHotel();
+        omsHotel.setAccountId("63866");
+        omsHotel.setChannelHotelNo("1000156065");
+        omsHotel.setOperatorGuid("fanqie_test");
+        omsHotel.setOperatorName("番茄测试");
+        omsHotelList.add(omsHotel);
+        String s = JacksonUtil.obj2json(omsHotelList);
+        OmsPram omsPram = new OmsPram("63866","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
+        omsPram.setParam(s);
+        try {
+            QunarResult qunarResult = qunarService.removeDockingHotel(omsPram);
+            log.info("返回结果:"+JacksonUtil.obj2json(qunarResult));
+        } catch (DmsException e) {
+            e.printStackTrace();
+        }
+    }
+    //解绑酒店
+    @Test
+    public void testDeletedHotel(){
+        List<OmsHotel> omsHotelList = new ArrayList<>();
+        OmsHotel omsHotel = new OmsHotel();
         omsHotel.setAccountId("124");
         omsHotel.setChannelHotelNo("1000156065");
         omsHotel.setOperatorGuid("fanqie_test");
@@ -149,7 +169,7 @@ public class QunarServiceTest {
         OmsPram omsPram = new OmsPram("124","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
         omsPram.setParam(s);
         try {
-            QunarResult qunarResult = qunarService.removeDockingHotel(omsPram);
+            QunarResult qunarResult = qunarService.deleteHotel(omsPram);
             log.info("返回结果:"+JacksonUtil.obj2json(qunarResult));
         } catch (DmsException e) {
             e.printStackTrace();
@@ -208,7 +228,7 @@ public class QunarServiceTest {
         omsSjRoomType.setChannelHotelNo("1000156065");
         omsSjRoomType.setChannelRatePlanName("预付");
         omsSjRoomType.setChannelRatePlanCode("90000371");
-        omsSjRoomType.setRoomTypeId("1234567");
+        omsSjRoomType.setRoomTypeId("116314");
         omsSjRoomType.setRoomTypeName("番茄房型名称1");
         List<OmsSjRoomType> list = new ArrayList<>();
         list.add(omsSjRoomType);

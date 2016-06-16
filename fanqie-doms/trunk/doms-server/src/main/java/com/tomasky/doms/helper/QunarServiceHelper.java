@@ -9,6 +9,8 @@ import com.tomasky.doms.support.util.JacksonUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -24,12 +26,15 @@ import java.util.List;
 @Component
 public class QunarServiceHelper {
 
+    private final  static Logger logger = LoggerFactory.getLogger(QunarServiceHelper.class);
+
     public  void checkQunarMobile(QunarMobile qunarMobile)throws DmsException{
         try{
             Assert.notNull(qunarMobile.getMobile());
             if (StringUtils.isEmpty(qunarMobile.getUserIp())){
                 qunarMobile.setUserIp(CommonApi.userIp);
             }
+            logger.info("发送验证码开始 参数列表:"+ JacksonUtil.obj2json(qunarMobile));
         }catch (Exception e){
             throw  new DmsException("发送验证码参数异常,电话号码为空");
         }
@@ -53,6 +58,7 @@ public class QunarServiceHelper {
             if (StringUtils.isEmpty(omsPram.getUserIp())){
                 qunarAccount.setUserIp(CommonApi.userIp);
             }
+            logger.info("获取酒店酒店列表参数:"+ JacksonUtil.obj2json(qunarAccount));
             return qunarAccount;
         }catch (Exception e){
             throw  new DmsException("开通渠道参数异常");
@@ -79,10 +85,10 @@ public class QunarServiceHelper {
         List<QunarDockingHotel> list = new ArrayList<>();
         String data = omsPram.getParam();
         Assert.notNull(data);
+        logger.info("匹配酒店参数："+data);
         ChannelInfoData channelInfoData = JacksonUtil.json2obj(data, ChannelInfoData.class);
         Assert.notNull(channelInfoData.getOperatorGuid());
         Assert.notNull(channelInfoData.getOperatorName());
-        //Assert.notNull(channelInfoData.getInnId());
         Assert.notNull(channelInfoData.getAccountId());
         QunarDockingHotel qunarDockingHotel = null;
         List<ChannelInfo> channelInfoList = channelInfoData.getChannelInfo();
@@ -104,6 +110,13 @@ public class QunarServiceHelper {
         return list;
     }
 
+    public static void main(String[] args) {
+        String data="{\"accountId\":\"63866\",\"channelInfo\":[{\"channelHotelList\":[{\"channelHotelName\":\"的的的\",\"channelHotelNo\":\"1000156065\"}],\"userAccount\":\"15281017068\"}],\"hotelName\":\"番茄mumu测试客栈\",\"innId\":\"49463\",\"operatorGuid\":\"54484\",\"operatorName\":\"54484\"}";
+        QunarServiceHelper qunarServiceHelper = new QunarServiceHelper();
+        OmsPram omsPram = new OmsPram();
+        omsPram.setParam(data);
+        List<QunarDockingHotel> qunarDockingHotelList = qunarServiceHelper.matchQunarHotelParam(omsPram);
+    }
     /**
      * 房型列表参数
      * @param omsPram
@@ -202,5 +215,20 @@ public class QunarServiceHelper {
 
         }
         return list;
+    }
+
+    public List<QunarRemoveHotel> checkRemoveHotel(OmsPram omsPram) {
+        String data = omsPram.getParam();
+        Assert.notNull(data);
+        Assert.notNull(omsPram.getAccountId());
+        List<OmsHotel> omsHotelList = JacksonUtil.json2list(data,OmsHotel.class);
+        List<QunarRemoveHotel> removeHotelList = new ArrayList<>();
+        QunarRemoveHotel qunarRemoveHotel = null;
+        for (OmsHotel omsHotel:omsHotelList){
+            qunarRemoveHotel = new QunarRemoveHotel();
+            qunarRemoveHotel.setHotelNo(omsPram.getAccountId());
+            removeHotelList.add(qunarRemoveHotel);
+        }
+        return removeHotelList;
     }
 }
