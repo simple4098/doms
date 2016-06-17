@@ -153,7 +153,7 @@ public class ProvidToQunarApiController {
         try {
             result = providToQunarService.getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, "price");
         } catch (Exception e) {
-            log.error("====查询实时房价服务=====queryRoomStatus===方法异常", e);
+            log.error("====查询实时房价服务=====queryRoomPrice===方法异常", e);
             result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房价服务出错", null);
         }
         return result;

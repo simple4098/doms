@@ -104,9 +104,9 @@ public class ProvidToQunarService {
         QunarDataResult result;
         if (StringUtils.isEmpty(hotelNos)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
-        } else if (!CommonUtil.isDate(checkInDate)) {
+        } else if (StringUtils.isEmpty(checkInDate) || !CommonUtil.isDate(checkInDate)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1011, "开始日期参数错误", null);
-        } else if (!CommonUtil.isDate(checkInDate)) {
+        } else if (StringUtils.isEmpty(checkOutDate) ||!CommonUtil.isDate(checkInDate)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1012, "结束日期参数错误", null);
         } else {
             result = getRoomStatusTemplate(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, type);
@@ -250,6 +250,7 @@ public class ProvidToQunarService {
      */
     public String getRoomTypeCodes(String roomTypeCodes, List<Integer> innList) {
         if (StringUtils.isEmpty(roomTypeCodes)) {
+            roomTypeCodes = "";
             for (int i = 0; i < innList.size(); i++) {
                 roomTypeCodes += " ,";
             }

@@ -23,17 +23,22 @@ public class TomaskyPmsFilter implements Filter {
     }
 
     @Override
-    public void doFilter(ServletRequest servletResponse, ServletResponse servletRequest, FilterChain chain) throws IOException, ServletException {
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
+                         FilterChain filter) throws IOException, ServletException {
+        HttpServletResponse response = (HttpServletResponse) servletResponse;
+        HttpServletRequest request = (HttpServletRequest)servletRequest;
+        request.setCharacterEncoding("UTF-8");
+        //需要过滤的代码
         servletRequest.setCharacterEncoding("UTF-8");
         servletResponse.setCharacterEncoding("UTF-8");
-        String token = servletResponse.getParameter("token");
+        String token =  request.getParameter("token");
         if (checkToken(token)) {
-            chain.doFilter(servletResponse, servletRequest);
+            filter.doFilter(servletRequest, servletResponse);
             return;
         } else {
-            servletRequest.setContentType("application/json;charset=UTF-8");
+            response.setContentType("application/json;charset=UTF-8");
             QunarDataResult result = new QunarDataResult(QunarStatusCode.ERROR_6000, "授权参数不正确", null);
-            servletRequest.getWriter().print(JacksonUtil.obj2json(result));
+            response.getWriter().print(JacksonUtil.obj2json(result));
         }
     }
 
