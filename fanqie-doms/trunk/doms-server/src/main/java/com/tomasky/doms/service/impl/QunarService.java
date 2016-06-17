@@ -151,7 +151,7 @@ public class QunarService implements IQunarService {
             if (  QunarResultUtil.isSuccess(httpPost,qunarResult)){
                 return QunarHotelInfoHelper.obtQunarProductionData(httpPost);
             }else {
-                throw  new DmsException("查询去哪儿产品列表异常 accountId"+omsPram.getAccountId());
+                throw  new DmsException("查询去哪儿产品列表异常 accountId"+omsPram.getAccountId()+qunarResult.getMsg());
             }
         } catch (Exception e) {
             logger.error("查询去哪儿产品列表异常 accountId:"+omsPram.getAccountId(),e);
