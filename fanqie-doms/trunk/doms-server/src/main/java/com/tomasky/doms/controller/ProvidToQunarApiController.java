@@ -37,11 +37,7 @@ public class ProvidToQunarApiController {
         log.debug("=====hotelNos====" + hotelNos);
         QunarDataResult result;
         try {
-            if (StringUtils.isEmpty(hotelNos)) {
-                result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
-            } else {
-                result = providToQunarService.getHotelList(hotelNos);
-            }
+            result = providToQunarService.getHotelList(hotelNos);
         } catch (Exception e) {
             log.error("====查询酒店列表服务=====queryHotelList===方法异常", e);
             result = new QunarDataResult(QunarStatusCode.ERROR_10001, "获取酒店列表出错", null);

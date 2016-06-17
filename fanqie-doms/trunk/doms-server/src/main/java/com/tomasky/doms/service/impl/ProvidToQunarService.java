@@ -9,10 +9,7 @@ import com.tomasky.doms.dto.qunar.response.QunarDataResult;
 import com.tomasky.doms.enums.EnumOta;
 import com.tomasky.doms.support.exception.ProvidToQunarApiException;
 import com.tomasky.doms.support.system.SysConfig;
-import com.tomasky.doms.support.util.CommonUtil;
-import com.tomasky.doms.support.util.HttpClientUtil;
-import com.tomasky.doms.support.util.JacksonUtil;
-import com.tomasky.doms.support.util.PassWordUtil;
+import com.tomasky.doms.support.util.*;
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 import org.slf4j.Logger;
@@ -22,10 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Create by jame
@@ -106,8 +100,10 @@ public class ProvidToQunarService {
             result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
         } else if (StringUtils.isEmpty(checkInDate) || !CommonUtil.isDate(checkInDate)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1011, "开始日期参数错误", null);
-        } else if (StringUtils.isEmpty(checkOutDate) ||!CommonUtil.isDate(checkInDate)) {
+        } else if (StringUtils.isEmpty(checkOutDate) || !CommonUtil.isDate(checkInDate)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1012, "结束日期参数错误", null);
+        } else if (!JodaTimeUtil.compareDate2(checkInDate, checkOutDate)) {
+            result = new QunarDataResult(QunarStatusCode.ERROR_1013, "开始日期不能大于结束日期", null);
         } else {
             result = getRoomStatusTemplate(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, type);
         }
