@@ -70,7 +70,7 @@ public class QunarServiceTest {
         String data = "{\"hotelNo\":\"124\",\"accountChannelHotelList\":[{\"userAccount\":\"15281017068\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"dockingStatus\":\"2\",\"channelHotelNo\":\"1000156065\",\"channelHotelName\":\"番茄测试酒店\"}]}],\"channelCode\":\"QUNAR\"}";
         String s = "{\"hotelNo\":\"124\",\"channelCode\":\"QUNAR\",\"accountChannelHotelList\":[{\"userAccount\":\"15281017068\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"channelHotelNo\":\"1000156065\",\"channelHotelName\":\"番茄测试酒店\",\"dockingStatus\":\"2\",\"otherRelationHotelNo\":null,\"otherRelationHotelName\":null}]}]}";
         //QunarHotelInfo qunarHotelInfo = JacksonUtil.json2obj(data, QunarHotelInfo.class);
-        OmsPram omsPram = new OmsPram("124","15281017068","107","685424","番茄测试客栈","fanqie_test","番茄测试");
+        OmsPram omsPram = new OmsPram("63837","15281017068","107","021384","番茄测试客栈","fanqie_test","番茄测试");
         //otaInnDao.saveOtaInn(new OtaInn(omsPram.getInnId(),omsPram.getInnName(),null,omsPram.getOtaId(),true,omsPram.getInnCode(), OtaCode.QUNAR));
         try {
             QunarHotelInfo qunarPmsHotel = qunarService.createQunarPmsHotel(omsPram);
@@ -85,7 +85,7 @@ public class QunarServiceTest {
      */
     @Test
     public void testRemoveAccount(){
-        OmsPram omsPram = new OmsPram("124","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
+        OmsPram omsPram = new OmsPram("63866","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
         try {
             QunarResult qunarResult = qunarService.removeDockingAccount(omsPram);
             log.info("去呼呼返回结果:"+JacksonUtil.obj2json(qunarResult));
@@ -97,7 +97,7 @@ public class QunarServiceTest {
 
     @Test
     public void matchHotel(){
-        ChannelInfoData channelInfoData = new ChannelInfoData("63866","番茄测试客栈","fanqie_test","番茄测试");
+        ChannelInfoData channelInfoData = new ChannelInfoData("63837","番茄测试客栈","fanqie_test","番茄测试");
         List<ChannelInfo> channelInfo = new ArrayList<>();
         ChannelInfo channelInfo1 = new ChannelInfo("15281017068");
         //ChannelInfo channelInfo2 = new ChannelInfo("15281017062");
@@ -222,18 +222,18 @@ public class QunarServiceTest {
         OmsSjRoomType omsSjRoomType = new OmsSjRoomType();
         omsSjRoomType.setOperatorName("番茄测试");
         omsSjRoomType.setOperatorGuid("fanqie_test");
-        omsSjRoomType.setAccountId("124");
+        omsSjRoomType.setAccountId("63837");
         omsSjRoomType.setChannelPhyRoomTypeCode("90000238");
         omsSjRoomType.setChannelPhyRoomTypeName("豪华大床房");
         omsSjRoomType.setChannelHotelNo("1000156065");
         omsSjRoomType.setChannelRatePlanName("预付");
         omsSjRoomType.setChannelRatePlanCode("90000371");
-        omsSjRoomType.setRoomTypeId("116314");
+        omsSjRoomType.setRoomTypeId("116315");
         omsSjRoomType.setRoomTypeName("番茄房型名称1");
         List<OmsSjRoomType> list = new ArrayList<>();
         list.add(omsSjRoomType);
         String obj2json = JacksonUtil.obj2json(list);
-        OmsPram omsPram = new OmsPram("124","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
+        OmsPram omsPram = new OmsPram("63837","15281017068","107","805280","番茄测试客栈","fanqie_test","番茄测试");
         omsPram.setParam(obj2json);
         try {
             QunarResult qunarResult = qunarService.matchQunarProduct(omsPram);
@@ -307,6 +307,17 @@ public class QunarServiceTest {
         String data1 = "{\"innIds\":\"4126,木木\"}";
         try {
             String post = HttpClientUtil.httpKvPost("http://192.168.1.193:8080/api/qunar/conn/getInnList", obj2json);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void testJosn(){
+        String json = "{\"mobile\":\"15281017068\"}";
+        try {
+            String s = HttpClientUtil.httpKvPost("http://192.168.1.194:8089/direct/sendCode", json);
+            log.info("info:"+s);
         } catch (Exception e) {
             e.printStackTrace();
         }
