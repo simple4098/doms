@@ -69,7 +69,7 @@ public class QunarServiceTest {
 
         String data = "{\"hotelNo\":\"124\",\"accountChannelHotelList\":[{\"userAccount\":\"15281017068\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"dockingStatus\":\"2\",\"channelHotelNo\":\"1000156065\",\"channelHotelName\":\"番茄测试酒店\"}]}],\"channelCode\":\"QUNAR\"}";
         String s = "{\"hotelNo\":\"124\",\"channelCode\":\"QUNAR\",\"accountChannelHotelList\":[{\"userAccount\":\"15281017068\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"channelHotelNo\":\"1000156065\",\"channelHotelName\":\"番茄测试酒店\",\"dockingStatus\":\"2\",\"otherRelationHotelNo\":null,\"otherRelationHotelName\":null}]}]}";
-        //QunarHotelInfo qunarHotelInfo = JacksonUtil.json2obj(data, QunarHotelInfo.class);
+        QunarHotelInfo qunarHotelInfo = JacksonUtil.json2obj(data, QunarHotelInfo.class);
         OmsPram omsPram = new OmsPram("63837","15281017068","107","021384","番茄测试客栈","fanqie_test","番茄测试");
         //otaInnDao.saveOtaInn(new OtaInn(omsPram.getInnId(),omsPram.getInnName(),null,omsPram.getOtaId(),true,omsPram.getInnCode(), OtaCode.QUNAR));
         try {
@@ -206,7 +206,7 @@ public class QunarServiceTest {
     @Test
     public void testSearchQunarProductList(){
         OmsPram omsPram = new OmsPram();
-        omsPram.setAccountId("124");
+        omsPram.setAccountId("63869");
         try {
             QunarProductionData qunarProductionData = qunarService.searchQunarProductList(omsPram);
             log.info("返回结果:"+JacksonUtil.obj2json(qunarProductionData));

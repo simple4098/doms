@@ -8,7 +8,6 @@ import com.tomasky.doms.dto.qunar.response.QunarProductionData;
 import com.tomasky.doms.dto.qunar.response.QunarResult;
 import com.tomasky.doms.exception.DmsException;
 import com.tomasky.doms.service.IQunarService;
-import com.tomasky.doms.support.util.JacksonUtil;
 import com.tomasky.doms.support.util.JsonModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -157,8 +156,7 @@ public class QunarOtaController {
 
         JsonModel jsonModel = new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
         try {
-            QunarResult qunarResult = new QunarResult("0","处理成功!");
-            //QunarResult qunarResult = qunarService.matchQunarProduct(omsPram);
+            QunarResult qunarResult = qunarService.matchQunarProduct(omsPram);
             if (!Constants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
                 jsonModel = new JsonModel(Constants.STATUS400,qunarResult.getMsg());
             }
