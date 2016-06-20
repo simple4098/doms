@@ -384,7 +384,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>toms</finalName>
+        <finalName>doms</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
