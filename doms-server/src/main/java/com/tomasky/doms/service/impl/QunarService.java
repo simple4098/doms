@@ -171,7 +171,7 @@ public class QunarService implements IQunarService {
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionDockingUrl(), qunarDockingPhyRoomType);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
-                    throw  new DmsException("去哪儿产品匹配异常 innId:"+qunarDockingPhyRoomType.getHotelNo()+qunarResult.getMsg());
+                    throw  new DmsException("去哪儿产品匹配异常"+qunarDockingPhyRoomType.getHotelNo()+qunarResult.getMsg());
                 }else {
                     RoomOnOff roomOnOff = new RoomOnOff();
                     BeanUtils.copyProperties(roomOnOff,qunarDockingPhyRoomType);
@@ -201,7 +201,7 @@ public class QunarService implements IQunarService {
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
                     throw  new DmsException("去哪儿删除产品匹配异常 account:"+qunarDockingRemovePhyRoomType.getHotelNo()+qunarResult.getMsg());
-                }else {
+                }/*else {
                     RoomOnOff roomOnOff = new RoomOnOff();
                     BeanUtils.copyProperties(roomOnOff,qunarDockingRemovePhyRoomType);
                     roomOnOff.setFromDate(DateUtil.fromDate(0));
@@ -209,7 +209,7 @@ public class QunarService implements IQunarService {
                     String roomOn = HttpClientUtil.httpKvPost(QunarUrlUtil.roomOff(), roomOnOff);
                     qunarResult = JacksonUtil.json2obj(roomOn, QunarResult.class);
                     logger.error("关房房结果"+JacksonUtil.obj2json(qunarResult));
-                }
+                }*/
             }
             return qunarResult;
         } catch (Exception e) {
