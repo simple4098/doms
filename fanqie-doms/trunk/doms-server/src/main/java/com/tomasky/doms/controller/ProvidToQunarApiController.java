@@ -162,7 +162,7 @@ public class ProvidToQunarApiController {
      * @param channelOrderNos
      * @return
      */
-    @RequestMapping("/tomasky/roomStatus/queryOrderStatus.do")
+    @RequestMapping("/tomasky/order/queryOrderStatus.do")
     @ResponseBody
     public QunarDataResult queryOrderStatus(String hotelNo, String channelOrderNos) {
         log.debug("=====hotelNos====" + hotelNo);
