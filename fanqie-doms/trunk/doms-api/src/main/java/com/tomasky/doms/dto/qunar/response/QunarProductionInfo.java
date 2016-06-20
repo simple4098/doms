@@ -13,6 +13,16 @@ public class QunarProductionInfo {
     private String channelRatePlanName;//": "渠道价格计划名称",
     private String channelProductionCode;//": "渠道产品代码",
     private String channelProductionName;//": "渠道产品名称"
+    //渠道产品类型 0 为预付产品 1 为现付产品"
+    private String payType;
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
 
     public String getChannelPhyRoomTypeCode() {
         return channelPhyRoomTypeCode;
