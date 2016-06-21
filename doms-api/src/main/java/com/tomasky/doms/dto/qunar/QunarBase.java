@@ -1,7 +1,7 @@
 package com.tomasky.doms.dto.qunar;
 
 import com.tomasky.doms.common.CommonApi;
-import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.common.DomsConstants;
 
 /**
  * DESC :
@@ -11,7 +11,7 @@ import com.tomasky.doms.common.Constants;
  * @version: v1.0.0
  */
 public class QunarBase extends QunarBaseBean {
-    private String channelCode = Constants.channelCode;
+    private String channelCode = DomsConstants.channelCode;
     //IP 地址 String 否 用户的真实 IP， Qunar 验证账号需要
     private String userIp = CommonApi.userIp;
     // 操作人 ID String 否 pms 操作人 ID

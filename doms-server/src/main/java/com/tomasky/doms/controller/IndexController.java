@@ -1,6 +1,6 @@
 package com.tomasky.doms.controller;
 
-import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.support.util.JsonModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,6 @@ public class IndexController {
     @RequestMapping("")
     @ResponseBody
     public Object index(){
-        return new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
+        return new JsonModel(DomsConstants.STATUS200,DomsConstants.HANDLE_SUCCESS);
     }
 }

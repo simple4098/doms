@@ -1,7 +1,7 @@
 package com.tomasky.doms.service.impl;
 
 import com.fanqie.util.PropertiesUtil;
-import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.TomatoOmsOtaInfo;
 import com.tomasky.doms.dto.oms.response.OmsResult;
 import com.tomasky.doms.dto.qunar.QunarStatusCode;
@@ -69,7 +69,7 @@ public class ProvidToQunarService {
             String data = HttpClientUtil.httpKvPost(url, paramMap);
             log.debug("=======返回值=======" + data);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
-            if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
+            if (omsResult.getStatus().equals(DomsConstants.HTTP_SUCCESS)) {
                 Map omsData = (Map) omsResult.getData();
                 result = new QunarDataResult(QunarStatusCode.SUCCESS, QunarStatusCode.SUCCESS_MSG, omsData);
             } else {
@@ -167,7 +167,7 @@ public class ProvidToQunarService {
             String data = HttpClientUtil.httpKvPost(url, paramMap);
             log.debug("=======返回值=======" + data);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
-            if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
+            if (omsResult.getStatus().equals(DomsConstants.HTTP_SUCCESS)) {
                 List<Map> domsListMap = (List<Map>) omsResult.getData();
                 result = new QunarDataResult(QunarStatusCode.SUCCESS, QunarStatusCode.SUCCESS_MSG, domsListMap);
             } else {
@@ -199,7 +199,7 @@ public class ProvidToQunarService {
             String data = HttpClientUtil.httpKvPost(url, paramMap);
             log.debug("=======返回值=======" + data);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
-            if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
+            if (omsResult.getStatus().equals(DomsConstants.HTTP_SUCCESS)) {
                 result = new QunarDataResult(QunarStatusCode.SUCCESS, QunarStatusCode.SUCCESS_MSG, omsResult.getData());
             } else {
                 log.error("调用oms查询价格计划列表返回错误");
@@ -274,7 +274,7 @@ public class ProvidToQunarService {
             String data = HttpClientUtil.httpKvPost(url, paramMap);
             log.debug("=======返回值=======" + data);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
-            if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
+            if (omsResult.getStatus().equals(DomsConstants.HTTP_SUCCESS)) {
                 List<Map> domsListMap = dealRoomTypeData(omsResult);
                 result = new QunarDataResult(QunarStatusCode.SUCCESS, QunarStatusCode.SUCCESS_MSG, domsListMap);
             } else {
@@ -341,7 +341,7 @@ public class ProvidToQunarService {
             String data = HttpClientUtil.httpKvPost(url, paramMap);
             log.debug("=====返回值===" + data);
             OmsResult omsResult = JacksonUtil.json2obj(data, OmsResult.class);
-            if (omsResult.getStatus().equals(Constants.HTTP_SUCCESS)) {
+            if (omsResult.getStatus().equals(DomsConstants.HTTP_SUCCESS)) {
                 List<Map> omsListMap = (List<Map>) omsResult.getData();
                 List<Map> domsListMap = new ArrayList<>();
                 if (CommonUtil.isListNotEmpty(omsListMap)) {

@@ -3,7 +3,7 @@ package com.tomasky.doms.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.fanqie.util.DateUtil;
-import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.qunar.*;
 import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
@@ -58,7 +58,7 @@ public class QunarService implements IQunarService {
             return qunarResult;
         } catch (Exception e) {
             logger.error("去哪儿发送验证异常",e);
-            return  new QunarResult(Constants.ERROR_QUNAR,e.getMessage());
+            return  new QunarResult(DomsConstants.ERROR_QUNAR,e.getMessage());
         }
     }
 
