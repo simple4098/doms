@@ -22,7 +22,7 @@ import java.util.Map;
  * @version: v1.0.0
  */
 public class JacksonUtil {
-    private static Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
+    private final static Logger logger = LoggerFactory.getLogger(JacksonUtil.class);
     private static Class[] source;
     private static Class[] target;
 

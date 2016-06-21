@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class CommonUtil {
-    private static Logger logger = LoggerFactory.getLogger(CommonUtil.class);
+    private final static Logger logger = LoggerFactory.getLogger(CommonUtil.class);
 
 
     /**

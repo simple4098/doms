@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequestMapping("/api")
 public class ProvidToQunarApiController {
-    private Logger log = LoggerFactory.getLogger(ProvidToQunarApiController.class);
+    private final static Logger log = LoggerFactory.getLogger(ProvidToQunarApiController.class);
 
     @Autowired
     ProvidToQunarService providToQunarService;
