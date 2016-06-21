@@ -35,7 +35,7 @@ import java.util.Map;
 public class HttpClientUtil {
     private final static int TIME_OUT = 90000;
     private final static int REQUEST_SOCKET_TIME = 60000;
-    private static Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
+    private final static Logger logger = LoggerFactory.getLogger(HttpClientUtil.class);
 
     private HttpClientUtil() {
     }

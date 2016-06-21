@@ -30,7 +30,7 @@ import java.util.*;
 @Service
 public class ProvidToQunarService {
 
-    public Logger log = LoggerFactory.getLogger(ProvidToQunarService.class);
+    private final static  Logger log = LoggerFactory.getLogger(ProvidToQunarService.class);
 
     TomatoOmsOtaInfo tomatoOmsOtaInfo = new TomatoOmsOtaInfo();
 
