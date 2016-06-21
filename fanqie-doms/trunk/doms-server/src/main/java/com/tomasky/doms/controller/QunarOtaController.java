@@ -63,7 +63,7 @@ public class QunarOtaController {
             jsonModel.setData(qunarPmsHotel);
         } catch (Exception e) {
             logger.error("开通渠道、获取酒店列表异常",e);
-            jsonModel =  new JsonModel(DomsConstants.STATUS200,e.getMessage());
+            jsonModel =  new JsonModel(DomsConstants.STATUS400,e.getMessage());
         }
         return jsonModel;
     }
