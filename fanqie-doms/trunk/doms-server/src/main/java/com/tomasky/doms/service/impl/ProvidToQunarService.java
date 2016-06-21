@@ -30,7 +30,7 @@ import java.util.*;
 @Service
 public class ProvidToQunarService {
 
-    private final static  Logger log = LoggerFactory.getLogger(ProvidToQunarService.class);
+    private final static Logger log = LoggerFactory.getLogger(ProvidToQunarService.class);
 
     TomatoOmsOtaInfo tomatoOmsOtaInfo = new TomatoOmsOtaInfo();
 
@@ -56,7 +56,7 @@ public class ProvidToQunarService {
      * @param channelOrderNos
      * @return
      */
-    public QunarDataResult getOderStatus(String hotelNo, String channelOrderNos) throws ProvidToQunarApiException{
+    public QunarDataResult getOderStatus(String hotelNo, String channelOrderNos) throws ProvidToQunarApiException {
         QunarDataResult result;
         try {
             String url = BASE_PATH + "/getOrderStatus";
@@ -94,7 +94,7 @@ public class ProvidToQunarService {
      * @param type
      * @return
      */
-    public QunarDataResult getRoomTemplateResult(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String type) throws ProvidToQunarApiException{
+    public QunarDataResult getRoomTemplateResult(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String type) throws ProvidToQunarApiException {
         QunarDataResult result;
         if (StringUtils.isEmpty(hotelNos)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
@@ -104,6 +104,8 @@ public class ProvidToQunarService {
             result = new QunarDataResult(QunarStatusCode.ERROR_1012, "结束日期参数错误", null);
         } else if (!JodaTimeUtil.compareDate2(checkInDate, checkOutDate)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1013, "开始日期不能大于结束日期", null);
+        } else if (JodaTimeUtil.getDifferDay(checkInDate, checkOutDate) > 89) {
+            result = new QunarDataResult(QunarStatusCode.ERROR_1032, "开始结束时间间隔大于90天", null);
         } else {
             result = getRoomStatusTemplate(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, type);
         }
@@ -244,7 +246,7 @@ public class ProvidToQunarService {
      * @param innList
      * @return
      */
-    public String getRoomTypeCodes(String roomTypeCodes, List<Integer> innList) throws ProvidToQunarApiException{
+    public String getRoomTypeCodes(String roomTypeCodes, List<Integer> innList) throws ProvidToQunarApiException {
         if (StringUtils.isEmpty(roomTypeCodes)) {
             roomTypeCodes = "";
             for (int i = 0; i < innList.size(); i++) {
@@ -261,7 +263,7 @@ public class ProvidToQunarService {
      * @param roomTypeCodes
      * @return
      */
-    public QunarDataResult getRoomTypeResultByOms(String hotelNos, String roomTypeCodes) throws ProvidToQunarApiException{
+    public QunarDataResult getRoomTypeResultByOms(String hotelNos, String roomTypeCodes) throws ProvidToQunarApiException {
         QunarDataResult result;
         try {
             String url = BASE_PATH + "/getRoomTypeList";
@@ -294,7 +296,7 @@ public class ProvidToQunarService {
      * @param omsResult
      * @return
      */
-    public List<Map> dealRoomTypeData(OmsResult omsResult) throws ProvidToQunarApiException{
+    public List<Map> dealRoomTypeData(OmsResult omsResult) throws ProvidToQunarApiException {
         List<Map> domsListMap = new ArrayList<>();
         try {
             List<Map> omsListMap = (List<Map>) omsResult.getData();
