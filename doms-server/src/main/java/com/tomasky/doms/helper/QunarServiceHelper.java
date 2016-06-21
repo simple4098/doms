@@ -138,7 +138,8 @@ public class QunarServiceHelper {
     public List<QunarDockingRemoveHotel> checkQunarDockingRemoveHotel(OmsPram omsPram) {
         String data = omsPram.getParam();
         Assert.notNull(data);
-        Assert.notNull(omsPram.getAccountId());
+        logger.info("酒店解绑参数:"+data);
+        /*Assert.notNull(omsPram.getAccountId());*/
         List<OmsHotel> omsHotelList = JacksonUtil.json2list(data,OmsHotel.class);
         List<QunarDockingRemoveHotel> removeHotelList = new ArrayList<>();
         QunarDockingRemoveHotel qunarDockingRemoveHotel = null;
