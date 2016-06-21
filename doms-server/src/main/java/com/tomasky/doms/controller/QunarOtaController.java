@@ -58,11 +58,9 @@ public class QunarOtaController {
     public Object hotelList(OmsPram omsPram){
         JsonModel jsonModel = null;
         try {
-            String data = "{\"hotelNo\":\"63866\",\"channelCode\":\"QUNAR\",\"accountChannelHotelList\":[{\"userAccount\":\"15882064565\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"channelHotelNo\":\"1000156068\",\"channelHotelName\":\"明日帝豪假日酒店\",\"dockingStatus\":\"2\",\"otherRelationHotelNo\":null,\"otherRelationHotelName\":null}]}]}";
-            QunarHotelInfo qunarHotelInfo = JacksonUtil.json2obj(data, QunarHotelInfo.class);
-            //QunarHotelInfo qunarPmsHotel = qunarService.createQunarPmsHotel(omsPram);
+            QunarHotelInfo qunarPmsHotel = qunarService.createQunarPmsHotel(omsPram);
             jsonModel =  new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
-            jsonModel.setData(qunarHotelInfo);
+            jsonModel.setData(qunarPmsHotel);
         } catch (Exception e) {
             logger.error("开通渠道、获取酒店列表异常",e);
             jsonModel =  new JsonModel(DomsConstants.STATUS200,e.getMessage());
@@ -80,8 +78,7 @@ public class QunarOtaController {
     public Object matchHotel(OmsPram omsPram){
         JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
-            QunarResult qunarResult = new QunarResult("0","处理成功");
-            //QunarResult qunarResult = qunarService.matchQunarHotel(omsPram);
+            QunarResult qunarResult = qunarService.matchQunarHotel(omsPram);
             if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
                 jsonModel = new JsonModel(DomsConstants.STATUS400,qunarResult.getMsg());
             }
