@@ -56,7 +56,7 @@ public class ProvidToQunarService {
      * @param channelOrderNos
      * @return
      */
-    public QunarDataResult getOderStatus(String hotelNo, String channelOrderNos) {
+    public QunarDataResult getOderStatus(String hotelNo, String channelOrderNos) throws ProvidToQunarApiException{
         QunarDataResult result;
         try {
             String url = BASE_PATH + "/getOrderStatus";
@@ -94,7 +94,7 @@ public class ProvidToQunarService {
      * @param type
      * @return
      */
-    public QunarDataResult getRoomTemplateResult(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String type) {
+    public QunarDataResult getRoomTemplateResult(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String type) throws ProvidToQunarApiException{
         QunarDataResult result;
         if (StringUtils.isEmpty(hotelNos)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
@@ -187,7 +187,7 @@ public class ProvidToQunarService {
      * @param hotelNos
      * @return
      */
-    public QunarDataResult getRateCode(String hotelNos) {
+    public QunarDataResult getRateCode(String hotelNos) throws ProvidToQunarApiException {
         QunarDataResult result;
         try {
             String url = BASE_PATH + "/getRateCode";
@@ -244,7 +244,7 @@ public class ProvidToQunarService {
      * @param innList
      * @return
      */
-    public String getRoomTypeCodes(String roomTypeCodes, List<Integer> innList) {
+    public String getRoomTypeCodes(String roomTypeCodes, List<Integer> innList) throws ProvidToQunarApiException{
         if (StringUtils.isEmpty(roomTypeCodes)) {
             roomTypeCodes = "";
             for (int i = 0; i < innList.size(); i++) {
@@ -261,7 +261,7 @@ public class ProvidToQunarService {
      * @param roomTypeCodes
      * @return
      */
-    public QunarDataResult getRoomTypeResultByOms(String hotelNos, String roomTypeCodes) {
+    public QunarDataResult getRoomTypeResultByOms(String hotelNos, String roomTypeCodes) throws ProvidToQunarApiException{
         QunarDataResult result;
         try {
             String url = BASE_PATH + "/getRoomTypeList";
@@ -294,7 +294,7 @@ public class ProvidToQunarService {
      * @param omsResult
      * @return
      */
-    public List<Map> dealRoomTypeData(OmsResult omsResult) {
+    public List<Map> dealRoomTypeData(OmsResult omsResult) throws ProvidToQunarApiException{
         List<Map> domsListMap = new ArrayList<>();
         try {
             List<Map> omsListMap = (List<Map>) omsResult.getData();
