@@ -122,7 +122,7 @@
     <jsp-config>
         <taglib>
             <taglib-uri>http://www.fanqielaile.com/jsp/tag/toms</taglib-uri>
-            <taglib-location>/WEB-INF/tags/toms.tld</taglib-location>
+            <taglib-location>/WEB-INF/tags/doms.tld</taglib-location>
         </taglib>
     </jsp-config>
 </web-app>
