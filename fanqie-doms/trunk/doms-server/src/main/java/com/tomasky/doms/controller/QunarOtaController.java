@@ -1,6 +1,6 @@
 package com.tomasky.doms.controller;
 
-import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.qunar.QunarMobile;
 import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
@@ -8,6 +8,7 @@ import com.tomasky.doms.dto.qunar.response.QunarProductionData;
 import com.tomasky.doms.dto.qunar.response.QunarResult;
 import com.tomasky.doms.exception.DmsException;
 import com.tomasky.doms.service.IQunarService;
+import com.tomasky.doms.support.util.JacksonUtil;
 import com.tomasky.doms.support.util.JsonModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +41,10 @@ public class QunarOtaController {
     public Object sendCode(QunarMobile qunarMobile){
         JsonModel jsonModel = null;
         QunarResult qunarResult = qunarService.sendQunarPhoneCode( qunarMobile);
-        if (Constants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
-            jsonModel =  new JsonModel(Constants.STATUS200,qunarResult.getMsg());
+        if (DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
+            jsonModel =  new JsonModel(DomsConstants.STATUS200,qunarResult.getMsg());
         }else {
-            jsonModel =  new JsonModel(Constants.STATUS400,qunarResult.getMsg());
+            jsonModel =  new JsonModel(DomsConstants.STATUS400,qunarResult.getMsg());
         }
         return jsonModel;
     }
@@ -57,12 +58,14 @@ public class QunarOtaController {
     public Object hotelList(OmsPram omsPram){
         JsonModel jsonModel = null;
         try {
-            QunarHotelInfo qunarPmsHotel = qunarService.createQunarPmsHotel(omsPram);
-            jsonModel =  new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
-            jsonModel.setData(qunarPmsHotel);
-        } catch (DmsException e) {
+            String data = "{\"hotelNo\":\"63866\",\"channelCode\":\"QUNAR\",\"accountChannelHotelList\":[{\"userAccount\":\"15882064565\",\"userAccountStatus\":\"0\",\"channelHotelList\":[{\"channelHotelNo\":\"1000156068\",\"channelHotelName\":\"明日帝豪假日酒店\",\"dockingStatus\":\"2\",\"otherRelationHotelNo\":null,\"otherRelationHotelName\":null}]}]}";
+            QunarHotelInfo qunarHotelInfo = JacksonUtil.json2obj(data, QunarHotelInfo.class);
+            //QunarHotelInfo qunarPmsHotel = qunarService.createQunarPmsHotel(omsPram);
+            jsonModel =  new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
+            jsonModel.setData(qunarHotelInfo);
+        } catch (Exception e) {
             logger.error("开通渠道、获取酒店列表异常",e);
-            jsonModel =  new JsonModel(Constants.STATUS200,e.getMessage());
+            jsonModel =  new JsonModel(DomsConstants.STATUS200,e.getMessage());
         }
         return jsonModel;
     }
@@ -75,15 +78,16 @@ public class QunarOtaController {
     @RequestMapping("/matchHotel")
     @ResponseBody
     public Object matchHotel(OmsPram omsPram){
-        JsonModel jsonModel = new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
+        JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
-            QunarResult qunarResult = qunarService.matchQunarHotel(omsPram);
-            if (!Constants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
-                jsonModel = new JsonModel(Constants.STATUS400,qunarResult.getMsg());
+            QunarResult qunarResult = new QunarResult("0","处理成功");
+            //QunarResult qunarResult = qunarService.matchQunarHotel(omsPram);
+            if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
+                jsonModel = new JsonModel(DomsConstants.STATUS400,qunarResult.getMsg());
             }
-        } catch (DmsException e) {
+        } catch (Exception e) {
             logger.error("匹配酒店异常",e);
-            jsonModel = new JsonModel(Constants.STATUS400,e.getMessage());
+            jsonModel = new JsonModel(DomsConstants.STATUS400,e.getMessage());
         }
         return jsonModel;
     }
@@ -95,15 +99,15 @@ public class QunarOtaController {
     @RequestMapping("/relieveHotel")
     @ResponseBody
     public Object relieveHotel(OmsPram omsPram){
-        JsonModel jsonModel = new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
+        JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
             QunarResult qunarResult = qunarService.removeDockingHotel(omsPram);
             //QunarResult qunarResult = qunarService.deleteHotel(omsPram);
-            if (!Constants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
-                jsonModel = new JsonModel(Constants.STATUS400,qunarResult.getMsg());
+            if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
+                jsonModel = new JsonModel(DomsConstants.STATUS400,qunarResult.getMsg());
             }
         } catch (DmsException e) {
-            jsonModel = new JsonModel(Constants.STATUS400,e.getMessage());
+            jsonModel = new JsonModel(DomsConstants.STATUS400,e.getMessage());
             logger.error("酒店解绑失败",e);
         }
         return jsonModel;
@@ -114,14 +118,14 @@ public class QunarOtaController {
     @RequestMapping("/relieveAccount")
     @ResponseBody
     public Object relieveAccount(OmsPram omsPram){
-        JsonModel jsonModel = new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
+        JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
             QunarResult qunarResult = qunarService.removeDockingAccount(omsPram);
-            if (!Constants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
-                jsonModel = new JsonModel(Constants.STATUS400,qunarResult.getMsg());
+            if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
+                jsonModel = new JsonModel(DomsConstants.STATUS400,qunarResult.getMsg());
             }
         } catch (DmsException e) {
-            jsonModel = new JsonModel(Constants.STATUS400,e.getMessage());
+            jsonModel = new JsonModel(DomsConstants.STATUS400,e.getMessage());
             logger.error("解绑账号异常",e);
         }
         return jsonModel;
@@ -135,13 +139,13 @@ public class QunarOtaController {
     @RequestMapping("/channelRoomType")
     @ResponseBody
     public Object channelRoomType(OmsPram omsPram){
-        JsonModel jsonModel = new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
+        JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
             QunarProductionData qunarProductionData = qunarService.searchQunarProductList(omsPram);
             jsonModel.setData(qunarProductionData);
         } catch (DmsException e) {
             logger.error("匹配房型异常",e);
-            jsonModel = new JsonModel(Constants.STATUS400,e.getMessage());
+            jsonModel = new JsonModel(DomsConstants.STATUS400,e.getMessage());
         }
         return jsonModel;
     }
@@ -154,15 +158,15 @@ public class QunarOtaController {
     @ResponseBody
     public Object matchRoomType(OmsPram omsPram){
 
-        JsonModel jsonModel = new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
+        JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
             QunarResult qunarResult = qunarService.matchQunarProduct(omsPram);
-            if (!Constants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
-                jsonModel = new JsonModel(Constants.STATUS400,qunarResult.getMsg());
+            if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
+                jsonModel = new JsonModel(DomsConstants.STATUS400,qunarResult.getMsg());
             }
         } catch (Exception e) {
             logger.error("匹配酒店异常",e);
-            jsonModel = new JsonModel(Constants.STATUS400,e.getMessage());
+            jsonModel = new JsonModel(DomsConstants.STATUS400,e.getMessage());
         }
         return jsonModel;
     }
@@ -172,16 +176,16 @@ public class QunarOtaController {
     @RequestMapping("/relieveRoomType")
     @ResponseBody
     public Object relieveRoomType(OmsPram omsPram){
-        JsonModel jsonModel = new JsonModel(Constants.STATUS200,Constants.HANDLE_SUCCESS);
+        JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
             //QunarResult qunarResult = qunarService.removeDockingProduct(omsPram);
             QunarResult qunarResult = qunarService.deletePhyRoomType(omsPram);
-            if (!Constants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
-                jsonModel = new JsonModel(Constants.STATUS400,qunarResult.getMsg());
+            if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())){
+                jsonModel = new JsonModel(DomsConstants.STATUS400,qunarResult.getMsg());
             }
         } catch (DmsException e) {
             logger.error("匹配酒店异常",e);
-            jsonModel = new JsonModel(Constants.STATUS400,e.getMessage());
+            jsonModel = new JsonModel(DomsConstants.STATUS400,e.getMessage());
         }
         return jsonModel;
     }

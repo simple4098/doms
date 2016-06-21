@@ -1,7 +1,7 @@
 
 package com.doms.test;
 
-import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dao.IOtaInnDao;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.oms.*;

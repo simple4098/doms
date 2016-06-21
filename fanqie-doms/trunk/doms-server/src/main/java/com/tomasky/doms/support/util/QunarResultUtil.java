@@ -1,6 +1,6 @@
 package com.tomasky.doms.support.util;
 
-import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.qunar.response.QunarResult;
 import org.apache.commons.lang.StringUtils;
 
@@ -17,6 +17,6 @@ public class QunarResultUtil {
     }
 
     public static boolean isSuccess(String httpPost ,QunarResult qunarResult){
-        return StringUtils.isNotEmpty(httpPost) && Constants.SUCCESS_QUNAR.equals(qunarResult.getCode());
+        return StringUtils.isNotEmpty(httpPost) && DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode());
     }
 }

@@ -1,6 +1,6 @@
 package com.tomasky.doms.support.util;
 
-import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.common.DomsConstants;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -22,14 +22,14 @@ public class JsonModel extends ExtendedModelMap {
 
     public static Model getModel(Model model, BindingResult result) {
         if (result.hasErrors()) {
-            model.addAttribute(Constants.STATUS, Constants.ERROR);
+            model.addAttribute(DomsConstants.STATUS, DomsConstants.ERROR);
             List<FieldError> errors = result.getFieldErrors();
             for (FieldError err : errors) {
                 model.addAttribute(err.getField(), err.getDefaultMessage());
             }
         } else {
 
-            model.addAttribute(Constants.STATUS, Constants.SUCCESS);
+            model.addAttribute(DomsConstants.STATUS, DomsConstants.SUCCESS);
         }
         return model;
 

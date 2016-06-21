@@ -1,7 +1,7 @@
 package com.tomasky.doms.helper;
 
 import com.alibaba.fastjson.JSONObject;
-import com.tomasky.doms.common.Constants;
+import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.qunar.QunarAccountAndHotel;
 import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
 import com.tomasky.doms.dto.qunar.response.QunarProductionData;
@@ -10,7 +10,6 @@ import com.tomasky.doms.exception.DmsException;
 import com.tomasky.doms.support.util.HttpClientUtil;
 import com.tomasky.doms.support.util.JacksonUtil;
 import com.tomasky.doms.support.util.QunarUrlUtil;
-import org.springframework.stereotype.Component;
 
 /**
  * DESC :
@@ -30,7 +29,7 @@ public class QunarHotelInfoHelper {
             httpKvPost = HttpClientUtil.httpKvPost(QunarUrlUtil.searchHotelListUrl(), qunarAccountAndHotel);
             JSONObject jsonObject = JSONObject.parseObject(httpKvPost);
             String data = jsonObject.getString("data");
-            if (Constants.SUCCESS_QUNAR.equals(jsonObject.getString("code")) && jsonObject.get("data")!=null){
+            if (DomsConstants.SUCCESS_QUNAR.equals(jsonObject.getString("code")) && jsonObject.get("data")!=null){
                 return JacksonUtil.json2obj(data, QunarHotelInfo.class);
             }else {
                 throw new DmsException(jsonObject.getString("msg"));
@@ -43,7 +42,7 @@ public class QunarHotelInfoHelper {
     public static QunarRoomTypeData obtQunarRoomTypeData(String json)throws DmsException{
         JSONObject jsonObject = JSONObject.parseObject(json);
         String data = jsonObject.getString("data");
-        if (Constants.SUCCESS_QUNAR.equals(jsonObject.getString("code")) && jsonObject.get("data")!=null){
+        if (DomsConstants.SUCCESS_QUNAR.equals(jsonObject.getString("code")) && jsonObject.get("data")!=null){
             return JacksonUtil.json2obj(data, QunarRoomTypeData.class);
         }else {
             throw new DmsException(jsonObject.getString("msg"));
@@ -53,7 +52,7 @@ public class QunarHotelInfoHelper {
     public static QunarProductionData obtQunarProductionData(String json)throws DmsException {
         JSONObject jsonObject = JSONObject.parseObject(json);
         String data = jsonObject.getString("data");
-        if (Constants.SUCCESS_QUNAR.equals(jsonObject.getString("code")) && jsonObject.get("data")!=null){
+        if (DomsConstants.SUCCESS_QUNAR.equals(jsonObject.getString("code")) && jsonObject.get("data")!=null){
             return JacksonUtil.json2obj(data, QunarProductionData.class);
         }else {
             throw new DmsException(jsonObject.getString("msg"));
