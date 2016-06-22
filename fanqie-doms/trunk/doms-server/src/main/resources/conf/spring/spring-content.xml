@@ -123,6 +123,9 @@
             <property name="version" value="1.0"/>
             <property name="operatorGuid" value="afanqie"/>
             <property name="operatorName" value="番茄来了"/>
+            <property name="omsCreateOrder" value="http://oms.local.fanqiele.com/api/order"/>
+            <property name="omsQunarBasicOrder" value="http://oms.local.fanqiele.com/qunar/createOrder"/>
+            <property name="omsUpdateQunarOrder" value="http://oms.local.fanqiele.com/qunar/updateOrder"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.local.fanqiele.com"/>
@@ -157,6 +160,9 @@
             <property name="version" value="1.0"/>
             <property name="operatorGuid" value="afanqie"/>
             <property name="operatorName" value="番茄来了"/>
+            <property name="omsCreateOrder" value="http://oms.test.fanqiele.com/api/order"/>
+            <property name="omsQunarBasicOrder" value="http://oms.test.fanqiele.com/qunar/createOrder"/>
+            <property name="omsUpdateQunarOrder" value="http://oms.test.fanqiele.com/qunar/updateOrder"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.test.fanqiele.com"/>
@@ -177,6 +183,9 @@
             <property name="version" value="1.0"/>
             <property name="operatorGuid" value="afanqie"/>
             <property name="operatorName" value="番茄来了"/>
+            <property name="omsCreateOrder" value="http://oms.fanqiele.com/api/order"/>
+            <property name="omsQunarBasicOrder" value="http://oms.fanqiele.com/qunar/createOrder"/>
+            <property name="omsUpdateQunarOrder" value="http://oms.fanqiele.com/qunar/updateOrder"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.fanqiele.com"/>

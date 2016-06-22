@@ -17,9 +17,13 @@ public class CommonApi {
 
     public static String signkey;
     public static String version;
+    public static String omsCreateOrder;
 
     public static String operatorGuid;
     public static String operatorName;
+    public static String omsQunarBasicOrder;
+    public static String omsUpdateQunarOrder;
+
 
     public static void setQunarUrl(String qunarUrl) {
         CommonApi.qunarUrl = qunarUrl;
@@ -73,6 +77,13 @@ public class CommonApi {
         this.operatorGuid = operatorGuid;
     }
 
+    public void setOmsCreateOrder(String omsCreateOrder) {
+        this.omsCreateOrder = omsCreateOrder;
+    }
+
+    public static String getOmsCreateOrder() {
+        return omsCreateOrder;
+    }
     public String getOperatorGuid() {
         return operatorGuid;
     }
@@ -83,5 +94,21 @@ public class CommonApi {
 
     public String getOperatorName() {
         return operatorName;
+    }
+
+    public void setOmsQunarBasicOrder(String omsQunarBasicOrder) {
+        this.omsQunarBasicOrder = omsQunarBasicOrder;
+    }
+
+    public static String getOmsQunarBasicOrder() {
+        return omsQunarBasicOrder;
+    }
+
+    public void setOmsUpdateQunarOrder(String omsUpdateQunarOrder) {
+        this.omsUpdateQunarOrder = omsUpdateQunarOrder;
+    }
+
+    public static String getOmsUpdateQunarOrder() {
+        return omsUpdateQunarOrder;
     }
 }
