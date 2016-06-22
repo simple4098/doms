@@ -124,7 +124,9 @@
             <property name="operatorGuid" value="afanqie"/>
             <property name="operatorName" value="番茄来了"/>
         </bean>
-
+        <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
+            <property name="domainOms" value="http://localhost:8080"/>
+        </bean>
 
 
     </beans>
@@ -156,7 +158,9 @@
             <property name="operatorGuid" value="afanqie"/>
             <property name="operatorName" value="番茄来了"/>
         </bean>
-
+        <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
+            <property name="domainOms" value="http://openapi.test.fanqielaile.com"/>
+        </bean>
 
     </beans>
 
@@ -174,7 +178,9 @@
             <property name="operatorGuid" value="afanqie"/>
             <property name="operatorName" value="番茄来了"/>
         </bean>
-
+        <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
+            <property name="domainOms" value="http://openapi.fanqielaile.com"/>
+        </bean>
 
     </beans>
 </beans>
