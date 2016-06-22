@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * Create by jame
  * Date: 2016/6/7
  * Version: 1.0
- * DOTO: 番茄PMS提供给去呼呼的接口
+ * TODO: 番茄PMS提供给去呼呼的接口
  */
 @Controller
 @RequestMapping("/api")

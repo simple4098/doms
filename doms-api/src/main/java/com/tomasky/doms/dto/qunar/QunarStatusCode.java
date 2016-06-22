@@ -4,7 +4,7 @@ package com.tomasky.doms.dto.qunar;
  * Create by jame
  * Date: 2016/6/7
  * Version: 1.0
- * DOTO: 去哪儿系统服务状态码说明
+ * TODO: 去哪儿系统服务状态码说明
  * 状态码 状态码描述
  */
 public class QunarStatusCode {
