@@ -179,7 +179,7 @@ public class QunarService implements IQunarService {
                     roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("qunar.day")));
                     String roomOn = HttpClientUtil.httpKvPost(QunarUrlUtil.roomOn(), roomOnOff);
                     qunarResult = JacksonUtil.json2obj(roomOn, QunarResult.class);
-                    logger.error("开房结果"+JacksonUtil.obj2json(qunarResult));
+                    logger.info("开房结果"+JacksonUtil.obj2json(qunarResult));
                 }
             }
             return qunarResult;

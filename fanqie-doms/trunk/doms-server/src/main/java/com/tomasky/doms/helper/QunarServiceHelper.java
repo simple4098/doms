@@ -161,6 +161,7 @@ public class QunarServiceHelper {
         //List<OmsSjRoomType> list = JacksonUtil.json2list(data, OmsSjRoomType.class);
         List<OmsSjRoomType> list = JSON.parseObject(data, new TypeReference<List<OmsSjRoomType>>() {
         });
+        logger.info("匹配产品(房型)参数JSON:"+data+" accountId:"+omsPram.getAccountId());
         List<QunarDockingPhyRoomType> qunarDockingPhyRoomTypeList = new ArrayList<>();
         QunarDockingPhyRoomType qunarDockingPhyRoomType = null;
         for (OmsSjRoomType omsSjRoomType:list){
@@ -187,11 +188,7 @@ public class QunarServiceHelper {
             BeanUtils.copyProperties(qunarDockingRemovePhyRoomType,omsXjRoomType);
             qunarDockingRemovePhyRoomType.setHotelNo(omsPram.getAccountId());
             qunarDockingRemovePhyRoomType.setPhyRoomTypeCode(omsXjRoomType.getRoomTypeId());
-            /*qunarDockingRemovePhyRoomType.setChannelHotelNo(omsXjRoomType.getChannelHotelNo());
-            qunarDockingRemovePhyRoomType.setOperatorGuid(omsXjRoomType.getOperatorGuid());
-            qunarDockingRemovePhyRoomType.setOperatorName(omsXjRoomType.getOperatorName());
-            qunarDockingRemovePhyRoomType.setChannelPhyRoomTypeCode(omsXjRoomType.getChannelPhyRoomTypeCode());
-            qunarDockingRemovePhyRoomType.setChannelRatePlanCode(omsXjRoomType.getChannelRatePlanCode());*/
+
             list.add(qunarDockingRemovePhyRoomType);
 
         }
@@ -203,7 +200,7 @@ public class QunarServiceHelper {
         Assert.notNull(data);
         Assert.notNull(omsPram.getAccountId());
         List<OmsXjRoomType> omsXjRoomTypeList = JSON.parseObject(data, new TypeReference<List<OmsXjRoomType>>() {});
-        //List<OmsXjRoomType> omsXjRoomTypeList = JacksonUtil.json2list(data, OmsXjRoomType.class);
+        logger.info("解绑房型（产品）参数"+data+" accountId:"+omsPram.getAccountId());
         List<QunarDeletePhyRoomType> list = new ArrayList<>();
         QunarDeletePhyRoomType qunarDeletePhyRoomType = null;
         for (OmsXjRoomType omsXjRoomType:omsXjRoomTypeList){
