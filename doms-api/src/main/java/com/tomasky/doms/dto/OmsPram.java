@@ -1,7 +1,5 @@
 package com.tomasky.doms.dto;
 
-import com.tomasky.doms.dto.oms.ChannelInfo;
-
 /**
  * DESC :
  * @author : 番茄木-ZLin

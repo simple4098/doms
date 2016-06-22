@@ -8,13 +8,13 @@ package com.tomasky.doms.dto;
  */
 public class TomatoOmsOtaInfo {
     private static final long serialVersionUID = 1L;
-    private Integer id;   /**/
-    private String name;   /**/
-    private String userCode;   /**/
-    private String userPassword;   /**/
-    private String authority;   /**/
-    private Integer apiTypeId;   /**/
-    private Integer otaId;   /**/
+    private Integer id;
+    private String name;
+    private String userCode;
+    private String userPassword;
+    private String authority;
+    private Integer apiTypeId;
+    private Integer otaId;
     private String otaType;
     private Integer pId;
     private Integer otaGroup;
