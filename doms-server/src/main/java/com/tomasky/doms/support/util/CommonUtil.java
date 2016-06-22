@@ -238,4 +238,17 @@ public class CommonUtil {
     }
 
 
+    public static Map<String, Object> getOrderResult(Map<String, Object> result) {
+        Map<String, Object> map = new HashMap<>();
+        if (null != result) {
+            for (Map.Entry entry : result.entrySet()) {
+                if (entry.getKey().toString().equals("code")) {
+                    map.put(entry.getKey().toString(), entry.getValue());
+                } else if (entry.getKey().toString().equals("message")) {
+                    map.put(entry.getKey().toString(), entry.getValue());
+                }
+            }
+        }
+        return map;
+    }
 }
