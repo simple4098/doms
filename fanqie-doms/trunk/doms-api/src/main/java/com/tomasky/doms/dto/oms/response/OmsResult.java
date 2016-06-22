@@ -4,7 +4,7 @@ package com.tomasky.doms.dto.oms.response;
  * Create by jame
  * Date: 2016/6/7
  * Version: 1.0
- * DOTO: 调用oms接口返回model
+ * TODO: 调用oms接口返回model
  */
 public class OmsResult {
     private Object data;

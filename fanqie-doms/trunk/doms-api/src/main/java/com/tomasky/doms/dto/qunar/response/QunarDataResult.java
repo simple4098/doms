@@ -4,7 +4,7 @@ package com.tomasky.doms.dto.qunar.response;
  * Create by jame
  * Date: 2016/6/7
  * Version: 1.0
- * DOTO: data
+ * TODO: data
  */
 public class QunarDataResult extends QunarResult {
     private Object data;

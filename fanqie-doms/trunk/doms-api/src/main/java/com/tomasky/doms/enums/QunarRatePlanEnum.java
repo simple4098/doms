@@ -4,7 +4,7 @@ package com.tomasky.doms.enums;
  * Create by jame
  * Date: 2016/6/6
  * Version: 1.0
- * DOTO:  去哪儿直连价格计划
+ * TODO:  去哪儿直连价格计划
  */
 public enum QunarRatePlanEnum {
     ratePlanCode("QR001"),
