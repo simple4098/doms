@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
  * Version: 1.0
  * TODO: 系统常用配置
  */
-@Component
+
 public class SysConfig {
     public static String domainOms;//oms
 
@@ -16,7 +16,7 @@ public class SysConfig {
         return domainOms;
     }
 
-    public static void setDomainOms(String domainOms) {
+    public  void setDomainOms(String domainOms) {
         SysConfig.domainOms = domainOms;
     }
 }
