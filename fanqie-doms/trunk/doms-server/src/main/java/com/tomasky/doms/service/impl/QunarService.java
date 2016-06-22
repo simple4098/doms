@@ -179,7 +179,7 @@ public class QunarService implements IQunarService {
                     roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("qunar.day")));
                     String roomOn = HttpClientUtil.httpKvPost(QunarUrlUtil.roomOn(), roomOnOff);
                     qunarResult = JacksonUtil.json2obj(roomOn, QunarResult.class);
-                    logger.info("开房结果"+JacksonUtil.obj2json(qunarResult));
+                    logger.info("开房结果" + JacksonUtil.obj2json(qunarResult));
                 }
             }
             return qunarResult;
@@ -220,6 +220,7 @@ public class QunarService implements IQunarService {
             for(QunarDeletePhyRoomType qunarDeletePhyRoomType:list){
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.deletePhyRoomTypeUrl(), qunarDeletePhyRoomType);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+                logger.info("解绑房型（产品）返回:"+JacksonUtil.obj2json(qunarResult));
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
                     throw  new DmsException("去哪儿产品匹配异常 innId:"+qunarDeletePhyRoomType.getHotelNo()+qunarResult.getMsg());
                 }
