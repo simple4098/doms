@@ -2,6 +2,7 @@ package com.tomasky.doms.common;
 
 /**
  * DESC : 请求数据中心接口
+ *
  * @author : 番茄木-ZLin
  * @data : 2015/5/27
  * @version: v1.0.0
@@ -13,7 +14,7 @@ public class CommonApi {
 
     public static String qunarHostApi;
 
-    public static String qunarUrl ;
+    public static String qunarUrl;
 
     public static String signkey;
     public static String version;
@@ -28,11 +29,12 @@ public class CommonApi {
     public static void setQunarUrl(String qunarUrl) {
         CommonApi.qunarUrl = qunarUrl;
     }
+
     public static String getUserIp() {
         return userIp;
     }
 
-    public  void setUserIp(String userIp) {
+    public void setUserIp(String userIp) {
         CommonApi.userIp = userIp;
     }
 
@@ -40,7 +42,7 @@ public class CommonApi {
         return pmsId;
     }
 
-    public  void setPmsId(String pmsId) {
+    public void setPmsId(String pmsId) {
         CommonApi.pmsId = pmsId;
     }
 
@@ -48,7 +50,7 @@ public class CommonApi {
         return qunarHostApi;
     }
 
-    public  void setQunarHostApi(String qunarHostApi) {
+    public void setQunarHostApi(String qunarHostApi) {
         CommonApi.qunarHostApi = qunarHostApi;
     }
 
@@ -56,7 +58,7 @@ public class CommonApi {
         return signkey;
     }
 
-    public  void setSignkey(String signkey) {
+    public void setSignkey(String signkey) {
         CommonApi.signkey = signkey;
     }
 
@@ -64,12 +66,12 @@ public class CommonApi {
         return version;
     }
 
-    public  void setVersion(String version) {
+    public void setVersion(String version) {
         CommonApi.version = version;
     }
 
     public static String getQunarUrl() {
-        qunarUrl =  CommonApi.qunarHostApi+CommonApi.pmsId;
+        qunarUrl = CommonApi.qunarHostApi + CommonApi.pmsId;
         return qunarUrl;
     }
 
@@ -84,6 +86,7 @@ public class CommonApi {
     public static String getOmsCreateOrder() {
         return omsCreateOrder;
     }
+
     public String getOperatorGuid() {
         return operatorGuid;
     }

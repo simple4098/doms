@@ -6,10 +6,12 @@ import com.tomasky.doms.model.base.Domain;
 
 /**
  * DESC : 番茄客栈与渠道房型关联对象
+ *
  * @author : 番茄木-ZLin
  * @data : 2016/6/7
  * @version: v1.0.0
- */public class OtaInn extends Domain{
+ */
+public class OtaInn extends Domain {
     //客栈id
     private Integer innId;
     //客栈名称

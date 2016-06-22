@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 
 /**
  * DESC : 番茄也渠道客栈房型关联对象
+ *
  * @author : 番茄木-ZLin
  * @data : 2016/6/7
  * @version: v1.0.0
