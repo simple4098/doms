@@ -68,6 +68,7 @@ public class QunarService implements IQunarService {
             QunarAccount qunarAccount = qunarServiceHelper.checkQunarAccount(omsPram);
             String httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.openAccountUrl(), qunarAccount);
             QunarResult qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+            logger.info("渠道开通返回:"+JSON.toJSONString(qunarResult));
             //开通成功
             if (QunarResultUtil.isSuccess(httpPost,qunarResult)){
                 MessageCenterUtils.saveDomsLog(OtaCode.QUNAR,Integer.valueOf(omsPram.getAccountId()),null,omsPram.getOperatorName(), LogDec.OPEN_ACCOUNT,LogDec.OPEN_ACCOUNT.getValue()+qunarResult.getMsg());
@@ -92,6 +93,7 @@ public class QunarService implements IQunarService {
         try{
             httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.closeAccountUrl(), qunarRemoveAccount);
             QunarResult qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+            logger.info("removeDockingAccount删除渠道返回:"+JSON.toJSONString(qunarResult));
             if (QunarResultUtil.isSuccess(httpPost,qunarResult)){
                 //todo 记录日志
                 return qunarResult;
@@ -112,6 +114,7 @@ public class QunarService implements IQunarService {
             for (QunarDockingHotel qunarDockingHotel:qunarDockingHotelList){
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.matchHotelUrl(), qunarDockingHotel);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+                logger.info("匹配酒店返回:"+JSON.toJSONString(qunarResult));
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
                     throw  new DmsException("酒店匹配异常 account:"+qunarDockingHotel.getHotelNo()+qunarResult.getMsg());
                 }
@@ -130,6 +133,7 @@ public class QunarService implements IQunarService {
             String httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.searchRoomTypeUrl(), qunarAccountAndHotel);
             QunarResult qunarResult = JSON.parseObject(httpPost, new TypeReference<QunarResult>() {
             });
+            logger.info("搜索渠道房型列表返回:"+JSON.toJSONString(qunarResult));
             if (  QunarResultUtil.isSuccess(httpPost,qunarResult)){
                 return QunarHotelInfoHelper.obtQunarRoomTypeData(httpPost);
             }else {
@@ -148,6 +152,7 @@ public class QunarService implements IQunarService {
             String httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionSearchUrl(), qunarAccountAndHotel);
             QunarResult qunarResult = JSON.parseObject(httpPost, new TypeReference<QunarResult>() {
             });
+            logger.info("搜索渠道产品列表返回:"+JSON.toJSONString(qunarResult));
             if (  QunarResultUtil.isSuccess(httpPost,qunarResult)){
                 return QunarHotelInfoHelper.obtQunarProductionData(httpPost);
             }else {
@@ -170,6 +175,7 @@ public class QunarService implements IQunarService {
                 logger.info("匹配产品(房型)参数："+JacksonUtil.obj2json(qunarDockingPhyRoomType));
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionDockingUrl(), qunarDockingPhyRoomType);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+                logger.info("匹配产品列表返回:"+JSON.toJSONString(qunarResult));
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
                     throw  new DmsException("去哪儿产品匹配异常"+qunarDockingPhyRoomType.getHotelNo()+qunarResult.getMsg());
                 }else {
@@ -199,6 +205,7 @@ public class QunarService implements IQunarService {
                 logger.info("解绑产品(房型)参数："+JacksonUtil.obj2json(qunarDockingRemovePhyRoomType));
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionRemoveDockingUrl(), qunarDockingRemovePhyRoomType);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+                logger.info("删除渠道产品列表返回:"+JSON.toJSONString(qunarResult));
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
                     throw  new DmsException("去哪儿删除产品匹配异常 account:"+qunarDockingRemovePhyRoomType.getHotelNo()+qunarResult.getMsg());
                 }
@@ -242,6 +249,7 @@ public class QunarService implements IQunarService {
                logger.info("解绑酒店参数："+JacksonUtil.obj2json(dockingRemoveHotel));
                httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.removeDockingHotelUrl(), dockingRemoveHotel);
                qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
+                logger.info("解绑酒店返回:"+JSON.toJSONString(qunarResult));
                if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
                   throw  new DmsException("去哪儿酒店解绑异常 innId:"+dockingRemoveHotel.getHotelNo()+qunarResult.getMsg());
                }
