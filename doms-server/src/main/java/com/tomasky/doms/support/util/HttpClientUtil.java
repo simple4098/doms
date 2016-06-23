@@ -109,7 +109,7 @@ public class HttpClientUtil {
         return value;
     }
 
-    public static <T extends QunarBaseBean> String httpKvPost(String url, T t) throws Exception {
+    public static <T extends QunarBaseBean> String httpKvPost(String url, T t)throws Exception  {
         HttpClient httpClient = obtHttpClient();
         HttpPost httpPost = new HttpPost(url);
         String obj2json = JacksonUtil.obj2json(t);
@@ -117,11 +117,16 @@ public class HttpClientUtil {
         String hmac = SecurityUtil.buildMyHMAC(param, CommonApi.signkey);
         t.setHmac(hmac);
         List<NameValuePair> nameValuePairs = commonParam(t);
-        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
-        HttpResponse response = httpClient.execute(httpPost);
-        HttpEntity entity = response.getEntity();
-        String value = EntityUtils.toString(entity, "utf-8");
-        return value;
+        try{
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+            HttpResponse response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            String value = EntityUtils.toString(entity, "utf-8");
+            return value;
+        }catch (Exception e){
+            logger.error("请求失败url："+url,e);
+            throw  new Exception(e);
+        }
     }
 
     public static List<NameValuePair> commonParam(Object o) {
