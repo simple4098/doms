@@ -1,5 +1,6 @@
 package com.tomasky.doms.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.qunar.QunarMobile;
@@ -148,6 +149,7 @@ public class QunarOtaController {
         JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
             QunarProductionData qunarProductionData = qunarService.searchQunarProductList(omsPram);
+            logger.info("产品列表信息："+ JSON.toJSONString(qunarProductionData));
             jsonModel.setData(qunarProductionData);
         } catch (DmsException e) {
             logger.error("匹配房型异常", e);
