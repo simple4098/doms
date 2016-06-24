@@ -126,6 +126,7 @@
             <property name="omsCreateOrder" value="http://oms.local.fanqiele.com/api/order"/>
             <property name="omsQunarBasicOrder" value="http://oms.local.fanqiele.com/qunar/createOrder"/>
             <property name="omsUpdateQunarOrder" value="http://oms.local.fanqiele.com/qunar/updateOrder"/>
+            <property name="otaRoomTypeIdUrl" value="http://oms.local.fanqiele.com/qunar/getOtaRoomTypeId"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.local.fanqiele.com"/>
@@ -163,6 +164,8 @@
             <property name="omsCreateOrder" value="http://oms.test.fanqiele.com/api/order"/>
             <property name="omsQunarBasicOrder" value="http://oms.test.fanqiele.com/qunar/createOrder"/>
             <property name="omsUpdateQunarOrder" value="http://oms.test.fanqiele.com/qunar/updateOrder"/>
+            <property name="otaRoomTypeIdUrl" value="http://oms.test.fanqiele.com/qunar/getOtaRoomTypeId"/>
+
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.test.fanqiele.com"/>
@@ -186,6 +189,8 @@
             <property name="omsCreateOrder" value="http://oms.fanqiele.com/api/order"/>
             <property name="omsQunarBasicOrder" value="http://oms.fanqiele.com/qunar/createOrder"/>
             <property name="omsUpdateQunarOrder" value="http://oms.fanqiele.com/qunar/updateOrder"/>
+            <property name="otaRoomTypeIdUrl" value="http://oms.fanqiele.com/qunar/getOtaRoomTypeId"/>
+
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.fanqiele.com"/>

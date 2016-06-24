@@ -24,6 +24,7 @@ public class CommonApi {
     public static String operatorName;
     public static String omsQunarBasicOrder;
     public static String omsUpdateQunarOrder;
+    public static String otaRoomTypeIdUrl;
 
 
     public static void setQunarUrl(String qunarUrl) {
@@ -33,6 +34,7 @@ public class CommonApi {
     public static String getUserIp() {
         return userIp;
     }
+
 
     public void setUserIp(String userIp) {
         CommonApi.userIp = userIp;
@@ -113,5 +115,13 @@ public class CommonApi {
 
     public static String getOmsUpdateQunarOrder() {
         return omsUpdateQunarOrder;
+    }
+
+    public void setOtaRoomTypeIdUrl(String otaRoomTypeIdUrl) {
+        this.otaRoomTypeIdUrl = otaRoomTypeIdUrl;
+    }
+
+    public static String getOtaRoomTypeIdUrl() {
+        return otaRoomTypeIdUrl;
     }
 }
