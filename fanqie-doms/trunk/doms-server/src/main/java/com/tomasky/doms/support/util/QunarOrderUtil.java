@@ -7,6 +7,7 @@ import com.fanqie.core.domain.ChildOrder;
 import com.fanqie.core.domain.OMSOrder;
 import com.fanqie.core.domain.Person;
 import com.fanqie.util.DateUtil;
+import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.qunar.QunarUpdateOrderRequest;
 import com.tomasky.doms.enums.EnumOta;
@@ -92,11 +93,31 @@ public class QunarOrderUtil {
             childOrder.setCheckInAt(qunarPriceDetail.getDate());
             childOrder.setCheckOutAt(DateUtil.format(DateUtil.addDay(DateUtil.parseDate(qunarPriceDetail.getDate(), "yyyy-MM-dd"), 1), "yyyy-MM-dd"));
             childOrder.setRatePlanCode(qunarOrder.getRatePlanCode());
-            childOrder.setRoomTypeId(qunarOrder.getRoomTypeCode());
+            childOrder.setRoomTypeId(getOtaRoomTypeId(qunarOrder));
             childOrder.setRoomTypeName(qunarOrder.getChannelRoomTypeName());
             childOrderList.add(childOrder);
         }
         return childOrderList;
+    }
+
+    /**
+     * 获取omsota房型id
+     *
+     * @param qunarOrder
+     * @return
+     */
+    private static String getOtaRoomTypeId(QunarOrder qunarOrder) {
+        try {
+            String response = HttpClientUtil.httpKvPost(CommonApi.getOtaRoomTypeIdUrl(), qunarOrder);
+            JSONObject jsonObject = JSONObject.parseObject(response);
+            if (String.valueOf(jsonObject.get("status")).equals("200")) {
+                return String.valueOf(jsonObject.get("otaRoomTypeId"));
+            } else {
+                throw new RuntimeException("获取oms ota房型id异常");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("获取oms ota房型id异常", e);
+        }
     }
 
     /**

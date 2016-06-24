@@ -36,8 +36,8 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
     @Override
     public Map<String, Object> createQunarOrderMethod(QunarOrder qunarOrder) {
         Map<String, Object> result = new HashMap<>();
-        OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder);
         try {
+            OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder);
             OrderParamDto orderParamDto = qunarOrder.getOrderParamDto(omsOrder, ResourceBundleUtil.getString("qunar_conn_ota_user_code"), ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
             logger.info("请求oms下单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
             String response = HttpClientUtil.httpPostOrder(CommonApi.getOmsCreateOrder(), orderParamDto);
