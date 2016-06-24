@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.fanqie.core.domain.OMSOrder;
+import com.fanqie.core.dto.CancelOrderParamDto;
 import com.fanqie.core.dto.OrderParamDto;
 import com.fanqie.util.HttpClientUtil;
 import com.tomasky.doms.common.CommonApi;
@@ -36,29 +37,59 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
     @Override
     public Map<String, Object> createQunarOrderMethod(QunarOrder qunarOrder) {
         Map<String, Object> result = new HashMap<>();
-        try {
-            OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder);
-            OrderParamDto orderParamDto = qunarOrder.getOrderParamDto(omsOrder, ResourceBundleUtil.getString("qunar_conn_ota_user_code"), ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
-            logger.info("请求oms下单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
-            String response = HttpClientUtil.httpPostOrder(CommonApi.getOmsCreateOrder(), orderParamDto);
-            logger.info("请求oms下单接口，响应值=>" + response);
-            //解析响应值
-            Map<String, Object> responseResult = QunarOrderUtil.dealOrderRequestResponse(response);
-            if (StringUtils.isNotEmpty((String) responseResult.get("orderNo"))) {
-                qunarOrder.setOmsOrderNo((String) responseResult.get("orderNo"));
+        if (qunarOrder.getStatusCode().equals("1")) {
+            try {
+                OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder);
+                OrderParamDto orderParamDto = qunarOrder.getOrderParamDto(omsOrder, ResourceBundleUtil.getString("qunar_conn_ota_user_code"), ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
+                logger.info("请求oms下单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
+                String response = HttpClientUtil.httpPostOrder(CommonApi.getOmsCreateOrder(), orderParamDto);
+                logger.info("请求oms下单接口，响应值=>" + response);
+                //解析响应值
+                Map<String, Object> responseResult = QunarOrderUtil.dealOrderRequestResponse(response);
+                if (StringUtils.isNotEmpty((String) responseResult.get("orderNo"))) {
+                    qunarOrder.setOmsOrderNo((String) responseResult.get("orderNo"));
+                }
+                //调用oms接口保存去哪儿原始订单信息
+                logger.info("请求oms创建去哪儿初始订单，请求地址=>" + CommonApi.getOmsQunarBasicOrder() + "参数=>" + JSON.toJSONString(QunarOrderUtil.toNameValuePair(qunarOrder)));
+                String baseOrderResponse = HttpClientUtil.httpPostQunarBasicOrder(CommonApi.getOmsQunarBasicOrder(), QunarOrderUtil.toNameValuePair(qunarOrder));
+                logger.info("请求oms创建去哪儿初始订单，返回值=>" + baseOrderResponse);
+                //处理创建订单返回值
+                return responseResult;
+            } catch (Exception e) {
+                logger.error("下单到oms接口异常", e);
+                result.put("status", DomsConstants.STATUS400);
+                result.put("message", "请求oms下单接口异常");
+                return result;
             }
-            //调用oms接口保存去哪儿原始订单信息
-            logger.info("请求oms创建去哪儿初始订单，请求地址=>" + CommonApi.getOmsQunarBasicOrder() + "参数=>" + JSON.toJSONString(QunarOrderUtil.toNameValuePair(qunarOrder)));
-            String baseOrderResponse = HttpClientUtil.httpPostQunarBasicOrder(CommonApi.getOmsQunarBasicOrder(), QunarOrderUtil.toNameValuePair(qunarOrder));
-            logger.info("请求oms创建去哪儿初始订单，返回值=>" + baseOrderResponse);
-            //处理创建订单返回值
-            return responseResult;
-        } catch (Exception e) {
-            logger.error("下单到oms接口异常", e);
-            result.put("status", DomsConstants.STATUS400);
-            result.put("message", "请求oms下单接口异常");
-            return result;
+        } else if (qunarOrder.getStatusCode().equals("3")) {
+            //取消订单
+            try {
+                CancelOrderParamDto cancelOrderParamDto = qunarOrder.getCancelOrderParam(qunarOrder);
+                String response = HttpClientUtil.httpGetCancelOrder(CommonApi.getCancelOrderUrl(), cancelOrderParamDto);
+                JSONObject jsonObject = JSONObject.parseObject(response);
+                if (!jsonObject.get("status").equals(200)) {
+                    logger.info("oms取消订单失败");
+                    result.put("status", DomsConstants.STATUS400);
+                    result.put("message", "取消订单失败");
+                } else {
+                    //取消订单成功，同步订单状态到oms基本订单表
+                    String updateResponse = com.tomasky.doms.support.util.HttpClientUtil.httpKvPost(CommonApi.getOmsUpdateQunarOrder(), qunarOrder);
+                    logger.info("同步取消订单状态到oms去哪儿订单，返回值=>" + updateResponse);
+                    result.put("status", DomsConstants.HTTP_SUCCESS);
+                    result.put("message", "取消订单处理成功");
+                }
+            } catch (Exception e) {
+                logger.error("取消订单，同步oms接口异常", e);
+                result.put("status", DomsConstants.STATUS400);
+                result.put("message", "请求取消订单接口异常");
+                return result;
+            }
+        } else {
+            logger.info("去哪儿请求的订单状态为=>" + qunarOrder.getStatusCode());
+            result.put("status", DomsConstants.HTTP_SUCCESS);
+            result.put("message", "处理成功");
         }
+        return result;
     }
 
     @Override

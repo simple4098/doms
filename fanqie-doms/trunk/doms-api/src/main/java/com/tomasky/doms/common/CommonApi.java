@@ -25,6 +25,8 @@ public class CommonApi {
     public static String omsQunarBasicOrder;
     public static String omsUpdateQunarOrder;
     public static String otaRoomTypeIdUrl;
+    public static String cancelOrderUrl;
+    public static String updateQunarOrderStatus;
 
 
     public static void setQunarUrl(String qunarUrl) {
@@ -123,5 +125,21 @@ public class CommonApi {
 
     public static String getOtaRoomTypeIdUrl() {
         return otaRoomTypeIdUrl;
+    }
+
+    public void setCancelOrderUrl(String cancelOrderUrl) {
+        this.cancelOrderUrl = cancelOrderUrl;
+    }
+
+    public static String getCancelOrderUrl() {
+        return cancelOrderUrl;
+    }
+
+    public void setUpdateQunarOrderStatus(String updateQunarOrderStatus) {
+        this.updateQunarOrderStatus = updateQunarOrderStatus;
+    }
+
+    public String getUpdateQunarOrderStatus() {
+        return updateQunarOrderStatus;
     }
 }

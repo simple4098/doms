@@ -38,7 +38,7 @@ public class QunarOrderController {
     @RequestMapping(value = "/receiveOrder.do")
     @ResponseBody
     public Map<String, Object> receiveOrder(QunarOrder qunarOrder) {
-        logger.info("去哪儿创建订单传入参数=>" + JSON.toJSONString(qunarOrder));
+        logger.info("去哪儿同步订单传入参数=>" + JSON.toJSONString(qunarOrder));
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> map = QunarOrderUtil.checkCreateOrderParam(qunarOrder);
         if ((boolean) map.get("status")) {
@@ -61,7 +61,7 @@ public class QunarOrderController {
                 result.put("message", map.get("message"));
             }
         }
-        logger.info("去哪儿创建订单返回值=>" + JSON.toJSONString(result));
+        logger.info("去哪儿同步订单返回值=>" + JSON.toJSONString(result));
         return CommonUtil.getOrderResult(result);
     }
 
