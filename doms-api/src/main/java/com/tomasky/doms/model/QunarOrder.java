@@ -1,9 +1,12 @@
 package com.tomasky.doms.model;
 
 import com.fanqie.core.domain.OMSOrder;
+import com.fanqie.core.dto.CancelOrderParamDto;
 import com.fanqie.core.dto.OrderParamDto;
+import com.fanqie.util.ResourceBundleUtil;
 import com.tomasky.doms.enums.EnumOta;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -459,4 +462,20 @@ public class QunarOrder {
         return orderParamDto;
     }
 
+    /**
+     * 得到请求取消订单参数
+     *
+     * @param qunarOrder
+     * @return
+     */
+    public CancelOrderParamDto getCancelOrderParam(QunarOrder qunarOrder) {
+        CancelOrderParamDto cancelOrderParamDto = new CancelOrderParamDto();
+        cancelOrderParamDto.setOtaId(EnumOta.qunar_conn.getValue());
+        cancelOrderParamDto.setOtaOrderNo(qunarOrder.getChannelOrderNo());
+        //取消订单传入已付金额为0
+        cancelOrderParamDto.setPaidAmount(BigDecimal.valueOf(Double.valueOf(qunarOrder.getPrepaidAmount())));
+        cancelOrderParamDto.setvName(ResourceBundleUtil.getString("qunar_conn_ota_user_code"));
+        cancelOrderParamDto.setvPWD(ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
+        return cancelOrderParamDto;
+    }
 }
