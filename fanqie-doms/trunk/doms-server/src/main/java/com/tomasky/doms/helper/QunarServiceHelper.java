@@ -139,13 +139,13 @@ public class QunarServiceHelper {
         String data = omsPram.getParam();
         Assert.notNull(data);
         logger.info("酒店解绑参数:"+data);
-        /*Assert.notNull(omsPram.getAccountId());*/
-        List<OmsHotel> omsHotelList = JacksonUtil.json2list(data,OmsHotel.class);
+        List<OmsHotel> omsHotelList = JSON.parseObject(data, new TypeReference<List<OmsHotel>>() { });
+        //List<OmsHotel> omsHotelList = JacksonUtil.json2list(data,OmsHotel.class);
         List<QunarDockingRemoveHotel> removeHotelList = new ArrayList<>();
         QunarDockingRemoveHotel qunarDockingRemoveHotel = null;
         for (OmsHotel omsHotel:omsHotelList){
             qunarDockingRemoveHotel = new QunarDockingRemoveHotel();
-            qunarDockingRemoveHotel.setHotelNo(omsPram.getAccountId());
+            qunarDockingRemoveHotel.setHotelNo(omsHotel.getAccountId());
             qunarDockingRemoveHotel.setChannelHotelNo(omsHotel.getChannelHotelNo());
             qunarDockingRemoveHotel.setOperatorGuid(omsHotel.getOperatorGuid());
             qunarDockingRemoveHotel.setOperatorName(omsHotel.getOperatorName());
