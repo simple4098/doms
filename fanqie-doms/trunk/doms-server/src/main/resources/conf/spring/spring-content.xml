@@ -181,7 +181,7 @@
         <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init"
               destroy-method="close">
             <property name="driverClassName" value="org.postgresql.Driver"/>
-            <property name="url" value="jdbc:postgresql://10.163.227.13:9999/oms_server"/>
+            <property name="url" value="jdbc:postgresql://10.45.237.213:9999/oms_server"/>
             <property name="username" value="oms_pro"/>
             <property name="password" value="4l6uj8tJ4lUJewdg"/>
             <property name="maxWait" value="10000"/>
