@@ -205,4 +205,22 @@ public class QunarOrderUtil {
         }
         return result;
     }
+
+    /**
+     * 得到签名验证
+     *
+     * @param qunarOrder
+     * @param qunarUpdateOrderRequest
+     * @return
+     */
+    public static String getHamc(QunarOrder qunarOrder, QunarUpdateOrderRequest qunarUpdateOrderRequest) {
+        Map<String, String> map = new HashMap<>();
+        map.put("version", CommonApi.getVersion());
+        map.put("pmsId", CommonApi.getPmsId());
+        map.put("channelCode", DomsConstants.channelCode);
+        map.put("channelOrderNo", qunarOrder.getChannelOrderNo());
+        map.put("hotelNo", qunarOrder.getHotelNo());
+        String hmac = SecurityUtil.buildMyHMAC(map, CommonApi.getSignkey());
+        return hmac;
+    }
 }
