@@ -163,15 +163,16 @@
             <property name="version" value="1.0"/>
             <property name="operatorGuid" value="afanqie"/>
             <property name="operatorName" value="番茄来了"/>
-            <property name="omsCreateOrder" value="http://oms.test.fanqiele.com/api/order"/>
-            <property name="omsQunarBasicOrder" value="http://oms.test.fanqiele.com/qunar/createOrder"/>
-            <property name="omsUpdateQunarOrder" value="http://oms.test.fanqiele.com/qunar/updateOrder"/>
-            <property name="otaRoomTypeIdUrl" value="http://oms.test.fanqiele.com/qunar/getOtaRoomTypeId"/>
-            <property name="cancelOrderUrl" value="http://oms.test.fanqiele.com/api/cancelOrder"/>
-            <property name="updateQunarOrderStatus" value="http://oms.test.fanqiele.com/api/updateQunarOrderStatus"/>
+            <property name="omsCreateOrder" value="http://openapi.test.fanqielaile.com/api/order"/>
+            <property name="omsQunarBasicOrder" value="http://openapi.test.fanqielaile.com/qunar/createOrder"/>
+            <property name="omsUpdateQunarOrder" value="http://openapi.test.fanqielaile.com/qunar/updateOrder"/>
+            <property name="otaRoomTypeIdUrl" value="http://openapi.test.fanqielaile.com/qunar/getOtaRoomTypeId"/>
+            <property name="cancelOrderUrl" value="http://openapi.test.fanqielaile.com/api/cancelOrder"/>
+            <property name="updateQunarOrderStatus"
+                      value="http://openapi.test.fanqielaile.com/api/updateQunarOrderStatus"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
-            <property name="domainOms" value="http://oms.test.fanqiele.com"/>
+            <property name="domainOms" value="http://openapi.test.fanqielaile.com"/>
         </bean>
 
     </beans>
