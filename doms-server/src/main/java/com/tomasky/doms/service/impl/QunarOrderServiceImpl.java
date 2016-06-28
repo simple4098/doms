@@ -108,7 +108,8 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
                 //解析响应值
                 if (QunarOrderUtil.dealObjectResponse(response)) {
                     JSONObject jsonObject = JSONObject.parseObject(response);
-                    QunarOrder qunarOrder = (QunarOrder) jsonObject.get("qunarOrder");
+                    QunarOrder qunarOrder = JSON.parseObject(String.valueOf(jsonObject.get("qunarOrder")), new TypeReference<QunarOrder>() {
+                    });
                     if (null != qunarOrder) {
                         this.qunarOrderHelperService.pushOrderStatusToQunar(qunarOrder, qunarUpdateOrderRequest);
                     }
