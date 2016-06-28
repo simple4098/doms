@@ -92,6 +92,7 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
         return result;
     }
 
+
     @Override
     public void eventUpdateOrderStatus(String content) {
         logger.info("事件监听pms同步订单状态，传入参数=>" + content);
@@ -99,7 +100,7 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
         });
         //根据传入参数判断是否为去哪儿的订单
         String otaId = String.valueOf(EnumOta.qunar_conn.getValue());
-        if (otaId.equals(qunarUpdateOrderRequest.getOtaId())) {
+        if (otaId.equals(String.valueOf(qunarUpdateOrderRequest.getOtaId()))) {
             try {
                 logger.info("事件调用oms更新去哪儿订单信息，请求地址=>" + CommonApi.getOmsUpdateQunarOrder() + "参数=>" + JSON.toJSONString(qunarUpdateOrderRequest));
                 String response = HttpClientUtil.httpPostQunarBasicOrder(CommonApi.getOmsUpdateQunarOrder(), QunarOrderUtil.getUpdateQunarOrderStatusParm(qunarUpdateOrderRequest));
