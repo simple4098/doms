@@ -188,7 +188,7 @@ public class QunarUrlUtil {
      */
     public static String getLiveInOrderUrl() {
         String liveUrl = ResourceBundleUtil.getString("qunar.live.order");
-        return CommonApi.qunarUrl + liveUrl;
+        return CommonApi.getQunarUrl() + liveUrl;
     }
 
     /**
@@ -198,6 +198,6 @@ public class QunarUrlUtil {
      */
     public static String getLeaveOrderUrl() {
         String leaveUrl = ResourceBundleUtil.getString("qunar.leave.order");
-        return CommonApi.qunarUrl + leaveUrl;
+        return CommonApi.getQunarUrl() + leaveUrl;
     }
 }
