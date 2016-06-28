@@ -5,7 +5,7 @@ package com.tomasky.doms.dto.qunar;
  */
 public class QunarUpdateOrderRequest {
     //渠道id
-    private int otaId;
+    private String otaId;
     //房间号
     private String roomIds;
     //房间号名称
@@ -31,11 +31,11 @@ public class QunarUpdateOrderRequest {
         this.refuseType = refuseType;
     }
 
-    public int getOtaId() {
+    public String getOtaId() {
         return otaId;
     }
 
-    public void setOtaId(int otaId) {
+    public void setOtaId(String otaId) {
         this.otaId = otaId;
     }
 
