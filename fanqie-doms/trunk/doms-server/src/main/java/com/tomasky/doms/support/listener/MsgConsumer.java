@@ -24,8 +24,6 @@ public class MsgConsumer implements MsgEventListener {
     @Autowired
     private EventFactory eventFactory;
 
-    public MsgConsumer() {
-    }
 
     public MsgConsumer(String systemName) {
         this.systemName = systemName;

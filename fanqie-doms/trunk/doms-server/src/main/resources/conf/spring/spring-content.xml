@@ -113,7 +113,7 @@
             <property name="validationQuery" value="select 1"/>
         </bean>
         <bean id="msgConsumer" class="com.tomasky.doms.support.listener.MsgConsumer">
-            <property name="systemName" value="doms-dev"></property>
+            <constructor-arg name="systemName" value="doms-dev"/>
         </bean>
         <bean class="com.tomasky.doms.common.CommonApi">
             <property name="pmsId" value="tomasky"/>
@@ -153,7 +153,7 @@
             <property name="validationQuery" value="select 1"/>
         </bean>
         <bean id="msgConsumer" class="com.tomasky.doms.support.listener.MsgConsumer">
-            <property name="systemName" value="doms-staging"></property>
+            <constructor-arg name="systemName" value="doms-staging"/>
         </bean>
         <bean class="com.tomasky.doms.common.CommonApi">
             <property name="pmsId" value="tomasky"/>
@@ -196,7 +196,7 @@
             <property name="testOnBorrow" value="true"/>
         </bean>
         <bean id="msgConsumer" class="com.tomasky.doms.support.listener.MsgConsumer">
-            <property name="systemName" value="doms-production"></property>
+            <constructor-arg name="systemName" value="doms-production"/>
         </bean>
         <bean class="com.tomasky.doms.common.CommonApi">
             <property name="pmsId" value="tomasky"/>
