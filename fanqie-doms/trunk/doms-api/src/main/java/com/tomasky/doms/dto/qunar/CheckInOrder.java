@@ -35,18 +35,19 @@ public class CheckInOrder {
      * 得到订单信息
      *
      * @param qunarOrder
+     * @param qunarUpdateOrderRequest
      * @return
      */
-    public static List<CheckInOrder> getOrderList(QunarOrder qunarOrder) {
+    public static List<CheckInOrder> getOrderList(QunarOrder qunarOrder, QunarUpdateOrderRequest qunarUpdateOrderRequest) {
         List<CheckInOrder> checkInOrders = new ArrayList<CheckInOrder>();
         CheckInOrder checkInOrder = new CheckInOrder();
         checkInOrder.setOrderNo(qunarOrder.getOmsOrderNo());
-        checkInOrder.setStayList(getOrderStayList(qunarOrder));
+        checkInOrder.setStayList(getOrderStayList(qunarOrder, qunarUpdateOrderRequest));
         checkInOrders.add(checkInOrder);
         return checkInOrders;
     }
 
-    private static List<Stay> getOrderStayList(QunarOrder qunarOrder) {
+    private static List<Stay> getOrderStayList(QunarOrder qunarOrder, QunarUpdateOrderRequest qunarUpdateOrderRequest) {
         String roomNo = qunarOrder.getRoomNo();
         String customerName = qunarOrder.getCustomerName();
         List<Stay> stayList = new ArrayList<Stay>();
@@ -63,14 +64,16 @@ public class CheckInOrder {
                     } else {
                         stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
                     }
-                    if (null != qunarOrder.getLeaveOutDate() && !"".equals(qunarOrder.getLeaveOutDate())) {
-                        stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
-                    } else {
-                        stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                    if (!qunarUpdateOrderRequest.getOrderStatus().equals("6")) {
+                        if (null != qunarOrder.getLeaveOutDate() && !"".equals(qunarOrder.getLeaveOutDate())) {
+                            stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                        } else {
+                            stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                        }
                     }
                     stay.setRemark(qunarOrder.getRemark());
                     stay.setRoomNo(roomNos[i]);
-                    stay.setStayStatus(getStayStatus(qunarOrder).getKey());
+                    stay.setStayStatus(getStayStatus(qunarUpdateOrderRequest).getKey());
                     stayList.add(stay);
                 }
             } else {
@@ -82,22 +85,24 @@ public class CheckInOrder {
                 } else {
                     stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
                 }
-                if (null != qunarOrder.getLeaveOutDate() && !"".equals(qunarOrder.getLeaveOutDate())) {
-                    stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
-                } else {
-                    stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                if (!qunarUpdateOrderRequest.getOrderStatus().equals("6")) {
+                    if (null != qunarOrder.getLeaveOutDate() && !"".equals(qunarOrder.getLeaveOutDate())) {
+                        stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                    } else {
+                        stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                    }
                 }
                 stay.setRemark(qunarOrder.getRemark());
                 stay.setRoomNo(roomNo);
-                stay.setStayStatus(getStayStatus(qunarOrder).getKey());
+                stay.setStayStatus(getStayStatus(qunarUpdateOrderRequest).getKey());
                 stayList.add(stay);
             }
         }
         return stayList;
     }
 
-    private static StayStatus getStayStatus(QunarOrder qunarOrder) {
-        String omsOrderStatus = qunarOrder.getOmsOrderStatus();
+    private static StayStatus getStayStatus(QunarUpdateOrderRequest qunarOrder) {
+        String omsOrderStatus = qunarOrder.getOrderStatus();
         if (omsOrderStatus.equals("0") || omsOrderStatus.equals("1") || omsOrderStatus.equals("5")) {
             return StayStatus.s1;
         } else if (omsOrderStatus.equals("2") || omsOrderStatus.equals("3") || omsOrderStatus.equals("4")) {

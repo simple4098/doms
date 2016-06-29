@@ -124,9 +124,10 @@ public class QunarCheckInRequest extends QunarBaseBean {
      * 得到去哪儿入住请求参数
      *
      * @param qunarOrder
+     * @param qunarUpdateOrderRequest
      * @return
      */
-    public static QunarCheckInRequest getCheckInOrderParamRequest(QunarOrder qunarOrder) {
+    public static QunarCheckInRequest getCheckInOrderParamRequest(QunarOrder qunarOrder, QunarUpdateOrderRequest qunarUpdateOrderRequest) {
         QunarCheckInRequest qunarCheckInRequest = new QunarCheckInRequest();
         qunarCheckInRequest.setHotelNo(qunarOrder.getHotelNo());
         qunarCheckInRequest.setChannelOrderNo(qunarOrder.getChannelOrderNo());
@@ -135,7 +136,7 @@ public class QunarCheckInRequest extends QunarBaseBean {
         qunarCheckInRequest.setCustomerName(qunarOrder.getCustomerName());
         qunarCheckInRequest.setOrderPrice(qunarOrder.getOrderPrice());
         qunarCheckInRequest.setPhyRoomTypeCode(qunarOrder.getRoomTypeCode());
-        qunarCheckInRequest.setOrderList(CheckInOrder.getOrderList(qunarOrder));
+        qunarCheckInRequest.setOrderList(CheckInOrder.getOrderList(qunarOrder, qunarUpdateOrderRequest));
         return qunarCheckInRequest;
     }
 }

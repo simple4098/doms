@@ -124,9 +124,10 @@ public class QunarCheckOutRequest extends QunarBaseBean {
      * 得到请求离店的参数
      *
      * @param qunarOrder
+     * @param qunarUpdateOrderRequest
      * @return
      */
-    public static QunarCheckOutRequest getCheckOutOrderParamRequest(QunarOrder qunarOrder) {
+    public static QunarCheckOutRequest getCheckOutOrderParamRequest(QunarOrder qunarOrder, QunarUpdateOrderRequest qunarUpdateOrderRequest) {
         QunarCheckOutRequest qunarCheckOutRequest = new QunarCheckOutRequest();
         qunarCheckOutRequest.setPhyRoomTypeCode(qunarOrder.getRoomTypeCode());
         qunarCheckOutRequest.setOrderPrice(qunarOrder.getOrderPrice());
@@ -135,7 +136,7 @@ public class QunarCheckOutRequest extends QunarBaseBean {
         qunarCheckOutRequest.setChannelOrderNo(qunarOrder.getChannelOrderNo());
         qunarCheckOutRequest.setContactorName(qunarOrder.getContactorName());
         qunarCheckOutRequest.setHotelNo(qunarOrder.getHotelNo());
-        qunarCheckOutRequest.setOrderList(CheckInOrder.getOrderList(qunarOrder));
+        qunarCheckOutRequest.setOrderList(CheckInOrder.getOrderList(qunarOrder, qunarUpdateOrderRequest));
         return qunarCheckOutRequest;
     }
 }

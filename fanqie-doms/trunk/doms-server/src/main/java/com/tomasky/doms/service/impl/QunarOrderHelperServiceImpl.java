@@ -41,14 +41,14 @@ public class QunarOrderHelperServiceImpl implements IQunarOrderHelperService {
                 logger.info("调用去哪儿同步接收订单状态，返回值=>" + response);
             } else if ("6".equals(qunarUpdateOrderRequest.getOrderStatus())) {
                 //调用去哪儿入住
-                QunarCheckInRequest qunarCheckInRequest = QunarCheckInRequest.getCheckInOrderParamRequest(qunarOrder);
+                QunarCheckInRequest qunarCheckInRequest = QunarCheckInRequest.getCheckInOrderParamRequest(qunarOrder, qunarUpdateOrderRequest);
                 qunarCheckInRequest.setHmac(hmac);
                 logger.info("调用去哪儿同步入住订单状态，请求地址=>" + QunarUrlUtil.getLiveInOrderUrl() + "参数=>" + JSON.toJSONString(qunarCheckInRequest));
                 String response = HttpClientUtil.httpJsonPost(QunarUrlUtil.getLiveInOrderUrl(), JSON.toJSONString(qunarCheckInRequest));
                 logger.info("调用去哪儿同步入住订单状态，返回值=>" + response);
             } else if ("7".equals(qunarUpdateOrderRequest.getOrderStatus())) {
                 //调用去哪儿离店
-                QunarCheckOutRequest qunarCheckOutRequest = QunarCheckOutRequest.getCheckOutOrderParamRequest(qunarOrder);
+                QunarCheckOutRequest qunarCheckOutRequest = QunarCheckOutRequest.getCheckOutOrderParamRequest(qunarOrder, qunarUpdateOrderRequest);
                 qunarCheckOutRequest.setHmac(hmac);
                 logger.info("调用去哪儿同步离店订单状态，请求地址=>" + QunarUrlUtil.getLeaveOrderUrl() + "参数=>" + JSON.toJSONString(qunarCheckOutRequest));
                 String response = HttpClientUtil.httpJsonPost(QunarUrlUtil.getLeaveOrderUrl(), JSON.toJSONString(qunarCheckOutRequest));
