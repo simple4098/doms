@@ -62,7 +62,7 @@ public class CheckInOrder {
                     if (null != qunarOrder.getLiveInDate() && !"".equals(qunarOrder.getLiveInDate())) {
                         stay.setRealCheckInTime(qunarOrder.getLiveInDate());
                     } else {
-                        stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                        stay.setRealCheckInTime(qunarOrder.getLiveInDate());
                     }
                     if (!qunarUpdateOrderRequest.getOrderStatus().equals("6")) {
                         if (null != qunarOrder.getLeaveOutDate() && !"".equals(qunarOrder.getLeaveOutDate())) {
@@ -70,6 +70,8 @@ public class CheckInOrder {
                         } else {
                             stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
                         }
+                    } else {
+                        stay.setRealCheckOutTime("");
                     }
                     stay.setRemark(qunarOrder.getRemark());
                     stay.setRoomNo(roomNos[i]);
@@ -83,7 +85,7 @@ public class CheckInOrder {
                 if (null != qunarOrder.getLiveInDate() && !"".equals(qunarOrder.getLiveInDate())) {
                     stay.setRealCheckInTime(qunarOrder.getLiveInDate());
                 } else {
-                    stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                    stay.setRealCheckInTime(qunarOrder.getLiveInDate());
                 }
                 if (!qunarUpdateOrderRequest.getOrderStatus().equals("6")) {
                     if (null != qunarOrder.getLeaveOutDate() && !"".equals(qunarOrder.getLeaveOutDate())) {
@@ -91,6 +93,8 @@ public class CheckInOrder {
                     } else {
                         stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
                     }
+                } else {
+                    stay.setRealCheckOutTime("");
                 }
                 stay.setRemark(qunarOrder.getRemark());
                 stay.setRoomNo(roomNo);
