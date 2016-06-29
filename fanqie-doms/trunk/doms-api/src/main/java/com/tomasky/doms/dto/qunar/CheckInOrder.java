@@ -73,9 +73,27 @@ public class CheckInOrder {
                     stay.setStayStatus(getStayStatus(qunarOrder).getKey());
                     stayList.add(stay);
                 }
+            } else {
+                Stay stay = new Stay();
+                stay.setPhyRoomTypeCode(qunarOrder.getRoomTypeCode());
+                stay.setGuestName(customerName);
+                if (null != qunarOrder.getLiveInDate() && !"".equals(qunarOrder.getLiveInDate())) {
+                    stay.setRealCheckInTime(qunarOrder.getLiveInDate());
+                } else {
+                    stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                }
+                if (null != qunarOrder.getLeaveOutDate() && !"".equals(qunarOrder.getLeaveOutDate())) {
+                    stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                } else {
+                    stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
+                }
+                stay.setRemark(qunarOrder.getRemark());
+                stay.setRoomNo(roomNo);
+                stay.setStayStatus(getStayStatus(qunarOrder).getKey());
+                stayList.add(stay);
             }
         }
-        return null;
+        return stayList;
     }
 
     private static StayStatus getStayStatus(QunarOrder qunarOrder) {
