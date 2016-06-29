@@ -104,7 +104,7 @@ public class ProvidToQunarService {
             result = new QunarDataResult(QunarStatusCode.ERROR_1012, "结束日期参数错误", null);
         } else if (!JodaTimeUtil.compareDate2(checkInDate, checkOutDate)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1013, "开始日期不能大于结束日期", null);
-        } else if (JodaTimeUtil.getDifferDay(checkInDate, checkOutDate) > 89) {
+        } else if (JodaTimeUtil.getDifferDay(checkInDate, checkOutDate) > 90) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1032, "开始结束时间间隔大于90天", null);
         } else {
             result = getRoomStatusTemplate(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, type);
