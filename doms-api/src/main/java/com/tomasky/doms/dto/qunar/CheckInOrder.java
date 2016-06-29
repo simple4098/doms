@@ -70,8 +70,6 @@ public class CheckInOrder {
                         } else {
                             stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
                         }
-                    } else {
-                        stay.setRealCheckOutTime("");
                     }
                     stay.setRemark(qunarOrder.getRemark());
                     stay.setRoomNo(roomNos[i]);
@@ -93,8 +91,6 @@ public class CheckInOrder {
                     } else {
                         stay.setRealCheckOutTime(qunarOrder.getCheckOutTime());
                     }
-                } else {
-                    stay.setRealCheckOutTime("");
                 }
                 stay.setRemark(qunarOrder.getRemark());
                 stay.setRoomNo(roomNo);
