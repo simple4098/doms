@@ -21,6 +21,7 @@ import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -40,20 +41,6 @@ public class HttpClientUtil {
     private HttpClientUtil() {
     }
 
-    public static HttpClient obtHttpClient(String proxyIp, int proxyPort) {
-        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
-        RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(HttpClientUtil.TIME_OUT)
-                .setSocketTimeout(HttpClientUtil.REQUEST_SOCKET_TIME).build();
-        httpClientBuilder.setDefaultRequestConfig(requestConfig);
-        //设置代理
-        if (!StringUtils.isEmpty(proxyIp) && 0 != proxyPort) {
-            HttpHost proxy = new HttpHost(proxyIp, proxyPort);
-            httpClientBuilder.setProxy(proxy);
-        }
-        CloseableHttpClient httpClient = httpClientBuilder.build();
-        return httpClient;
-    }
-
     public static HttpClient obtHttpClient() {
         HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
         RequestConfig requestConfig = RequestConfig.custom().setConnectionRequestTimeout(HttpClientUtil.TIME_OUT)
@@ -70,46 +57,48 @@ public class HttpClientUtil {
         httpPost.setEntity(new StringEntity(data, ContentType.APPLICATION_JSON));
         HttpResponse response = httpClient.execute(httpPost);
         HttpEntity entity = response.getEntity();
-        String value = EntityUtils.toString(entity, "utf-8");
+        String value = EntityUtils.toString(entity, Charset.defaultCharset());
         return value;
     }
 
     /**
      * post http请求
-     * @param url 请求url
+     *
+     * @param url  请求url
      * @param data 参数json字符串
      */
-    public static  String httpKvPost(String url, String data) throws Exception {
+    public static String httpKvPost(String url, String data) throws Exception {
         HttpClient httpClient = obtHttpClient();
         HttpPost httpPost = new HttpPost(url);
         Map<String, String> param = JacksonUtil.json2map(data);
         List<NameValuePair> nameValuePairs = commonParam(param);
-        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, Charset.defaultCharset()));
         HttpResponse response = httpClient.execute(httpPost);
         HttpEntity entity = response.getEntity();
-        String value = EntityUtils.toString(entity, "utf-8");
+        String value = EntityUtils.toString(entity, Charset.defaultCharset());
         return value;
     }
 
     /**
      * post http请求
-     * @param url 请求url
+     *
+     * @param url  请求url
      * @param data 参数对象
      */
-    public static  String httpKvPost(String url, Object data) throws Exception {
+    public static String httpKvPost(String url, Object data) throws Exception {
         HttpClient httpClient = obtHttpClient();
         HttpPost httpPost = new HttpPost(url);
         String json = JacksonUtil.obj2json(data);
         Map<String, String> param = JacksonUtil.json2map(json);
         List<NameValuePair> nameValuePairs = commonParam(param);
-        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, Charset.defaultCharset()));
         HttpResponse response = httpClient.execute(httpPost);
         HttpEntity entity = response.getEntity();
-        String value = EntityUtils.toString(entity, "utf-8");
+        String value = EntityUtils.toString(entity, Charset.defaultCharset());
         return value;
     }
 
-    public static <T extends QunarBaseBean> String httpKvPost(String url, T t)throws Exception  {
+    public static <T extends QunarBaseBean> String httpKvPost(String url, T t) throws Exception {
         HttpClient httpClient = obtHttpClient();
         HttpPost httpPost = new HttpPost(url);
         String obj2json = JacksonUtil.obj2json(t);
@@ -117,15 +106,15 @@ public class HttpClientUtil {
         String hmac = SecurityUtil.buildMyHMAC(param, CommonApi.signkey);
         t.setHmac(hmac);
         List<NameValuePair> nameValuePairs = commonParam(t);
-        try{
-            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, "UTF-8"));
+        try {
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePairs, Charset.defaultCharset()));
             HttpResponse response = httpClient.execute(httpPost);
             HttpEntity entity = response.getEntity();
-            String value = EntityUtils.toString(entity, "utf-8");
+            String value = EntityUtils.toString(entity, Charset.defaultCharset());
             return value;
-        }catch (Exception e){
-            logger.error("请求失败url："+url,e);
-            throw  new Exception(e);
+        } catch (Exception e) {
+            logger.error("请求失败url：" + url, e);
+            throw new Exception(e);
         }
     }
 
@@ -139,7 +128,7 @@ public class HttpClientUtil {
         return nameValuePairs;
     }
 
-    public static List<NameValuePair> commonParam(Map<String,String> map) {
+    public static List<NameValuePair> commonParam(Map<String, String> map) {
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
