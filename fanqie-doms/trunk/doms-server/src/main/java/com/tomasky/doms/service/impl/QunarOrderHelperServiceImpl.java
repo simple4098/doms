@@ -30,22 +30,14 @@ public class QunarOrderHelperServiceImpl implements IQunarOrderHelperService {
             if ("2".equals(qunarUpdateOrderRequest.getOrderStatus()) || "3".equals(qunarUpdateOrderRequest.getOrderStatus()) || "4".equals(qunarUpdateOrderRequest.getOrderStatus())) {
                 //调用去哪儿拒绝订单
                 QunarRefuseOrderRequest qunarRefuseOrderRequest = QunarRefuseOrderRequest.getRefuseOrderParamRequest(qunarOrder, qunarUpdateOrderRequest);
-                String obj2json = JacksonUtil.obj2json(qunarRefuseOrderRequest);
-                Map<String, String> param = JacksonUtil.json2map(obj2json);
-                String myHMAC = SecurityUtil.buildMyHMAC(param, CommonApi.signkey);
-                qunarRefuseOrderRequest.setHmac(myHMAC);
                 logger.info("调用去哪儿同步拒绝订单状态，请求地址=>" + QunarUrlUtil.getRefuseOrderUrl() + "参数=>" + JSON.toJSONString(qunarRefuseOrderRequest));
-                String response = HttpClientUtil.httpJsonPost(QunarUrlUtil.getRefuseOrderUrl(), JSON.toJSONString(qunarRefuseOrderRequest));
+                String response = HttpClientUtil.httpKvPost(QunarUrlUtil.getRefuseOrderUrl(), qunarRefuseOrderRequest);
                 logger.info("调用去哪儿同步拒绝订单状态，返回值=>" + response);
             } else if ("1".equals(qunarUpdateOrderRequest.getOrderStatus())) {
                 //调用去哪儿接收订单
                 QunarConfirmOrderRequest qunarConfirmOrderRequest = QunarConfirmOrderRequest.getConfirmOrderParamRequest(qunarOrder);
-                String obj2json = JacksonUtil.obj2json(qunarConfirmOrderRequest);
-                Map<String, String> param = JacksonUtil.json2map(obj2json);
-                String myHMAC = SecurityUtil.buildMyHMAC(param, CommonApi.signkey);
-                qunarConfirmOrderRequest.setHmac(myHMAC);
                 logger.info("调用去哪儿同步接收订单状态，请求地址=>" + QunarUrlUtil.getConfirmOrderUrl() + "参数=>" + JSON.toJSONString(qunarConfirmOrderRequest));
-                String response = HttpClientUtil.httpJsonPost(QunarUrlUtil.getConfirmOrderUrl(), JSON.toJSONString(qunarConfirmOrderRequest));
+                String response = HttpClientUtil.httpKvPost(QunarUrlUtil.getConfirmOrderUrl(), qunarConfirmOrderRequest);
                 logger.info("调用去哪儿同步接收订单状态，返回值=>" + response);
             } else if ("6".equals(qunarUpdateOrderRequest.getOrderStatus())) {
                 //调用去哪儿入住
