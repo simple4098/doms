@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+                           http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+       <context:component-scan base-package="com.tomasky.doms" use-default-filters="true">
+              <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+       </context:component-scan>
+       <context:annotation-config/>
+    <context:property-placeholder location="classpath:config.properties"/>
+
+
+       <bean class="org.springframework.context.support.ResourceBundleMessageSource" id="messageSource"
+             p:basenames="message"/>
+
+
+
+       <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+              <property name="dataSource" ref="dataSource"/>
+       </bean>
+
+       <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+              <property name="dataSource" ref="dataSource"/>
+              <property name="configLocation" value="classpath:conf/mybatis/sqlMapConfig.xml"/>
+              <property name="mapperLocations" value="classpath:com/tomasky/doms/mapper/*.xml"/>
+              <property name="plugins">
+                     <ref bean="paginationInterceptor"></ref>
+              </property>
+       </bean>
+       <bean id="paginationInterceptor" class="com.github.miemiedev.mybatis.paginator.OffsetLimitInterceptor">
+              <property name="dialectClass" value="com.github.miemiedev.mybatis.paginator.dialect.PostgreSQLDialect"/>
+       </bean>
+       <bean class="org.mybatis.spring.SqlSessionTemplate" id="templateDc">
+              <constructor-arg index="0" ref="sqlSessionFactory" />
+       </bean>
+
+       <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" id="mapperScannerConfigurer">
+              <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+              <property name="basePackage" value="com.tomasky.doms.dao"/>
+       </bean>
+
+       <tx:annotation-driven mode="aspectj" transaction-manager="transactionManager"/>
+       <tx:advice id="txAdvice" transaction-manager="transactionManager">
+              <tx:attributes>
+                     <tx:method name="add*" propagation="REQUIRED" />
+                     <tx:method name="append*" propagation="REQUIRED" />
+                     <tx:method name="insert*" propagation="REQUIRED" />
+                     <tx:method name="save*" propagation="REQUIRED" />
+                     <tx:method name="update*" propagation="REQUIRED" />
+                     <tx:method name="validated*" propagation="REQUIRED" />
+                     <tx:method name="modify*" propagation="REQUIRED" />
+                     <tx:method name="edit*" propagation="REQUIRED" />
+                     <tx:method name="delete*" propagation="REQUIRED" />
+                     <tx:method name="remove*" propagation="REQUIRED" />
+                     <tx:method name="repair" propagation="REQUIRED" />
+                     <tx:method name="delAndRepair" propagation="REQUIRED" />
+
+                     <tx:method name="get*" propagation="SUPPORTS" />
+                     <tx:method name="find*" propagation="SUPPORTS" />
+                     <tx:method name="load*" propagation="SUPPORTS" />
+                     <tx:method name="search*" propagation="SUPPORTS" />
+                     <tx:method name="datagrid*" propagation="SUPPORTS" />
+
+                     <tx:method name="*" propagation="SUPPORTS" />
+              </tx:attributes>
+       </tx:advice>
+
+       <aop:config proxy-target-class="true">
+              <aop:pointcut id="serviceMethods" expression="execution(public * com.tomasky.doms.service.*.*(..))"/>
+              <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethods"/>
+       </aop:config>
+
+       <bean id="multipartResolver"
+             class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+              <property name="maxUploadSize">
+                     <value>32212254720</value>
+              </property>
+              <property name="maxInMemorySize">
+                     <value>4096</value>
+              </property>
+       </bean>
+
+
+    <bean name="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="driverClassName" value="org.postgresql.Driver"/>
+        <property name="url" value="jdbc:postgresql://192.168.1.17:5432/compare_price?autoReconnectForPools=true&amp;useUnicode=true&amp;characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull"/>
+        <property name="username" value="ota"/>
+        <property name="password" value="ota"/>
+        <property name="maxWait" value="1000" />
+        <property name="initialSize" value="5" />
+        <property name="maxActive" value="20" />
+        <property name="testWhileIdle" value="false" />
+        <property name="timeBetweenEvictionRunsMillis" value="15000" />
+        <property name="removeAbandoned" value="true" />
+        <property name="removeAbandonedTimeout" value="1800" />
+        <property name="validationQuery" value="select 1"/>
+    </bean>
+    <bean class="com.tomasky.doms.common.CommonApi">
+        <property name="pmsId" value="tomasky"/>
+        <property name="qunarHostApi" value="http://link.beta.quhuhu.com/api/"/>
+        <property name="signkey" value="srT4Vrx0LWRT8LjbE6ajanIjigGRx8iR"/>
+        <property name="userIp" value="218.89.222.245"/>
+        <property name="version" value="1.0"/>
+        <property name="operatorGuid" value="afanqie"/>
+        <property name="operatorName" value="番茄来了"/>
+    </bean>
+
+</beans>

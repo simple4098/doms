@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tomasky.doms.dao.IOtaInfoDao" >
+
+        <resultMap id="otaInfoRefId" type="com.tomasky.doms.dto.OtaInfoDto">
+            <result column="id" property="id" />
+            <result column="ota_id" property="otaId" />
+            <result column="ota_info" property="otaInfo"/>
+            <result column="ota_code" property="otaCode"/>
+            <result column="sort" property="sort"/>
+            <result column="user_account" property="userAccount"/>
+            <result column="user_password" property="userPassword"/>
+        </resultMap>
+
+
+        <sql id="otaInfoId">
+            id,ota_info,ota_code,deleted,sort,user_account,user_password,ota_id
+        </sql>
+
+       <select id="selectOtaInfoList" resultMap="otaInfoRefId" >
+           SELECT
+           <include refid="otaInfoId"/>
+           from ota_info where  deleted=0
+       </select>
+
+       <select id="selectByOtaId" resultMap="otaInfoRefId">
+           SELECT
+           <include refid="otaInfoId"/>
+           from ota_info where ota_id=#{otaId} and deleted=0
+       </select>
+
+
+</mapper>
