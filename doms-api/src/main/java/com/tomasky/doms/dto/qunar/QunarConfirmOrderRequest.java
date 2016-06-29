@@ -48,7 +48,8 @@ public class QunarConfirmOrderRequest extends QunarBase {
         QunarConfirmOrderRequest qunarConfirmOrderRequest = new QunarConfirmOrderRequest();
         qunarConfirmOrderRequest.setHotelNo(qunarOrder.getHotelNo());
         qunarConfirmOrderRequest.setChannelOrderNo(qunarOrder.getChannelOrderNo());
-        qunarConfirmOrderRequest.setConfirmNo(qunarOrder.getConfirmNo());
+        //订单确认号，设置为accountid
+        qunarConfirmOrderRequest.setConfirmNo(qunarOrder.getHotelNo());
         return qunarConfirmOrderRequest;
     }
 }
