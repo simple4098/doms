@@ -1,12 +1,14 @@
 package com.tomasky.doms.dto.qunar;
 
+import com.tomasky.doms.common.CommonApi;
+import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.enums.OrderReasonType;
 import com.tomasky.doms.model.QunarOrder;
 
 /**
  * Created by Administrator on 2016/6/14.
  */
-public class QunarRefuseOrderRequest extends QunarBase {
+public class QunarRefuseOrderRequest extends QunarBaseBean {
     //pms酒店id
     private String hotelNo;
     //渠道订单号
@@ -15,6 +17,35 @@ public class QunarRefuseOrderRequest extends QunarBase {
     private int reasonType;
     //拒绝原因描述
     private String reason;
+
+    private String channelCode = DomsConstants.channelCode;
+    // 操作人 ID String 否 pms 操作人 ID
+    private String operatorGuid = CommonApi.operatorGuid;
+    private String operatorName = CommonApi.operatorName;
+
+    public String getChannelCode() {
+        return channelCode;
+    }
+
+    public void setChannelCode(String channelCode) {
+        this.channelCode = channelCode;
+    }
+
+    public String getOperatorGuid() {
+        return operatorGuid;
+    }
+
+    public void setOperatorGuid(String operatorGuid) {
+        this.operatorGuid = operatorGuid;
+    }
+
+    public String getOperatorName() {
+        return operatorName;
+    }
+
+    public void setOperatorName(String operatorName) {
+        this.operatorName = operatorName;
+    }
 
     public String getHotelNo() {
         return hotelNo;
