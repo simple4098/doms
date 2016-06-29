@@ -14,7 +14,7 @@ public class QunarRefuseOrderRequest extends QunarBaseBean {
     //渠道订单号
     private String channelOrderNo;
     //拒绝原因
-    private int reasonType;
+    private String reasonType;
     //拒绝原因描述
     private String reason;
 
@@ -63,11 +63,11 @@ public class QunarRefuseOrderRequest extends QunarBaseBean {
         this.channelOrderNo = channelOrderNo;
     }
 
-    public int getReasonType() {
+    public String getReasonType() {
         return reasonType;
     }
 
-    public void setReasonType(int reasonType) {
+    public void setReasonType(String reasonType) {
         this.reasonType = reasonType;
     }
 
@@ -91,7 +91,7 @@ public class QunarRefuseOrderRequest extends QunarBaseBean {
         qunarRefuseOrderRequest.setHotelNo(qunarOrder.getHotelNo());
         qunarRefuseOrderRequest.setChannelOrderNo(qunarOrder.getChannelOrderNo());
         OrderReasonType orderGetReasonType = OrderReasonType.getOrderGetReasonType(Integer.valueOf(updateOrderRequest.getRefuseType()));
-        qunarRefuseOrderRequest.setReasonType(orderGetReasonType.getKey());
+        qunarRefuseOrderRequest.setReasonType(String.valueOf(orderGetReasonType.getKey()));
         qunarRefuseOrderRequest.setReason(orderGetReasonType.getValue());
         return qunarRefuseOrderRequest;
     }
