@@ -171,6 +171,8 @@ public class QunarServiceHelper {
             qunarDockingPhyRoomType.setChannelHotelNo(omsSjRoomType.getChannelHotelNo());
             qunarDockingPhyRoomType.setPhyRoomTypeCode(omsSjRoomType.getRoomTypeId());
             qunarDockingPhyRoomType.setPhyRoomTypeName(omsSjRoomType.getRoomTypeName());
+            //todo pms ratePlanCode
+            qunarDockingPhyRoomType.setRatePlanCode(omsSjRoomType.getRatePlanCode());
             qunarDockingPhyRoomTypeList.add(qunarDockingPhyRoomType);
          }
         return qunarDockingPhyRoomTypeList;
