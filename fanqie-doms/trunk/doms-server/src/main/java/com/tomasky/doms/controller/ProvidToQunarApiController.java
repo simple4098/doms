@@ -107,7 +107,7 @@ public class ProvidToQunarApiController {
     public QunarDataResult queryRoomCount(String hotelNos, String roomTypeCodes, String checkInDate, String checkOutDate) {
         QunarDataResult result;
         try {
-            result = providToQunarService.getRoomTemplateResult(hotelNos, roomTypeCodes, checkInDate, checkOutDate, "count");
+            result = providToQunarService.getRoomTemplateResult(hotelNos, roomTypeCodes, checkInDate, checkOutDate, null, "count");
         } catch (Exception e) {
             log.error("====查询实时房量服务=====queryRoomCount===方法异常", e);
             result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房量服务出错", null);
@@ -124,10 +124,10 @@ public class ProvidToQunarApiController {
      */
     @RequestMapping("/tomasky/roomStatus/queryRoomStatus.do")
     @ResponseBody
-    public QunarDataResult queryRoomStatus(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate) {
+    public QunarDataResult queryRoomStatus(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String ratePlanCode) {
         QunarDataResult result;
         try {
-            result = providToQunarService.getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, "status");
+            result = providToQunarService.getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, ratePlanCode, "status");
         } catch (Exception e) {
             log.error("====查询实时房态服务=====queryRoomStatus===方法异常", e);
             result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房态服务出错", null);
@@ -144,10 +144,10 @@ public class ProvidToQunarApiController {
      */
     @RequestMapping("/tomasky/roomStatus/queryRoomPrice.do")
     @ResponseBody
-    public QunarDataResult queryRoomPrice(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate) {
+    public QunarDataResult queryRoomPrice(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String ratePlanCode) {
         QunarDataResult result;
         try {
-            result = providToQunarService.getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, "price");
+            result = providToQunarService.getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, ratePlanCode, "price");
         } catch (Exception e) {
             log.error("====查询实时房价服务=====queryRoomPrice===方法异常", e);
             result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房价服务出错", null);
