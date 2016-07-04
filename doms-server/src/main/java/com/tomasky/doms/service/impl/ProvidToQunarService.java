@@ -94,7 +94,7 @@ public class ProvidToQunarService {
      * @param type
      * @return
      */
-    public QunarDataResult getRoomTemplateResult(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String type) throws ProvidToQunarApiException {
+    public QunarDataResult getRoomTemplateResult(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate,String ratePlanCode, String type) throws ProvidToQunarApiException {
         QunarDataResult result;
         if (StringUtils.isEmpty(hotelNos)) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1002, "酒店代码参数错误", null);
@@ -107,7 +107,7 @@ public class ProvidToQunarService {
         } else if (JodaTimeUtil.getDifferDay(checkInDate, checkOutDate) > 90) {
             result = new QunarDataResult(QunarStatusCode.ERROR_1032, "开始结束时间间隔大于90天", null);
         } else {
-            result = getRoomStatusTemplate(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, type);
+            result = getRoomStatusTemplate(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate,ratePlanCode, type);
         }
         return result;
     }
@@ -120,7 +120,7 @@ public class ProvidToQunarService {
      * @param
      * @return
      */
-    public QunarDataResult getRoomStatusTemplate(String hotelNos, String roomTypeCodes, String fromDate, String toDate, String type) throws ProvidToQunarApiException {
+    public QunarDataResult getRoomStatusTemplate(String hotelNos, String roomTypeCodes, String fromDate, String toDate,String ratePlanCode, String type) throws ProvidToQunarApiException {
         QunarDataResult result;
         try {
             List<Integer> innList = CommonUtil.StrByCommaToArray(hotelNos, Integer.class);
@@ -129,7 +129,7 @@ public class ProvidToQunarService {
             if (innList.size() != roomTypeList.size()) {
                 result = new QunarDataResult(QunarStatusCode.ERROR_10001, "参数格式不正确", null);
             } else {
-                result = getRoomTemplateResultByOms(hotelNos, roomTypeCodes, fromDate, toDate, type);
+                result = getRoomTemplateResultByOms(hotelNos, roomTypeCodes, fromDate, toDate,ratePlanCode, type);
             }
         } catch (Exception e) {
             log.error("====查询房态模版 - 数据组装 - getRoomStatusTemplate=====异常", e);
@@ -147,7 +147,7 @@ public class ProvidToQunarService {
      * @param toDate
      * @return
      */
-    public QunarDataResult getRoomTemplateResultByOms(String hotelNos, String roomTypeCodes, String fromDate, String toDate, String type) throws ProvidToQunarApiException {
+    public QunarDataResult getRoomTemplateResultByOms(String hotelNos, String roomTypeCodes, String fromDate, String toDate,String ratePlanCode, String type) throws ProvidToQunarApiException {
         QunarDataResult result;
         try {
             String url = "";
@@ -164,6 +164,7 @@ public class ProvidToQunarService {
             paramMap.put("roomTypeCodes", roomTypeCodes);
             paramMap.put("fromDate", fromDate);
             paramMap.put("toDate", toDate);
+            paramMap.put("ratePlanCode", ratePlanCode);
             initOmsSecurityParam(paramMap);
             log.debug("=====参数====" + JacksonUtil.obj2json(paramMap));
             String data = HttpClientUtil.httpKvPost(url, paramMap);
@@ -308,7 +309,7 @@ public class ProvidToQunarService {
                     if (CommonUtil.isListNotEmpty(roomTypeList)) {
                         for (Map detail : roomTypeList) {
                             Map domsDetail = new HashMap();
-                            domsDetail.put("roomTypeCode", detail.get("id"));
+                            domsDetail.put("roomTypeCode", detail.get("room_type_id"));
                             domsDetail.put("roomTypeName", detail.get("room_type_name"));
                             domsRoomTypeList.add(domsDetail);
                         }
