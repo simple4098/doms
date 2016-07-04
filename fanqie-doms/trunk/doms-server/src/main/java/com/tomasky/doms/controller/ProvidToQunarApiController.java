@@ -118,16 +118,16 @@ public class ProvidToQunarApiController {
     /**
      * 查询实时房态服务
      *
-     * @param hotelNos
+     * @param hotelNo
      * @param
      * @return
      */
     @RequestMapping("/tomasky/roomStatus/queryRoomStatus.do")
     @ResponseBody
-    public QunarDataResult queryRoomStatus(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String ratePlanCode) {
+    public QunarDataResult queryRoomStatus(String hotelNo, String phyRoomTypeCode, String fromDate, String toDate, String ratePlanCode) {
         QunarDataResult result;
         try {
-            result = providToQunarService.getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, ratePlanCode, "status");
+            result = providToQunarService.getRoomTemplateResult(hotelNo, phyRoomTypeCode, fromDate, toDate, ratePlanCode, "status");
         } catch (Exception e) {
             log.error("====查询实时房态服务=====queryRoomStatus===方法异常", e);
             result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房态服务出错", null);
@@ -138,16 +138,16 @@ public class ProvidToQunarApiController {
     /**
      * 查询实时房价服务
      *
-     * @param hotelNos
+     * @param hotelNo
      * @param
      * @return
      */
     @RequestMapping("/tomasky/roomStatus/queryRoomPrice.do")
     @ResponseBody
-    public QunarDataResult queryRoomPrice(String hotelNos, String phyRoomTypeCode, String checkInDate, String checkOutDate, String ratePlanCode) {
+    public QunarDataResult queryRoomPrice(String hotelNo, String phyRoomTypeCode, String fromDate, String toDate, String ratePlanCode) {
         QunarDataResult result;
         try {
-            result = providToQunarService.getRoomTemplateResult(hotelNos, phyRoomTypeCode, checkInDate, checkOutDate, ratePlanCode, "price");
+            result = providToQunarService.getRoomTemplateResult(hotelNo, phyRoomTypeCode, fromDate, toDate, ratePlanCode, "price");
         } catch (Exception e) {
             log.error("====查询实时房价服务=====queryRoomPrice===方法异常", e);
             result = new QunarDataResult(QunarStatusCode.ERROR_10001, "查询实时房价服务出错", null);
