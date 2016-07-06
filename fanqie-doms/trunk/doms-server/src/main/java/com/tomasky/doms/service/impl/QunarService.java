@@ -199,10 +199,20 @@ public class QunarService implements IQunarService {
     public QunarResult removeDockingProduct(OmsPram omsPram) throws DmsException {
         QunarResult qunarResult = null;
         String httpPost = null;
+        RoomOnOff roomOnOff = null;
         try {
             List<QunarDockingRemovePhyRoomType> list = qunarServiceHelper.checkQunarDockingRemovePhyRoomType(omsPram);
             for(QunarDockingRemovePhyRoomType qunarDockingRemovePhyRoomType:list){
                 logger.info("解绑产品(房型)参数："+JacksonUtil.obj2json(qunarDockingRemovePhyRoomType));
+
+                roomOnOff = new RoomOnOff();
+                BeanUtils.copyProperties(roomOnOff,qunarDockingRemovePhyRoomType);
+                roomOnOff.setFromDate(DateUtil.fromDate(0));
+                roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("qunar.day")));
+                String roomOn = HttpClientUtil.httpKvPost(QunarUrlUtil.roomOff(), roomOnOff);
+                qunarResult = JacksonUtil.json2obj(roomOn, QunarResult.class);
+                logger.error("关房房结果"+JacksonUtil.obj2json(qunarResult));
+
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionRemoveDockingUrl(), qunarDockingRemovePhyRoomType);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 logger.info("删除渠道产品列表返回:"+JSON.toJSONString(qunarResult));
