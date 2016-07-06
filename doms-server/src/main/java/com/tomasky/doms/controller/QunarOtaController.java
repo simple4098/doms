@@ -187,8 +187,8 @@ public class QunarOtaController {
     public Object relieveRoomType(OmsPram omsPram) {
         JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
-            //QunarResult qunarResult = qunarService.removeDockingProduct(omsPram);
-            QunarResult qunarResult = qunarService.deletePhyRoomType(omsPram);
+            QunarResult qunarResult = qunarService.removeDockingProduct(omsPram);
+            //QunarResult qunarResult = qunarService.deletePhyRoomType(omsPram);
             if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())) {
                 jsonModel = new JsonModel(DomsConstants.STATUS400, qunarResult.getMsg());
             }
