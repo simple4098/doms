@@ -209,6 +209,7 @@ public class QunarService implements IQunarService {
                 BeanUtils.copyProperties(roomOnOff,qunarDockingRemovePhyRoomType);
                 roomOnOff.setFromDate(DateUtil.fromDate(0));
                 roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("qunar.day")));
+                logger.info("关房参数:"+JacksonUtil.obj2json(roomOnOff));
                 String roomOn = HttpClientUtil.httpKvPost(QunarUrlUtil.roomOff(), roomOnOff);
                 qunarResult = JacksonUtil.json2obj(roomOn, QunarResult.class);
                 logger.error("关房房结果"+JacksonUtil.obj2json(qunarResult));
