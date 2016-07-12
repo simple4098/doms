@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tomasky.doms.dao.IOtaInnDao" >
+
+    <resultMap id="otaInnId" type="com.tomasky.doms.model.OtaInn">
+        <result column="id" property="id" />
+        <result column="inn_id" property="innId" />
+        <result column="inn_name" property="innName"/>
+        <result column="ota_id" property="otaId"/>
+        <result column="open_status" property="openStatus"/>
+
+    </resultMap>
+
+
+    <sql id="InnId">
+        id,inn_id,inn_name,ota_id,status,open,ota_inn_code,ota_code
+    </sql>
+    <insert id="saveOtaInn" parameterType="com.tomasky.doms.model.OtaInn">
+        insert INTO ota_inn(id,inn_id,inn_name,ota_id,open_status,ota_code,created_date,updated_date,deleted)
+        VALUES (#{uuid},#{innId},#{innName},#{otaId},#{openStatus},#{otaCode},now(),now(),0)
+    </insert>
+</mapper>
