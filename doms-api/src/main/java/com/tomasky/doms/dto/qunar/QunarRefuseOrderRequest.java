@@ -90,9 +90,15 @@ public class QunarRefuseOrderRequest extends QunarBaseBean {
         QunarRefuseOrderRequest qunarRefuseOrderRequest = new QunarRefuseOrderRequest();
         qunarRefuseOrderRequest.setHotelNo(qunarOrder.getHotelNo());
         qunarRefuseOrderRequest.setChannelOrderNo(qunarOrder.getChannelOrderNo());
-        OrderReasonType orderGetReasonType = OrderReasonType.getOrderGetReasonType(Integer.valueOf(updateOrderRequest.getRefuseType()));
+        OrderReasonType orderGetReasonType = null;
+        if (null != updateOrderRequest.getRefuseType() && !"".equals(updateOrderRequest.getRefuseType())) {
+            orderGetReasonType = OrderReasonType.getOrderGetReasonType(Integer.valueOf(updateOrderRequest.getRefuseType()));
+        } else {
+            orderGetReasonType = OrderReasonType.r9;
+        }
         qunarRefuseOrderRequest.setReasonType(String.valueOf(orderGetReasonType.getKey()));
         qunarRefuseOrderRequest.setReason(orderGetReasonType.getValue());
         return qunarRefuseOrderRequest;
     }
+
 }
