@@ -71,9 +71,9 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
             String response = HttpClientUtil.httpKvPost(CommonApi.getOmsMainOrderByChannelOrderCode(), JSON.toJSONString(qunarOrder));
             logger.info("去哪儿拒绝订单，查询oms订单信息，返回值=>" + response);
             JSONObject jsonObject = JSONObject.parseObject(response);
-            if (jsonObject.containsKey("omsOrderId") && StringUtils.isNotEmpty((String) jsonObject.get("omsOrderId"))) {
+            if (jsonObject.containsKey("omsOrderId") && StringUtils.isNotEmpty(jsonObject.get("omsOrderId").toString())) {
                 //订单存在，更新订单状态
-                qunarOrder.setOmsOrderNo((String) jsonObject.get("omsOrderId"));
+                qunarOrder.setOmsOrderNo(jsonObject.get("omsOrderId").toString());
                 logger.info("去哪儿拒绝订单，同步订单状态，请求地址=>" + CommonApi.getUpdateOmsOrderStatus() + "请求参数=>" + JSON.toJSONString(qunarOrder));
                 String updateOrderStatusResponse = HttpClientUtil.httpKvPost(CommonApi.getUpdateOmsOrderStatus(), JSON.toJSONString(qunarOrder));
                 logger.info("去哪儿拒绝订单，同步订单状态，返回值=>" + updateOrderStatusResponse);
@@ -108,9 +108,9 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
             String response = HttpClientUtil.httpKvPost(CommonApi.getOmsMainOrderByChannelOrderCode(), JSON.toJSONString(qunarOrder));
             logger.info("去哪儿确认订单，查询oms订单信息，返回值=>" + response);
             JSONObject jsonObject = JSONObject.parseObject(response);
-            if (jsonObject.containsKey("omsOrderId") && StringUtils.isNotEmpty((String) jsonObject.get("omsOrderId"))) {
+            if (jsonObject.containsKey("omsOrderId") && StringUtils.isNotEmpty(jsonObject.get("omsOrderId").toString())) {
                 //订单存在，更新订单状态
-                qunarOrder.setOmsOrderNo((String) jsonObject.get("omsOrderId"));
+                qunarOrder.setOmsOrderNo(jsonObject.get("omsOrderId").toString());
                 logger.info("去哪儿确认订单，同步订单状态，请求地址=>" + CommonApi.getUpdateOmsOrderStatus() + "请求参数=>" + JSON.toJSONString(qunarOrder));
                 String updateOrderStatusResponse = HttpClientUtil.httpKvPost(CommonApi.getUpdateOmsOrderStatus(), JSON.toJSONString(qunarOrder));
                 logger.info("去哪儿确认订单，同步订单状态，返回值=>" + updateOrderStatusResponse);
