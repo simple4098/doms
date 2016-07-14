@@ -54,6 +54,7 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
         return result;
     }
 
+
     /**
      * 去哪儿确认订单
      *
@@ -67,9 +68,9 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
             String response = HttpClientUtil.httpKvPost(CommonApi.getOmsMainOrderByChannelOrderCode(), JSON.toJSONString(qunarOrder));
             logger.info("去哪儿确认订单，查询oms订单信息，返回值=>" + response);
             JSONObject jsonObject = JSONObject.parseObject(response);
-            if (StringUtils.isNotEmpty(String.valueOf(jsonObject.get("omsOrderId")))) {
+            if (jsonObject.containsKey("omsOrderId") && StringUtils.isNotEmpty((String) jsonObject.get("omsOrderId"))) {
                 //订单存在，更新订单状态
-                qunarOrder.setOmsOrderNo(String.valueOf(jsonObject.get("omsOrderId")));
+                qunarOrder.setOmsOrderNo((String) jsonObject.get("omsOrderId"));
                 logger.info("去哪儿确认订单，同步订单状态，请求地址=>" + CommonApi.getUpdateOmsOrderStatus() + "请求参数=>" + JSON.toJSONString(qunarOrder));
                 String updateOrderStatusResponse = HttpClientUtil.httpKvPost(CommonApi.getUpdateOmsOrderStatus(), JSON.toJSONString(qunarOrder));
                 logger.info("去哪儿确认订单，同步订单状态，返回值=>" + updateOrderStatusResponse);
