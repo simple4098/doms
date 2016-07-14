@@ -35,12 +35,12 @@ public class QunarOrderUtil {
      * @param qunarOrder
      * @return
      */
-    public static OMSOrder getOmsOrderObject(QunarOrder qunarOrder) {
+    public static OMSOrder getOmsOrderObject(QunarOrder qunarOrder, boolean needConfirm) {
         OMSOrder omsOrder = new OMSOrder();
         omsOrder.setOtaId(EnumOta.qunar_conn.getValue());
         omsOrder.setAccountId(Integer.parseInt(qunarOrder.getHotelNo()));
         omsOrder.setChildOtaId(EnumOta.qunar_conn.name());
-        omsOrder.setNeedConfirm(false);
+        omsOrder.setNeedConfirm(needConfirm);
         omsOrder.setContact(qunarOrder.getContactTelNo());
         omsOrder.setOperateType(1);
         omsOrder.setOtaOrderNo(qunarOrder.getChannelOrderNo());

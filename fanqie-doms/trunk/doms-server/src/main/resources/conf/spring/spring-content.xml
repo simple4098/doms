@@ -128,7 +128,10 @@
             <property name="omsUpdateQunarOrder" value="http://oms.local.fanqiele.com/qunar/updateOrder"/>
             <property name="otaRoomTypeIdUrl" value="http://oms.local.fanqiele.com/qunar/getOtaRoomTypeId"/>
             <property name="cancelOrderUrl" value="http://oms.local.fanqiele.com/api/cancelOrder"/>
-            <property name="updateQunarOrderStatus" value="http://oms.local.fanqiele.com/api/updateQunarOrderStatus"/>
+            <property name="updateQunarOrderStatus" value="http://oms.local.fanqiele.com/qunar/updateQunarOrderStatus"/>
+            <property name="omsMainOrderByChannelOrderCode"
+                      value="http://oms.local.fanqiele.com/qunar/getOmsMainOrderByChannelOrderCode"/>
+            <property name="updateOmsOrderStatus" value="http://oms.local.fanqiele.com/qunar/updateOmsOrderStatus"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.local.fanqiele.com"/>
@@ -169,7 +172,11 @@
             <property name="otaRoomTypeIdUrl" value="http://openapi.test.fanqielaile.com/qunar/getOtaRoomTypeId"/>
             <property name="cancelOrderUrl" value="http://openapi.test.fanqielaile.com/api/cancelOrder"/>
             <property name="updateQunarOrderStatus"
-                      value="http://openapi.test.fanqielaile.com/api/updateQunarOrderStatus"/>
+                      value="http://openapi.test.fanqielaile.com/qunar/updateQunarOrderStatus"/>
+            <property name="omsMainOrderByChannelOrderCode"
+                      value="http://openapi.test.fanqielaile.com/qunar/getOmsMainOrderByChannelOrderCode"/>
+            <property name="updateOmsOrderStatus"
+                      value="http://openapi.test.fanqielaile.com/qunar/updateOmsOrderStatus"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://openapi.test.fanqielaile.com"/>
@@ -211,7 +218,10 @@
             <property name="omsUpdateQunarOrder" value="http://oms.fanqiele.com/qunar/updateOrder"/>
             <property name="otaRoomTypeIdUrl" value="http://oms.fanqiele.com/qunar/getOtaRoomTypeId"/>
             <property name="cancelOrderUrl" value="http://oms.fanqiele.com/api/cancelOrder"/>
-            <property name="updateQunarOrderStatus" value="http://oms.fanqiele.com/api/updateQunarOrderStatus"/>
+            <property name="updateQunarOrderStatus" value="http://oms.fanqiele.com/qunar/updateQunarOrderStatus"/>
+            <property name="omsMainOrderByChannelOrderCode"
+                      value="http://oms.fanqiele.com/qunar/getOmsMainOrderByChannelOrderCode"/>
+            <property name="updateOmsOrderStatus" value="http://oms.fanqiele.com/qunar/updateOmsOrderStatus"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.fanqiele.com"/>
