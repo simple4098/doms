@@ -6,6 +6,7 @@ import com.fanqie.util.DateUtil;
 import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.qunar.*;
+import com.tomasky.doms.dto.qunar.response.QunarDataResult;
 import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
 import com.tomasky.doms.dto.qunar.response.QunarProductionData;
 import com.tomasky.doms.dto.qunar.response.QunarResult;
@@ -18,12 +19,16 @@ import com.tomasky.doms.helper.QunarServiceHelper;
 import com.tomasky.doms.service.IQunarService;
 import com.tomasky.doms.support.util.*;
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * DESC : 对接去哪接口实现类
@@ -166,27 +171,54 @@ public class QunarService implements IQunarService {
 
     @Override
     public QunarResult matchQunarProduct(OmsPram omsPram) throws DmsException {
-
-        QunarResult qunarResult = null;
+        QunarDataResult qunarResult = null;
         String httpPost = null;
         try {
             List<QunarDockingPhyRoomType> list = qunarServiceHelper.checkQunarDockingPhyRoomType(omsPram);
+            Set<QunarDockingPhyRoomType> errorList = new HashSet<>();
+            Set<QunarDockingPhyRoomType> successList = new HashSet<>();
             for(QunarDockingPhyRoomType qunarDockingPhyRoomType:list){
                 logger.info("匹配产品(房型)参数："+JacksonUtil.obj2json(qunarDockingPhyRoomType));
-                httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionDockingUrl(), qunarDockingPhyRoomType);
-                qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
-                logger.info("匹配产品列表返回:"+JSON.toJSONString(qunarResult));
-                if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
-                    throw  new DmsException("去哪儿产品匹配异常"+qunarDockingPhyRoomType.getHotelNo()+qunarResult.getMsg());
-                }else {
-                    RoomOnOff roomOnOff = new RoomOnOff();
-                    BeanUtils.copyProperties(roomOnOff,qunarDockingPhyRoomType);
-                    roomOnOff.setFromDate(DateUtil.fromDate(0));
-                    roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("qunar.day")));
-                    String roomOn = HttpClientUtil.httpKvPost(QunarUrlUtil.roomOn(), roomOnOff);
-                    qunarResult = JacksonUtil.json2obj(roomOn, QunarResult.class);
-                    logger.info("开房结果" + JacksonUtil.obj2json(qunarResult));
+                try{
+                    httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionDockingUrl(), qunarDockingPhyRoomType);
+                    qunarResult = JacksonUtil.json2obj(httpPost, QunarDataResult.class);
+                    logger.info("匹配产品列表返回:"+JSON.toJSONString(qunarResult));
+                    if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
+                        //errorList.add(qunarDockingPhyRoomType);
+                        throw  new DmsException("去哪儿产品匹配异常"+qunarDockingPhyRoomType.getHotelNo()+qunarResult.getMsg());
+                    }else {
+                        successList.add(qunarDockingPhyRoomType);
+                        qunarServiceHelper.roomOff(qunarDockingPhyRoomType);
+                    }
+                }catch (Exception e){
+                    errorList.add(qunarDockingPhyRoomType);
                 }
+            }
+            //匹配失败的房型 再重新去请求一次
+            if (CollectionUtils.isNotEmpty(errorList)){
+                Iterator<QunarDockingPhyRoomType> iterator = errorList.iterator();
+                while (iterator.hasNext()){
+                    QunarDockingPhyRoomType qunarDockingPhyRoomType = iterator.next();
+                    logger.info("重新匹配产品参数:"+JSON.toJSONString(qunarDockingPhyRoomType));
+                    try {
+                        httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionDockingUrl(), qunarDockingPhyRoomType);
+                        qunarResult = JacksonUtil.json2obj(httpPost, QunarDataResult.class);
+                        logger.info("重新匹配产品返回:"+JSON.toJSONString(qunarResult));
+                        if (QunarResultUtil.isSuccess(httpPost,qunarResult)){
+                            qunarServiceHelper.roomOff(qunarDockingPhyRoomType);
+                            successList.add(qunarDockingPhyRoomType);
+                        }
+                        errorList.clear();
+                    }catch (Exception e){
+                        logger.error("重新匹配失败的房型失败",e);
+                    }
+
+                }
+
+            }
+            if (CollectionUtils.isNotEmpty(successList)){
+                logger.info("返回oms正确产品集合:"+JSON.toJSONString(successList));
+                qunarResult.setData(JSON.toJSONString(successList));
             }
             return qunarResult;
         } catch (Exception e) {
