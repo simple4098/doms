@@ -2,12 +2,18 @@ package com.tomasky.doms.helper;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
+import com.fanqie.util.DateUtil;
 import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.oms.*;
 import com.tomasky.doms.dto.qunar.*;
+import com.tomasky.doms.dto.qunar.response.QunarDataResult;
+import com.tomasky.doms.dto.qunar.response.QunarResult;
 import com.tomasky.doms.exception.DmsException;
+import com.tomasky.doms.support.util.HttpClientUtil;
 import com.tomasky.doms.support.util.JacksonUtil;
+import com.tomasky.doms.support.util.QunarUrlUtil;
+import com.tomasky.doms.support.util.ResourceBundleUtil;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.lang3.StringUtils;
@@ -229,5 +235,16 @@ public class QunarServiceHelper {
             removeHotelList.add(qunarRemoveHotel);
         }
         return removeHotelList;
+    }
+
+
+    public void roomOff(QunarDockingPhyRoomType qunarDockingPhyRoomType ) throws Exception {
+        RoomOnOff roomOnOff = new RoomOnOff();
+        BeanUtils.copyProperties(roomOnOff,qunarDockingPhyRoomType);
+        roomOnOff.setFromDate(DateUtil.fromDate(0));
+        roomOnOff.setToDate(DateUtil.fromDate(ResourceBundleUtil.getInt("qunar.day")));
+        String roomOn = HttpClientUtil.httpKvPost(QunarUrlUtil.roomOn(), roomOnOff);
+        QunarResult qunarResult = JacksonUtil.json2obj(roomOn, QunarResult.class);
+        logger.info("开房结果" + JacksonUtil.obj2json(qunarResult));
     }
 }
