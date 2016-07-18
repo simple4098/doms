@@ -473,7 +473,7 @@ public class QunarOrder {
         cancelOrderParamDto.setOtaId(EnumOta.qunar_conn.getValue());
         cancelOrderParamDto.setOtaOrderNo(qunarOrder.getChannelOrderNo());
         //取消订单传入已付金额为0
-        cancelOrderParamDto.setPaidAmount(BigDecimal.valueOf(Double.valueOf(qunarOrder.getPrepaidAmount())));
+        cancelOrderParamDto.setPaidAmount(BigDecimal.valueOf(0));
         cancelOrderParamDto.setvName(ResourceBundleUtil.getString("qunar_conn_ota_user_code"));
         cancelOrderParamDto.setvPWD(ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
         return cancelOrderParamDto;
