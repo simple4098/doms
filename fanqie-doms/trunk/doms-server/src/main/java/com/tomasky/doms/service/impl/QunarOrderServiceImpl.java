@@ -185,6 +185,11 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
      */
     private Map<String, Object> createOrderMethod(QunarOrder qunarOrder, Map<String, Object> result, boolean needConfirm) {
         try {
+            //调用oms接口保存去哪儿原始订单信息
+            logger.info("请求oms创建去哪儿初始订单，请求地址=>" + CommonApi.getOmsQunarBasicOrder() + "参数=>" + JSON.toJSONString(QunarOrderUtil.toNameValuePair(qunarOrder)));
+            String baseOrderResponse = HttpClientUtil.httpPostQunarBasicOrder(CommonApi.getOmsQunarBasicOrder(), QunarOrderUtil.toNameValuePair(qunarOrder));
+            logger.info("请求oms创建去哪儿初始订单，返回值=>" + baseOrderResponse);
+
             OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder, needConfirm);
             OrderParamDto orderParamDto = qunarOrder.getOrderParamDto(omsOrder, ResourceBundleUtil.getString("qunar_conn_ota_user_code"), ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
             logger.info("请求oms下单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
@@ -195,10 +200,6 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
             if (StringUtils.isNotEmpty((String) responseResult.get("orderNo"))) {
                 qunarOrder.setOmsOrderNo((String) responseResult.get("orderNo"));
             }
-            //调用oms接口保存去哪儿原始订单信息
-            logger.info("请求oms创建去哪儿初始订单，请求地址=>" + CommonApi.getOmsQunarBasicOrder() + "参数=>" + JSON.toJSONString(QunarOrderUtil.toNameValuePair(qunarOrder)));
-            String baseOrderResponse = HttpClientUtil.httpPostQunarBasicOrder(CommonApi.getOmsQunarBasicOrder(), QunarOrderUtil.toNameValuePair(qunarOrder));
-            logger.info("请求oms创建去哪儿初始订单，返回值=>" + baseOrderResponse);
             //处理创建订单返回值
             return responseResult;
         } catch (Exception e) {
