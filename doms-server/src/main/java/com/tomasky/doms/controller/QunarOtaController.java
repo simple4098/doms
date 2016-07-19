@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.qunar.QunarMobile;
+import com.tomasky.doms.dto.qunar.response.QunarDataResult;
 import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
 import com.tomasky.doms.dto.qunar.response.QunarProductionData;
 import com.tomasky.doms.dto.qunar.response.QunarResult;
@@ -168,9 +169,11 @@ public class QunarOtaController {
 
         JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
-            QunarResult qunarResult = qunarService.matchQunarProduct(omsPram);
+            QunarDataResult qunarResult = qunarService.matchQunarProduct(omsPram);
             if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())) {
                 jsonModel = new JsonModel(DomsConstants.STATUS400, qunarResult.getMsg());
+            } else {
+                jsonModel.setData(qunarResult.getData());
             }
         } catch (Exception e) {
             logger.error("匹配酒店异常", e);

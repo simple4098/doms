@@ -170,7 +170,7 @@ public class QunarService implements IQunarService {
     }
 
     @Override
-    public QunarResult matchQunarProduct(OmsPram omsPram) throws DmsException {
+    public QunarDataResult matchQunarProduct(OmsPram omsPram) throws DmsException {
         QunarDataResult qunarResult = null;
         String httpPost = null;
         try {
@@ -220,7 +220,7 @@ public class QunarService implements IQunarService {
                 logger.info("返回oms正确产品集合:"+JSON.toJSONString(successList));
                 qunarResult.setData(JSON.toJSONString(successList));
             }
-            return qunarResult;
+            return new QunarDataResult(Integer.valueOf(qunarResult.getCode()), qunarResult.getMsg(), qunarResult.getData());
         } catch (Exception e) {
             logger.error("去哪儿产品匹配异常", e);
             throw  new DmsException("去哪儿产品匹配异常"+e.getMessage());
