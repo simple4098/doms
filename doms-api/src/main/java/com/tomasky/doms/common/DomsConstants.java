@@ -7,7 +7,7 @@ package com.tomasky.doms.common;
  * @version: v1.0.0
  */
 public class DomsConstants {
-    public final static String ERROR_QUNAR = "-1";
+    public final static Integer ERROR_QUNAR = -1;
     public final static String STATUS = "status";
     public static final boolean ERROR = false;
     //返回结果

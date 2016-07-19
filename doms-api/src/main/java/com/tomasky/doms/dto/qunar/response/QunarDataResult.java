@@ -14,7 +14,7 @@ public class QunarDataResult extends QunarResult {
 
     public QunarDataResult(Integer code,String msg,Object data) {
         super();
-        this.setCode(code.toString());
+        this.setCode(code);
         this.setMsg(msg);
         this.setData(data);
     }
