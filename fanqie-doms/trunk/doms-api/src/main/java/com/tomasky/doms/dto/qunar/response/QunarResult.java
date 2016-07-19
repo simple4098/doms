@@ -8,23 +8,23 @@ package com.tomasky.doms.dto.qunar.response;
  */
 public class QunarResult {
 
-    private String code;
+    private Integer code;
 
     private String msg;
 
     public QunarResult() {
     }
 
-    public QunarResult(String code, String msg) {
+    public QunarResult(Integer code, String msg) {
         this.code = code;
         this.msg = msg;
     }
 
-    public String getCode() {
+    public Integer getCode() {
         return code;
     }
 
-    public void setCode(String code) {
+    public void setCode(Integer code) {
         this.code = code;
     }
 
