@@ -2,10 +2,7 @@ package com.tomasky.doms.service;
 
 import com.tomasky.doms.dto.OmsPram;
 import com.tomasky.doms.dto.qunar.QunarMobile;
-import com.tomasky.doms.dto.qunar.response.QunarHotelInfo;
-import com.tomasky.doms.dto.qunar.response.QunarProductionData;
-import com.tomasky.doms.dto.qunar.response.QunarResult;
-import com.tomasky.doms.dto.qunar.response.QunarRoomTypeData;
+import com.tomasky.doms.dto.qunar.response.*;
 import com.tomasky.doms.exception.DmsException;
 
 /**
@@ -65,7 +62,7 @@ public interface IQunarService {
      * 匹配渠道产品信息
      * @param omsPram oms参数列表
      */
-    QunarResult matchQunarProduct(OmsPram omsPram) throws DmsException;
+    QunarDataResult matchQunarProduct(OmsPram omsPram) throws DmsException;
 
     /**
      *  解除产品匹配
