@@ -4,11 +4,11 @@ package com.tomasky.doms.dto.qunar;
  * Create by jame
  * Date: 2016/6/7
  * Version: 1.0
- * TODO: 去哪儿系统服务状态码说明
+ * desc: 去哪儿系统服务状态码说明
  * 状态码 状态码描述
  */
 public class QunarStatusCode {
-    public static final Integer SUCCESS = 0;//处理成功
+    public static final String SUCCESS = "0";//处理成功
     public static final Integer ERROR_10000 = 10000;//未知异常
     public static final Integer ERROR_10001 = 10001;// 系统处理异常
     public static final Integer ERROR_1000 = 1000;// //缺少pmsId参数
