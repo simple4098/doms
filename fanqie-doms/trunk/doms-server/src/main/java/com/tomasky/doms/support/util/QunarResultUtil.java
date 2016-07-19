@@ -17,6 +17,6 @@ public class QunarResultUtil {
     }
 
     public static boolean isSuccess(String httpPost ,QunarResult qunarResult){
-        return StringUtils.isNotEmpty(httpPost) && DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode());
+        return StringUtils.isNotEmpty(httpPost) && DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode().toString());
     }
 }
