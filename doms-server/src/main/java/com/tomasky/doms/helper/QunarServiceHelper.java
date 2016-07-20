@@ -189,6 +189,7 @@ public class QunarServiceHelper {
         Assert.notNull(data);
         Assert.notNull(omsPram.getAccountId());
         List<OmsXjRoomType> omsXjRoomTypeList = JSON.parseObject(data, new TypeReference<List<OmsXjRoomType>>() {});
+        logger.info("解绑产品(房型)参数JSON:"+data+" accountId:"+omsPram.getAccountId());
         //List<OmsXjRoomType> omsXjRoomTypeList = JacksonUtil.json2list(data, OmsXjRoomType.class);
         List<QunarDockingRemovePhyRoomType> list = new ArrayList<>();
         QunarDockingRemovePhyRoomType qunarDockingRemovePhyRoomType = null;
