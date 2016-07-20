@@ -181,10 +181,10 @@ public class QunarService implements IQunarService {
                 logger.info("匹配产品(房型)参数："+JacksonUtil.obj2json(qunarDockingPhyRoomType));
                 try{
                     httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.productionDockingUrl(), qunarDockingPhyRoomType);
-                    logger.info("匹配产品返回值=>" + httpPost);
+                    //logger.info("匹配产品返回值=>" + httpPost);
                     qunarResult = JacksonUtil.json2obj(httpPost, QunarDataResult.class);
                     logger.info("匹配产品列表返回:"+JSON.toJSONString(qunarResult));
-                    if (!QunarResultUtil.isSuccess(httpPost, qunarResult) && !qunarResult.getCode().equals(-2019)) {
+                    if (!QunarResultUtil.isSuccess(httpPost, qunarResult)) {
                         //errorList.add(qunarDockingPhyRoomType);
                         throw  new DmsException("去哪儿产品匹配异常"+qunarDockingPhyRoomType.getHotelNo()+qunarResult.getMsg());
                     }else {
