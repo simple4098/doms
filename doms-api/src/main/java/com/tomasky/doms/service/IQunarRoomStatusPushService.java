@@ -3,6 +3,8 @@ package com.tomasky.doms.service;
 import com.tomasky.doms.dto.push.SyncRoomCountBo;
 import com.tomasky.doms.dto.push.SyncRoomPriceBo;
 
+import java.util.Map;
+
 /**
  * Create by jame
  * Date: 2016/6/12
@@ -14,7 +16,7 @@ public interface IQunarRoomStatusPushService {
      * 同步去呼呼单房量接口
      * @param syncRoomCountBo
      */
-    void syncRoomCount(SyncRoomCountBo syncRoomCountBo);
+    void syncRoomCount(SyncRoomCountBo syncRoomCountBo,Map priceCodeMapper);
 
     /**
      * 同步去呼呼单房价接口
