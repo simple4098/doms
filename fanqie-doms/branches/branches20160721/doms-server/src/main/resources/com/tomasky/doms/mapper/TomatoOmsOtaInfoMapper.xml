@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tomasky.doms.dao.ITomatoOmsOtaInfoDao">
+
+    <select id="query" parameterType="com.tomasky.doms.dto.TomatoOmsOtaInfo"
+            resultType="com.tomasky.doms.dto.TomatoOmsOtaInfo">
+        SELECT
+        t.id id,
+        t.name as name,
+        t.user_code userCode,
+        t.user_password userPassword,
+        t.authority authority,
+        t.api_type_id apiTypeId,
+        t.ota_type otaType,
+        t.ota_id otaId,
+        t.pid as pId,
+        t.ota_group as otaGroup,
+        t.ota_http_url as otaHttpUrl,
+        t.manager as manager,
+        t.proxy_type_config as proxyTypeConfig,
+        t.common_proxy_strategy as commonProxyStrategy,
+        t.push_addr as pushAddr,
+        t.push_config as pushConfig
+
+        FROM tomato_oms_ota_info t
+        <where>
+            <if test="id != null">
+                and t.id = #{id}
+            </if>
+            <if test="name != null">
+                and t.name = #{name}
+            </if>
+            <if test="userCode != null">
+                and t.user_code = #{userCode}
+            </if>
+            <if test="userPassword != null">
+                and t.user_password = #{userPassword}
+            </if>
+            <if test="authority != null">
+                and t.authority = #{authority}
+            </if>
+            <if test="apiTypeId != null">
+                and t.api_type_id = #{apiTypeId}
+            </if>
+            <if test="otaId != null">
+                and t.ota_id = #{otaId}
+            </if>
+            <if test="pId != null">
+                and t.pid = #{pId}
+            </if>
+            <if test="otaGroup != null">
+                and t.ota_group = #{otaGroup}
+            </if>
+            <if test="manager != null">
+                and t.manager = #{manager}
+            </if>
+            <if test="proxyTypeConfig != null">
+                and t.proxy_type_config = #{proxyTypeConfig}
+            </if>
+            <if test="commonProxyStrategy != null">
+                and t.common_proxy_strategy = #{commonProxyStrategy}
+            </if>
+        </where>
+    </select>
+</mapper>
