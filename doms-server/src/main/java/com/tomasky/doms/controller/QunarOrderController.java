@@ -49,16 +49,16 @@ public class QunarOrderController {
                 result.put("code", -10001);
             }
             if (String.valueOf(result.get("status")).equals(String.valueOf(DomsConstants.HTTP_SUCCESS))) {
-                result.put("message", "处理成功");
+                result.put("msg", "处理成功");
             } else {
-                result.put("message", "处理失败");
+                result.put("msg", "处理失败");
             }
         } else {
             result.put("code", -10001);
             if (StringUtils.isEmpty(String.valueOf(map.get("message")))) {
-                result.put("message", "处理失败");
+                result.put("msg", "处理失败");
             } else {
-                result.put("message", map.get("message"));
+                result.put("msg", map.get("message"));
             }
         }
         logger.info("去哪儿同步订单返回值=>" + JSON.toJSONString(result));
