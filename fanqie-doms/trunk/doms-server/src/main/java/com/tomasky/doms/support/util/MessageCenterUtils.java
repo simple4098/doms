@@ -35,7 +35,7 @@ public class MessageCenterUtils {
             BizType parentBizType = new BizType(logDec.getpId(),logDec.getValue(), null);
             BizType bizType = new BizType(logDec.getLogTypeId(), logDec.getValue(), parentBizType);
             BizData bizData = new BizData(logDec,userName==null?"系统操作":userName,content,innId,roomTypeId,otaCode);
-            BizLog bizLog = new BizLog(innId, bizType, "DOMS", bizData);
+            BizLog bizLog = new BizLog(innId, bizType, "DOMS",userName, bizData);
             bizLogClient.save(bizLog);
             LOGGER.info("=====记录日志结束======");
         }
