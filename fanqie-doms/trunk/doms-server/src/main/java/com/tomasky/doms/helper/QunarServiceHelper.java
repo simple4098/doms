@@ -175,7 +175,7 @@ public class QunarServiceHelper {
             BeanUtils.copyProperties(qunarDockingPhyRoomType, omsSjRoomType);
             qunarDockingPhyRoomType.setHotelNo(omsPram.getAccountId());
             qunarDockingPhyRoomType.setChannelHotelNo(omsSjRoomType.getChannelHotelNo());
-            qunarDockingPhyRoomType.setPhyRoomTypeCode(omsSjRoomType.getRoomTypeId()+"-"+omsSjRoomType.getRatePlanCode());
+            qunarDockingPhyRoomType.setPhyRoomTypeCode(omsSjRoomType.getRoomTypeId());
             qunarDockingPhyRoomType.setPhyRoomTypeName(omsSjRoomType.getRoomTypeName());
             //todo pms ratePlanCode
             qunarDockingPhyRoomType.setRatePlanCode(omsSjRoomType.getRatePlanCode());
@@ -197,7 +197,7 @@ public class QunarServiceHelper {
             qunarDockingRemovePhyRoomType = new QunarDockingRemovePhyRoomType();
             BeanUtils.copyProperties(qunarDockingRemovePhyRoomType,omsXjRoomType);
             qunarDockingRemovePhyRoomType.setHotelNo(omsPram.getAccountId());
-            qunarDockingRemovePhyRoomType.setPhyRoomTypeCode(omsXjRoomType.getRoomTypeId()+"-"+omsXjRoomType.getRatePlanCode());
+            qunarDockingRemovePhyRoomType.setPhyRoomTypeCode(omsXjRoomType.getRoomTypeId());
 
             list.add(qunarDockingRemovePhyRoomType);
 
