@@ -189,7 +189,8 @@ public class QunarService implements IQunarService {
                         throw  new DmsException("去哪儿产品匹配异常"+qunarDockingPhyRoomType.getHotelNo()+qunarResult.getMsg());
                     }else {
                         successList.add(qunarDockingPhyRoomType);
-                        qunarServiceHelper.roomOff(qunarDockingPhyRoomType);
+                        // TODO: 2016/7/26  不用关房  push要做这样的处理
+                        //qunarServiceHelper.roomOff(qunarDockingPhyRoomType);
                     }
                 }catch (Exception e){
                     errorList.add(qunarDockingPhyRoomType);
@@ -206,7 +207,8 @@ public class QunarService implements IQunarService {
                         qunarResult = JacksonUtil.json2obj(httpPost, QunarDataResult.class);
                         logger.info("重新匹配产品返回:"+JSON.toJSONString(qunarResult));
                         if (QunarResultUtil.isSuccess(httpPost,qunarResult)){
-                            qunarServiceHelper.roomOff(qunarDockingPhyRoomType);
+                            // TODO: 2016/7/26  不用关房  push要做这样的处理
+                            //qunarServiceHelper.roomOff(qunarDockingPhyRoomType);
                             successList.add(qunarDockingPhyRoomType);
                         }
                         errorList.clear();
