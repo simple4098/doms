@@ -20,6 +20,7 @@
 
 
     <dependencies>
+
         <dependency>
             <groupId>tomasky-doms</groupId>
             <artifactId>doms-api</artifactId>
@@ -58,16 +59,16 @@
             <version>3.10-FINAL</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            <version>3.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-rt-transports-http</artifactId>
-            <version>3.0.3</version>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.apache.cxf</groupId>-->
+        <!--<artifactId>cxf-rt-frontend-jaxws</artifactId>-->
+        <!--<version>3.0.3</version>-->
+        <!--</dependency>-->
+        <!--<dependency>-->
+        <!--<groupId>org.apache.cxf</groupId>-->
+        <!--<artifactId>cxf-rt-transports-http</artifactId>-->
+        <!--<version>3.0.3</version>-->
+        <!--</dependency>-->
 
         <!-- xmemcached -->
         <dependency>
