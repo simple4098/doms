@@ -16,7 +16,7 @@ public interface IQunarRoomStatusPushService {
      * 同步去呼呼单房量接口
      * @param syncRoomCountBo
      */
-    void syncRoomCount(SyncRoomCountBo syncRoomCountBo,Map priceCodeMapper);
+    void syncRoomCount(SyncRoomCountBo syncRoomCountBo);
 
     /**
      * 同步去呼呼单房价接口
