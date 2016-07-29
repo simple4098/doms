@@ -20,6 +20,7 @@ public class DomsConstants {
     // 渠道代码
     public final static String channelCode = "QUNAR";
     public final static Integer SUCCESS_QUNAR = 0;
+    public final static Integer XCOtaId = 108;
     public final static int HTTP_SUCCESS = 200; //所有逻辑都正确
     public final static int HTTP_ERROR = 400; //所有逻辑都错误
     public final static String UPDATE_ORDER_STATUS = "OMS_ORDER_STATUS_CHANGED";

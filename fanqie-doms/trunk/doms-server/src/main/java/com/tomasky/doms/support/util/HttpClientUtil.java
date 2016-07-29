@@ -131,7 +131,7 @@ public class HttpClientUtil {
     public static List<NameValuePair> commonParam(Map<String, String> map) {
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+            nameValuePairs.add(new BasicNameValuePair(entry.getKey(), String.valueOf(entry.getValue())));
         }
         return nameValuePairs;
     }

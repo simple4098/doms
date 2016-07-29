@@ -1,5 +1,9 @@
 package com.tomasky.doms.dto.qunar;
 
+import com.tomasky.doms.model.Person;
+
+import java.util.List;
+
 /**
  * Created by Administrator on 2016/6/15.
  */
@@ -14,7 +18,7 @@ public class QunarUpdateOrderRequest {
     private String omsOrderNo;
     //渠道订单号
     private String channelOrderNo;
-    //订单状态
+    //订单状态（0:未处理、1:已接受（已分房）、2:已拒绝、3:已取消、4:验证失败、5：已接受（未分房）、6：入住、7：离店）
     private String orderStatus;
     //实际入住时间
     private String liveInDate;
@@ -22,6 +26,36 @@ public class QunarUpdateOrderRequest {
     private String leaveOutDate;
     //
     private String refuseType;
+    //客栈id
+    private String innId;
+    //客栈名称
+    private String innName;
+    //入住人信息
+    private List<Person> personList;
+
+    public List<Person> getPersonList() {
+        return personList;
+    }
+
+    public void setPersonList(List<Person> personList) {
+        this.personList = personList;
+    }
+
+    public String getInnId() {
+        return innId;
+    }
+
+    public void setInnId(String innId) {
+        this.innId = innId;
+    }
+
+    public String getInnName() {
+        return innName;
+    }
+
+    public void setInnName(String innName) {
+        this.innName = innName;
+    }
 
     public String getRefuseType() {
         return refuseType;
