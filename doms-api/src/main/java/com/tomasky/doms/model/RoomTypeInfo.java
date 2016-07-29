@@ -1,0 +1,278 @@
+package com.tomasky.doms.model;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.List;
+
+/**
+ * DESC :
+ *
+ * @author : 番茄木-ZLin
+ * @data : 2015/6/3
+ * @version: v1.0.0
+ */
+public class RoomTypeInfo implements Serializable
+
+{
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 1L;
+
+    private Integer accountId; /* 开通记录编号 */
+
+    private Integer omsInnId; /* 客栈基本信息id */
+
+    private Integer innId;/*客栈id*/
+    private String innName; /* 客栈名称 */
+
+    private Integer roomTypeId; /* 房型id */
+    private Integer otaRoomTypeId; /* ota房型id */
+
+    private Double sellingPrice; /* 默认现价 */
+    private Double initialPrice; /* 默认原始价格 */
+    private Double weekSellingPrice; /* 周末现价 */
+    private Double weekInitialPrice; /* 周末原始价格 */
+    private String roomTypeName; /* 房间类型名称 */
+    private Double roomArea; /* 房间面积 */
+    private Integer bedNum; /* 床数 */
+    private Integer bedLen; /* 床长 */
+    private Integer bedWid; /* 床宽 */
+    private String floorNum; /* 楼层数 */
+    private Integer recommend;
+
+    private String facilities; /* 基本设施 */
+    private String roomInfo; /* 房间简介 */
+    private Integer bindingRoomNumber;/*绑定的房间数*/
+    private Double proxyExtraPrice;
+
+    public Double getProxyExtraPrice() {
+        return proxyExtraPrice;
+    }
+
+    public void setProxyExtraPrice(Double proxyExtraPrice) {
+        this.proxyExtraPrice = proxyExtraPrice;
+    }
+
+    private List<RoomDetail> roomDetail; /* 房型价格详细信息 */
+
+    //oms 床型
+    private String bedType;
+    private String bedTypeValue;
+
+    private transient String ratePlanCode; // 价格计划code
+
+    private transient String ratePlanCodeName; // 价格计划code名称
+    private BigDecimal commissionPercent;
+
+    public BigDecimal getCommissionPercent() {
+        return commissionPercent;
+    }
+
+    public void setCommissionPercent(BigDecimal commissionPercent) {
+        this.commissionPercent = commissionPercent;
+    }
+
+    public String getBedType() {
+        return bedType;
+    }
+
+    public void setBedType(String bedType) {
+        this.bedType = bedType;
+    }
+
+    public Integer getRecommend() {
+        return recommend;
+    }
+
+    public void setRecommend(Integer recommend) {
+        this.recommend = recommend;
+    }
+
+
+    public Integer getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
+    }
+
+    public Integer getOmsInnId() {
+        return omsInnId;
+    }
+
+    public void setOmsInnId(Integer omsInnId) {
+        this.omsInnId = omsInnId;
+    }
+
+    public String getInnName() {
+        return innName;
+    }
+
+    public void setInnName(String innName) {
+        this.innName = innName;
+    }
+
+    public Integer getRoomTypeId() {
+        return roomTypeId;
+    }
+
+    public void setRoomTypeId(Integer roomTypeId) {
+        this.roomTypeId = roomTypeId;
+    }
+
+    public Integer getOtaRoomTypeId() {
+        return otaRoomTypeId;
+    }
+
+    public void setOtaRoomTypeId(Integer otaRoomTypeId) {
+        this.otaRoomTypeId = otaRoomTypeId;
+    }
+
+    public Double getSellingPrice() {
+        return sellingPrice;
+    }
+
+    public void setSellingPrice(Double sellingPrice) {
+        this.sellingPrice = sellingPrice;
+    }
+
+    public Double getInitialPrice() {
+        return initialPrice;
+    }
+
+    public void setInitialPrice(Double initialPrice) {
+        this.initialPrice = initialPrice;
+    }
+
+    public Double getWeekSellingPrice() {
+        return weekSellingPrice;
+    }
+
+    public void setWeekSellingPrice(Double weekSellingPrice) {
+        this.weekSellingPrice = weekSellingPrice;
+    }
+
+    public Double getWeekInitialPrice() {
+        return weekInitialPrice;
+    }
+
+    public void setWeekInitialPrice(Double weekInitialPrice) {
+        this.weekInitialPrice = weekInitialPrice;
+    }
+
+    public String getRoomTypeName() {
+        return roomTypeName;
+    }
+
+    public void setRoomTypeName(String roomTypeName) {
+        this.roomTypeName = roomTypeName;
+    }
+
+    public Double getRoomArea() {
+        return roomArea;
+    }
+
+    public void setRoomArea(Double roomArea) {
+        this.roomArea = roomArea;
+    }
+
+    public Integer getBedNum() {
+        return bedNum;
+    }
+
+    public void setBedNum(Integer bedNum) {
+        this.bedNum = bedNum;
+    }
+
+    public Integer getBedLen() {
+        return bedLen;
+    }
+
+    public void setBedLen(Integer bedLen) {
+        this.bedLen = bedLen;
+    }
+
+    public Integer getBedWid() {
+        return bedWid;
+    }
+
+    public void setBedWid(Integer bedWid) {
+        this.bedWid = bedWid;
+    }
+
+    public String getFloorNum() {
+        return floorNum;
+    }
+
+    public void setFloorNum(String floorNum) {
+        this.floorNum = floorNum;
+    }
+
+    public String getFacilities() {
+        return facilities;
+    }
+
+    public void setFacilities(String facilities) {
+        this.facilities = facilities;
+    }
+
+    public String getRoomInfo() {
+        return roomInfo;
+    }
+
+    public void setRoomInfo(String roomInfo) {
+        this.roomInfo = roomInfo;
+    }
+
+
+    public List<RoomDetail> getRoomDetail() {
+        return roomDetail;
+    }
+
+    public void setRoomDetail(List<RoomDetail> roomDetail) {
+        this.roomDetail = roomDetail;
+    }
+
+    public Integer getBindingRoomNumber() {
+        return bindingRoomNumber;
+    }
+
+    public void setBindingRoomNumber(Integer bindingRoomNumber) {
+        this.bindingRoomNumber = bindingRoomNumber;
+    }
+
+    public Integer getInnId() {
+        return innId;
+    }
+
+    public void setInnId(Integer innId) {
+        this.innId = innId;
+    }
+
+    public String getRatePlanCode() {
+        return ratePlanCode;
+    }
+
+    public void setRatePlanCode(String ratePlanCode) {
+        this.ratePlanCode = ratePlanCode;
+    }
+
+    public String getRatePlanCodeName() {
+        return ratePlanCodeName;
+    }
+
+    public void setRatePlanCodeName(String ratePlanCodeName) {
+        this.ratePlanCodeName = ratePlanCodeName;
+    }
+
+    public String getBedTypeValue() {
+        return bedTypeValue;
+    }
+
+    public void setBedTypeValue(String bedTypeValue) {
+        this.bedTypeValue = bedTypeValue;
+    }
+}

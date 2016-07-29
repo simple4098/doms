@@ -12,6 +12,7 @@ import com.tomasky.doms.common.DomsConstants;
 import com.tomasky.doms.dto.qunar.QunarUpdateOrderRequest;
 import com.tomasky.doms.enums.EnumOta;
 import com.tomasky.doms.model.QunarOrder;
+import com.tomasky.doms.service.ICtripOrderHelperService;
 import com.tomasky.doms.service.IQunarOrderHelperService;
 import com.tomasky.doms.service.IQunarOrderService;
 import com.tomasky.doms.support.util.QunarOrderUtil;
@@ -33,6 +34,8 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
     private static final Logger logger = LoggerFactory.getLogger(QunarOrderServiceImpl.class);
     @Resource
     private IQunarOrderHelperService qunarOrderHelperService;
+    @Resource
+    private ICtripOrderHelperService ctripOrderHelperService;
 
     @Override
     public Map<String, Object> createQunarOrderMethod(QunarOrder qunarOrder) {
@@ -127,7 +130,7 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
                 //订单不存在,调用oms下单方法
                 Map<String, Object> orderMethod = createOrderMethod(qunarOrder, result, false);
                 result.put("status", orderMethod.get("status"));
-                if (orderMethod.get("status").toString().equals(String.valueOf(200))) {
+                if (orderMethod.get("status").toString().equals(String.valueOf(DomsConstants.HTTP_SUCCESS))) {
                     result.put("message", "确认订单成功");
                 } else {
                     result.put("message", "确认订单失败");
@@ -156,7 +159,7 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
             CancelOrderParamDto cancelOrderParamDto = qunarOrder.getCancelOrderParam(qunarOrder);
             String response = HttpClientUtil.httpGetCancelOrder(CommonApi.getCancelOrderUrl(), cancelOrderParamDto);
             JSONObject jsonObject = JSONObject.parseObject(response);
-            if (!jsonObject.get("status").toString().equals(String.valueOf(200))) {
+            if (!jsonObject.get("status").toString().equals(String.valueOf(DomsConstants.HTTP_SUCCESS))) {
                 logger.info("oms取消订单失败");
                 result.put("status", DomsConstants.STATUS400);
                 result.put("message", "取消订单失败");
@@ -217,28 +220,59 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
         QunarUpdateOrderRequest qunarUpdateOrderRequest = JSON.parseObject(content, new TypeReference<QunarUpdateOrderRequest>() {
         });
         //根据传入参数判断是否为去哪儿的订单
-        String otaId = String.valueOf(EnumOta.qunar_conn.getValue());
-        if (otaId.equals(String.valueOf(qunarUpdateOrderRequest.getOtaId()))) {
+        if (qunarUpdateOrderRequest.getOtaId().equals(String.valueOf(EnumOta.qunar_conn.getValue()))) {
+            qunarOrderUpdateMethod(qunarUpdateOrderRequest);
+        } else if (qunarUpdateOrderRequest.getOtaId().equals(String.valueOf(EnumOta.ctrip_conn.getValue()))) {
+            //携程直连订单状态同步
             try {
-                logger.info("事件调用oms更新去哪儿订单信息，请求地址=>" + CommonApi.getOmsUpdateQunarOrder() + "参数=>" + JSON.toJSONString(qunarUpdateOrderRequest));
-                String response = HttpClientUtil.httpPostQunarBasicOrder(CommonApi.getOmsUpdateQunarOrder(), QunarOrderUtil.getUpdateQunarOrderStatusParm(qunarUpdateOrderRequest));
-                logger.info("事件调用oms更新去哪儿订单信息，响应值=>" + response);
-                //解析响应值
+                logger.info("事件调用oms，查询携程直连订单信息，请求地址=>" + CommonApi.getOmsCtripOrderInfo() + "参数=>" + JSON.toJSONString(qunarUpdateOrderRequest));
+                String response = HttpClientUtil.httpPostQunarBasicOrder(CommonApi.getOmsCtripOrderInfo(), QunarOrderUtil.getUpdateQunarOrderStatusParm(qunarUpdateOrderRequest));
+                logger.info("事件调用oms，查询携程直连订单信息，响应值=>" + response);
                 if (QunarOrderUtil.dealObjectResponse(response)) {
                     JSONObject jsonObject = JSONObject.parseObject(response);
-                    QunarOrder qunarOrder = JSON.parseObject(String.valueOf(jsonObject.get("qunarOrder")), new TypeReference<QunarOrder>() {
-                    });
-                    if (null != qunarOrder) {
-                        this.qunarOrderHelperService.pushOrderStatusToQunar(qunarOrder, qunarUpdateOrderRequest);
+                    //获取otaRoomTypeId
+                    String otaRoomTypeId = jsonObject.getString("otaRoomTypeId");
+                    //推送订单状态
+                    if (StringUtils.isNotEmpty(otaRoomTypeId)) {
+                        this.ctripOrderHelperService.pushOrderStatus(qunarUpdateOrderRequest, otaRoomTypeId);
+                    } else {
+                        throw new RuntimeException("获取oms，otaRoomTypeId为空,不执行订单同步操作,订单号为=>" + qunarUpdateOrderRequest.getChannelOrderNo());
                     }
                 } else {
                     logger.info("调用oms接口，响应非200，不执行同步操作");
                 }
             } catch (Exception e) {
-                logger.error("调用oms同步去哪儿订单状态异常" + e);
+                logger.error("事件同步携程直连订单状态异常", e);
             }
+
         } else {
             logger.info("此订单不是去哪儿订单，不执行操作!");
+        }
+    }
+
+    /**
+     * 去哪儿订单状态同步
+     *
+     * @param qunarUpdateOrderRequest
+     */
+    private void qunarOrderUpdateMethod(QunarUpdateOrderRequest qunarUpdateOrderRequest) {
+        try {
+            logger.info("事件调用oms更新去哪儿订单信息，请求地址=>" + CommonApi.getOmsUpdateQunarOrder() + "参数=>" + JSON.toJSONString(qunarUpdateOrderRequest));
+            String response = HttpClientUtil.httpPostQunarBasicOrder(CommonApi.getOmsUpdateQunarOrder(), QunarOrderUtil.getUpdateQunarOrderStatusParm(qunarUpdateOrderRequest));
+            logger.info("事件调用oms更新去哪儿订单信息，响应值=>" + response);
+            //解析响应值
+            if (QunarOrderUtil.dealObjectResponse(response)) {
+                JSONObject jsonObject = JSONObject.parseObject(response);
+                QunarOrder qunarOrder = JSON.parseObject(String.valueOf(jsonObject.get("qunarOrder")), new TypeReference<QunarOrder>() {
+                });
+                if (null != qunarOrder) {
+                    this.qunarOrderHelperService.pushOrderStatusToQunar(qunarOrder, qunarUpdateOrderRequest);
+                }
+            } else {
+                logger.info("调用oms接口，响应非200，不执行同步操作");
+            }
+        } catch (Exception e) {
+            logger.error("调用oms同步去哪儿订单状态异常" + e);
         }
     }
 }

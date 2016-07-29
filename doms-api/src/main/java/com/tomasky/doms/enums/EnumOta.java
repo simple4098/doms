@@ -10,6 +10,7 @@ public enum EnumOta {
     kf(111),//开放平台
     wg(1),//用于判断是否外挂业务
     qunar_conn(107),//去哪儿直连
+    ctrip_conn(108),//携程直连
     qunar(1),//去哪儿
     ctrip(2),//携程
     elong(3);//艺龙

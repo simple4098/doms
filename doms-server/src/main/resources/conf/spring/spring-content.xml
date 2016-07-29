@@ -132,6 +132,10 @@
             <property name="omsMainOrderByChannelOrderCode"
                       value="http://oms.local.fanqiele.com/qunar/getOmsMainOrderByChannelOrderCode"/>
             <property name="updateOmsOrderStatus" value="http://oms.local.fanqiele.com/qunar/updateOmsOrderStatus"/>
+            <property name="omsRoomType" value="http://192.168.1.189:8888/api/queryRoomType"/>
+            <property name="omsRoomStatus" value="http://192.168.1.189:8888/api/queryRoomStatus"/>
+            <property name="omsAccountIdUrl" value="http://192.168.1.189:8888/api/getAccountIdByInnId"/>
+            <property name="omsCtripOrderInfo" value="http://192.168.1.189:8888/api/getCtripCONNOrderInfo"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.local.fanqiele.com"/>
@@ -177,6 +181,10 @@
                       value="http://openapi.test.fanqielaile.com/qunar/getOmsMainOrderByChannelOrderCode"/>
             <property name="updateOmsOrderStatus"
                       value="http://openapi.test.fanqielaile.com/qunar/updateOmsOrderStatus"/>
+            <property name="omsRoomType" value="http://openapi.test.fanqielaile.com/api/queryRoomType"/>
+            <property name="omsRoomStatus" value="http://openapi.test.fanqielaile.com/api/queryRoomStatus"/>
+            <property name="omsAccountIdUrl" value="http://openapi.test.fanqielaile.com/api/getAccountIdByInnId"/>
+            <property name="omsCtripOrderInfo" value="http://openapi.test.fanqielaile.com/api/getCtripCONNOrderInfo"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://openapi.test.fanqielaile.com"/>
@@ -222,6 +230,10 @@
             <property name="omsMainOrderByChannelOrderCode"
                       value="http://oms.fanqiele.com/qunar/getOmsMainOrderByChannelOrderCode"/>
             <property name="updateOmsOrderStatus" value="http://oms.fanqiele.com/qunar/updateOmsOrderStatus"/>
+            <property name="omsRoomType" value="http://oms.fanqiele.com/api/queryRoomType"/>
+            <property name="omsRoomStatus" value="http://oms.fanqiele.com/api/queryRoomStatus"/>
+            <property name="omsAccountIdUrl" value="http://oms.fanqiele.com/api/getAccountIdByInnId"/>
+            <property name="omsCtripOrderInfo" value="http://oms.fanqiele.com/api/getCtripCONNOrderInfo"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.fanqiele.com"/>

@@ -29,6 +29,10 @@ public class CommonApi {
     public static String updateQunarOrderStatus;
     public static String omsMainOrderByChannelOrderCode;
     public static String updateOmsOrderStatus;
+    public static String omsRoomType;
+    public static String omsRoomStatus;
+    public static String omsAccountIdUrl;
+    public static String omsCtripOrderInfo;
 
 
     public static void setQunarUrl(String qunarUrl) {
@@ -159,5 +163,37 @@ public class CommonApi {
 
     public static String getUpdateOmsOrderStatus() {
         return updateOmsOrderStatus;
+    }
+
+    public void setOmsRoomType(String omsRoomType) {
+        this.omsRoomType = omsRoomType;
+    }
+
+    public static String getOmsRoomType() {
+        return omsRoomType;
+    }
+
+    public void setOmsRoomStatus(String omsRoomStatus) {
+        this.omsRoomStatus = omsRoomStatus;
+    }
+
+    public static String getOmsRoomStatus() {
+        return omsRoomStatus;
+    }
+
+    public void setOmsAccountIdUrl(String omsAccountIdUrl) {
+        this.omsAccountIdUrl = omsAccountIdUrl;
+    }
+
+    public static String getOmsAccountIdUrl() {
+        return omsAccountIdUrl;
+    }
+
+    public void setOmsCtripOrderInfo(String omsCtripOrderInfo) {
+        this.omsCtripOrderInfo = omsCtripOrderInfo;
+    }
+
+    public static String getOmsCtripOrderInfo() {
+        return omsCtripOrderInfo;
     }
 }
