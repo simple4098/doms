@@ -9,27 +9,28 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "BasicPropertyInfo", namespace = "http://www.opentravel.org/OTA/2003/05")
 public class BasicPropertyInfo {
     private String hotelCode;
-    private String hotelName;
-    private String hotelCodeContext;
 
-    @XmlAttribute(name = "HotelCodeContext")
-    public String getHotelCodeContext() {
-        return hotelCodeContext;
-    }
+    /* private String hotelName;
+     private String hotelCodeContext;
 
-    public void setHotelCodeContext(String hotelCodeContext) {
-        this.hotelCodeContext = hotelCodeContext;
-    }
+     @XmlAttribute(name = "HotelCodeContext")
+     public String getHotelCodeContext() {
+         return hotelCodeContext;
+     }
 
-    @XmlAttribute(name = "HotelName")
-    public String getHotelName() {
-        return hotelName;
-    }
+     public void setHotelCodeContext(String hotelCodeContext) {
+         this.hotelCodeContext = hotelCodeContext;
+     }
 
-    public void setHotelName(String hotelName) {
-        this.hotelName = hotelName;
-    }
+     @XmlAttribute(name = "HotelName")
+     public String getHotelName() {
+         return hotelName;
+     }
 
+     public void setHotelName(String hotelName) {
+         this.hotelName = hotelName;
+     }
+ */
     @XmlAttribute(name = "HotelCode")
     public String getHotelCode() {
         return hotelCode;
@@ -43,7 +44,7 @@ public class BasicPropertyInfo {
     public String toString() {
         return "BasicPropertyInfo{" +
                 "hotelCode='" + hotelCode + '\'' +
-                ", hotelName='" + hotelName + '\'' +
+                ", hotelName='" + +'\'' +
                 '}';
     }
 }
