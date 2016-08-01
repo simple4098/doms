@@ -44,15 +44,16 @@ public class QunarOrderUtil {
         omsOrder.setContact(qunarOrder.getContactTelNo());
         omsOrder.setOperateType(1);
         omsOrder.setOtaOrderNo(qunarOrder.getChannelOrderNo());
-        omsOrder.setPaidAmount(BigDecimal.valueOf(Double.valueOf(qunarOrder.getPrepaidAmount())));
         omsOrder.setProductTime(qunarOrder.getOrderDate());
         omsOrder.setRemind(qunarOrder.getRemark());
         omsOrder.setRoomTypeNum(Integer.parseInt(qunarOrder.getRoomNum()));
         omsOrder.setTotalPrice(BigDecimal.valueOf(Double.valueOf(qunarOrder.getOrderPrice())));
         if ("0".equals(qunarOrder.getPayType())) {
             omsOrder.setTypePay(1);
+            omsOrder.setPaidAmount(BigDecimal.valueOf(Double.valueOf(qunarOrder.getPrepaidAmount())));
         } else {
             omsOrder.setTypePay(2);
+            omsOrder.setPaidAmount(BigDecimal.ZERO);
         }
         omsOrder.setUserName(qunarOrder.getContactorName());
         //入住人信息
