@@ -10,6 +10,7 @@ import com.tomasky.doms.service.jointwisdomService.RatePlanDescription;
 import com.tomasky.doms.service.jointwisdomService.Text;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
@@ -138,7 +139,14 @@ public class XmlJointWisdomUtil {
         order.setHomeAmount(Integer.parseInt(roomRate.attributeValue("NumberOfUnits")));
         //价格code
         order.setOTARateCode(roomRate.attributeValue("RatePlanCode"));
-        order.setPaymentType(PaymentType.PP);
+        String paymentTypeString = roomRate.attributeValue("RatePlanCategory");
+        if (StringUtils.isNotEmpty(paymentTypeString) && paymentTypeString.equals("501")) {
+            //预付
+            order.setPaymentType(PaymentType.PP);
+        } else {
+            //现付
+            order.setPaymentType(PaymentType.FG);
+        }
         //得到每日入住信息
         order.setDailyInfoses(getOrderDailyInfos(roomRate.element("Rates").elements("Rate"), order));
         order.setPerson(Integer.valueOf(roomTypeParam.element("GuestCounts").element("GuestCount").attributeValue("Count")));
@@ -305,7 +313,6 @@ public class XmlJointWisdomUtil {
                 ratePlan.setRatePlanCode(roomTypeInfo.getRatePlanCode());
                 RatePlanDescription ratePlanDescription = new RatePlanDescription();
                 Text textRatePlan = new Text();
-                textRatePlan.setLanguage("en-US");
                 textRatePlan.setValue(roomTypeInfo.getRatePlanCodeName());
                 ratePlanDescription.setText(textRatePlan);
                 ratePlanDescription.setName(roomTypeInfo.getRatePlanCodeName());

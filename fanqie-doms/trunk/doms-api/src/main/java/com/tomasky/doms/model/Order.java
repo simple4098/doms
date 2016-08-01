@@ -493,10 +493,14 @@ public class Order extends Domain {
             //信用住
             omsOrder.setPaidAmount(order.getPrepayPrice());
             omsOrder.setTypePay(3);
-        } else {
+        } else if (PaymentType.PP.equals(order.getPaymentType())) {
             //预付
             omsOrder.setPaidAmount(order.getTotalPrice());
             omsOrder.setTypePay(1);
+        } else if (PaymentType.FG.equals(order.getPaymentType())) {
+            //现付
+            omsOrder.setPaidAmount(BigDecimal.valueOf(0));
+            omsOrder.setTypePay(2);
         }
         omsOrder.setUserName(order.getGuestName());
         //TODO需要传入房态更新时间

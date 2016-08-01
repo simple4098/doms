@@ -1,6 +1,7 @@
 package com.tomasky.doms.service.jointwisdomService;
 
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -11,8 +12,7 @@ import java.util.List;
  */
 @XmlRootElement(name = "RoomStay", namespace = "http://www.opentravel.org/OTA/2003/05")
 public class RoomStay {
-    private List<RoomType> roomTypes;//房型信息
-    private List<RatePlan> ratePlans;//价格计划信息
+    //    private List<RoomType> roomTypes;//房型信息
     private List<RoomRate> roomRates;
     private List<GuestCount> guestCounts;
     private TimeSpan timeSpan;
@@ -22,6 +22,37 @@ public class RoomStay {
     private String resGuestRPHs;
     private List<SpecialRequest> specialRequests;
     private DepositPayments depositPayments;
+    private String marketCode;
+    private String sourceOfBusiness;
+    private String promotionCode;
+
+
+    @XmlAttribute(name = "PromotionCode")
+    public String getPromotionCode() {
+        return promotionCode;
+    }
+
+    public void setPromotionCode(String promotionCode) {
+        this.promotionCode = promotionCode;
+    }
+
+    @XmlAttribute(name = "SourceOfBusiness")
+    public String getSourceOfBusiness() {
+        return sourceOfBusiness;
+    }
+
+    public void setSourceOfBusiness(String sourceOfBusiness) {
+        this.sourceOfBusiness = sourceOfBusiness;
+    }
+
+    @XmlAttribute(name = "MarketCode")
+    public String getMarketCode() {
+        return marketCode;
+    }
+
+    public void setMarketCode(String marketCode) {
+        this.marketCode = marketCode;
+    }
 
     @XmlElement(name = "DepositPayments")
     public DepositPayments getDepositPayments() {
@@ -107,17 +138,8 @@ public class RoomStay {
         this.roomRates = roomRates;
     }
 
-    @XmlElement(name = "RatePlan")
-    @XmlElementWrapper(name = "RatePlans")
-    public List<RatePlan> getRatePlans() {
-        return ratePlans;
-    }
 
-    public void setRatePlans(List<RatePlan> ratePlans) {
-        this.ratePlans = ratePlans;
-    }
-
-    @XmlElement(name = "RoomType")
+   /* @XmlElement(name = "RoomType")
     @XmlElementWrapper(name = "RoomTypes")
     public List<RoomType> getRoomTypes() {
         return roomTypes;
@@ -125,5 +147,5 @@ public class RoomStay {
 
     public void setRoomTypes(List<RoomType> roomTypes) {
         this.roomTypes = roomTypes;
-    }
+    }*/
 }
