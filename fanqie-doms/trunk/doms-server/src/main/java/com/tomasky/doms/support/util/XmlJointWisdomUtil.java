@@ -77,7 +77,7 @@ public class XmlJointWisdomUtil {
         order.setRoomTypeCode(param.element("RoomStayCandidates").element("RoomStayCandidate").attributeValue("RoomTypeCode"));
         order.setRoomTypeId(order.getRoomTypeCode());
         order.setHomeAmount(Integer.parseInt(param.element("RoomStayCandidates").element("RoomStayCandidate").attributeValue("Quantity")));
-        order.setChannelSource(ChannelSource.XC_CONN);
+        order.setChannelSource(ChannelSource.CTRIP_CONN);
         order.setInnId(Integer.parseInt(order.getInnCode()));
         order.setOtaId(DomsConstants.XCOtaId);
         return order;
@@ -127,7 +127,7 @@ public class XmlJointWisdomUtil {
     public static Order getAddOrder(String xml) throws Exception {
         Order order = new Order();
         order.setId(order.getUuid());
-        order.setChannelSource(ChannelSource.XC_CONN);
+        order.setChannelSource(ChannelSource.CTRIP_CONN);
         Element element = dealXmlStr(xml);
         Element param = element.element("HotelReservations").element("HotelReservation");
         //房型信息

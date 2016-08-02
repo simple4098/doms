@@ -10,7 +10,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class BasicPropertyInfo {
     private String hotelCode;
 
-    /* private String hotelName;
+    private String hotelName;
      private String hotelCodeContext;
 
      @XmlAttribute(name = "HotelCodeContext")
@@ -30,7 +30,6 @@ public class BasicPropertyInfo {
      public void setHotelName(String hotelName) {
          this.hotelName = hotelName;
      }
- */
     @XmlAttribute(name = "HotelCode")
     public String getHotelCode() {
         return hotelCode;
