@@ -513,8 +513,8 @@ public class Order extends Domain {
                 childOrder.setBookRoomPrice(dailyInfos.getPrice());
                 childOrder.setCheckInAt(new SimpleDateFormat("yyyy-MM-dd").format(dailyInfos.getDay()));
                 childOrder.setCheckOutAt(new SimpleDateFormat("yyyy-MM-dd").format(DateUtil.addDay(dailyInfos.getDay(), 1)));
-                childOrder.setRoomTypeId(dailyInfos.getRoomTypeId());
-                childOrder.setRoomTypeName(dailyInfos.getRoomTypeName());
+                childOrder.setRoomTypeId(order.getRoomTypeId());
+                childOrder.setRoomTypeName(order.getRoomTypeName());
                 //设置价格计划id，oms的价格计划code
                 childOrder.setRatePlanCode(order.getOTARateCode());
                 childOrders.add(childOrder);
