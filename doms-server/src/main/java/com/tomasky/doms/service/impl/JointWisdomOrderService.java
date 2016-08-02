@@ -19,6 +19,7 @@ import com.tomasky.doms.support.util.HttpClientUtil;
 import com.tomasky.doms.support.util.JsonModel;
 import com.tomasky.doms.support.util.ResourceBundleUtil;
 import com.tomasky.doms.support.util.XmlJointWisdomUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -258,7 +259,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                                 rate.setEffectiveDate(DateUtil.format(DateUtil.parseDate(detail.getRoomDate(), "yyyy-MM-dd"), "yyyy-MM-dd"));
                                 rate.setExpireDate(DateUtil.format(DateUtil.addDay(DateUtil.parseDate(detail.getRoomDate(), "yyyy-MM-dd"), 1), "yyyy-MM-dd"));
                                 Base base = new Base();
-                                if (roomTypeInfo.getRatePlanCode().equals("P_XCB")) {
+                                if (!roomTypeInfo.getRatePlanCode().equals("P_XCB")) {
                                     base.setAmountAfterTax(String.valueOf(detail.getRoomPrice()));
                                 } else {
                                     base.setAmountAfterTax(String.valueOf(BigDecimal.valueOf(detail.getRoomPrice()).multiply(BigDecimal.ONE.subtract(roomTypeInfo.getCommissionPercent().divide(BigDecimal.valueOf(100))))));
@@ -309,7 +310,20 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                         rateText.setValue(roomTypeInfo.getRatePlanCodeName());
                         ratePlanDescription.setText(rateText);
                         ratePlan.setRatePlanDescription(ratePlanDescription);
-                        ratePlanList.add(ratePlan);
+                        boolean weatherAdd = true;
+                        if (CollectionUtils.isNotEmpty(rateList)) {
+                            for (RatePlan ratePlan1 : ratePlanList) {
+                                if (ratePlan1.getRatePlanCode().equals(ratePlan.getRatePlanCode())) {
+                                    weatherAdd = false;
+                                    break;
+                                }
+                            }
+                        } else {
+                            ratePlanList.add(ratePlan);
+                        }
+                        if (weatherAdd) {
+                            ratePlanList.add(ratePlan);
+                        }
                         roomRateList.add(roomRate);
                     }
 

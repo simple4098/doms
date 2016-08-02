@@ -288,7 +288,7 @@ public class XmlJointWisdomUtil {
             for (RoomDetail roomDetail : roomTypeInfo.getRoomDetail()) {
                 DailyInfos dailyInfos = new DailyInfos();
                 dailyInfos.setDay(DateUtil.parse(roomDetail.getRoomDate(), "yyyy-MM-dd"));
-                if (!roomTypeInfo.getRatePlanCode().equals("P_XCB")) {
+                if (roomTypeInfo.getRatePlanCode().equals("P_XCB")) {
                     dailyInfos.setPrice(BigDecimal.valueOf(roomDetail.getRoomPrice()).multiply(BigDecimal.ONE.subtract(roomTypeInfo.getCommissionPercent().divide(BigDecimal.valueOf(100)))));
                 } else {
                     dailyInfos.setPrice(BigDecimal.valueOf(roomDetail.getRoomPrice()));
