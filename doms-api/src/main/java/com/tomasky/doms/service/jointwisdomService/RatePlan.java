@@ -11,7 +11,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "RatePlan", namespace = "http://www.opentravel.org/OTA/2003/05")
 public class RatePlan {
     private String ratePlanCode;//价格代码
-    private String ratePlanCategory = "501";//付款类型，16 现付，501 预付
+    private String ratePlanCategory;//付款类型，16 现付，501 预付
     private RatePlanDescription ratePlanDescription;
 
     @XmlElement(name = "RatePlanDescription")

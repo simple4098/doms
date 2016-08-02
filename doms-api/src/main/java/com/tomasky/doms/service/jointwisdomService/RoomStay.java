@@ -12,7 +12,8 @@ import java.util.List;
  */
 @XmlRootElement(name = "RoomStay", namespace = "http://www.opentravel.org/OTA/2003/05")
 public class RoomStay {
-    //    private List<RoomType> roomTypes;//房型信息
+    private List<RoomType> roomTypes;//房型信息
+    private List<RatePlan> ratePlans;//价格计划信息
     private List<RoomRate> roomRates;
     private List<GuestCount> guestCounts;
     private TimeSpan timeSpan;
@@ -138,8 +139,17 @@ public class RoomStay {
         this.roomRates = roomRates;
     }
 
+    @XmlElement(name = "RatePlan")
+    @XmlElementWrapper(name = "RatePlans")
+    public List<RatePlan> getRatePlans() {
+        return ratePlans;
+    }
 
-   /* @XmlElement(name = "RoomType")
+    public void setRatePlans(List<RatePlan> ratePlans) {
+        this.ratePlans = ratePlans;
+    }
+
+    @XmlElement(name = "RoomType")
     @XmlElementWrapper(name = "RoomTypes")
     public List<RoomType> getRoomTypes() {
         return roomTypes;
@@ -147,5 +157,5 @@ public class RoomStay {
 
     public void setRoomTypes(List<RoomType> roomTypes) {
         this.roomTypes = roomTypes;
-    }*/
+    }
 }

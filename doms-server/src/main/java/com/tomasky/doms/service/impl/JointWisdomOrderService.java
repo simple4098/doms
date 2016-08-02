@@ -138,6 +138,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                 roomDescription.setName(availOrder.getRoomTypeName());
                 Text text = new Text();
                 text.setValue(availOrder.getRoomTypeName());
+                text.setLanguage("en-US");
                 roomDescription.setText(text);
                 roomType.setDescription(roomDescription);
                 //2.组装价格计划
@@ -157,6 +158,9 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                         base.setAmountAfterTax(String.valueOf(dailyInfos1.getPrice()));
                         base.setAmountBeforeTax(base.getAmountAfterTax());
                         base.setCurrencyCode(base.getCurrencyCode());
+                        Taxes taxes = new Taxes();
+                        taxes.setCurrencyCode(base.getCurrencyCode());
+                        base.setTaxes(taxes);
                         rate.setBase(base);
                         rateList.add(rate);
                         totalPrice = totalPrice.add(BigDecimal.valueOf(Double.valueOf(base.getAmountAfterTax())));
@@ -167,6 +171,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                 total.setCurrencyCode("RMB");
                 total.setAmountBeforeTax(String.valueOf(totalPrice));
                 total.setAmountAfterTax(String.valueOf(totalPrice));
+                roomRate.setTotal(total);
                 List<RoomRate> roomRateList = new ArrayList<>();
                 roomRateList.add(roomRate);
                 JointWisdomAvailCheckOrderSuccessResponse responseResult = new JointWisdomAvailCheckOrderSuccessResponse();
@@ -179,9 +184,11 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                 //房型与价格对应关系
                 roomStay.setRoomRates(roomRateList);
 
+                roomStay.setRatePlans(ratePlanList);
                 //房型
                 List<RoomType> roomTypeList = new ArrayList<>();
                 roomTypeList.add(roomType);
+                roomStay.setRoomTypes(roomTypeList);
                 List<GuestCount> guestCountList = new ArrayList<>();
                 GuestCount guestCount = new GuestCount();
                 guestCount.setCount(String.valueOf(availOrder.getHomeAmount()));
@@ -189,6 +196,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                 guestCountList.add(guestCount);
                 roomStay.setGuestCounts(guestCountList);
                 BasicPropertyInfo basicPropertyInfo = new BasicPropertyInfo();
+                basicPropertyInfo.setHotelName(typeInfo.getInnName());
                 basicPropertyInfo.setHotelCode(availOrder.getInnCode());
                 roomStay.setBasicPropertyInfo(basicPropertyInfo);
 
@@ -218,11 +226,12 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                         availOrder.setRoomTypeId(String.valueOf(roomTypeInfo.getRoomTypeId()));
                         //房型
                         RoomType roomType = new RoomType();
-                        roomType.setRoomTypeCode(String.valueOf(roomTypeInfo.getOtaRoomTypeId()));
+                        roomType.setRoomTypeCode(String.valueOf(roomTypeInfo.getRoomTypeId()));
                         RoomDescription roomDescription = new RoomDescription();
                         roomDescription.setName(roomTypeInfo.getRoomTypeName());
                         Text text = new Text();
                         text.setValue(roomTypeInfo.getRoomTypeName());
+                        text.setLanguage("en-US");
                         roomDescription.setText(text);
                         roomType.setDescription(roomDescription);
                         boolean isCanbook = true;
@@ -259,6 +268,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                                 base.setCurrencyCode(base.getCurrencyCode());
                                 Taxes taxes = new Taxes();
                                 taxes.setCurrencyCode(base.getCurrencyCode());
+                                base.setTaxes(taxes);
                                 rate.setBase(base);
                                 rateList.add(rate);
                                 totalPrice = totalPrice.add(BigDecimal.valueOf(Double.valueOf(base.getAmountAfterTax())));
@@ -275,31 +285,43 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                         total.setAmountBeforeTax(total.getAmountAfterTax());
                         total.setCurrencyCode("RMB");
                         if (isCanbook) {
-                            roomRateList.add(roomRate);
+                            roomRate.setTotal(total);
                             //加载房型
                             roomType.setNumberOfUnits(isCanbook ? "true" : "false");
-                            roomTypeList.add(roomType);
+                        } else {
+                            roomRate.setTotal(total);
+                            //加载房型
+                            roomType.setNumberOfUnits(isCanbook ? "true" : "false");
                         }
+                        roomTypeList.add(roomType);
                         //价格计划
                         RatePlan ratePlan = new RatePlan();
-                        ratePlan.setRatePlanCategory(ratePlan.getRatePlanCategory());
+                        if (roomTypeInfo.getRatePlanCode().equals("P_XCB")) {
+                            ratePlan.setRatePlanCategory("501");
+                        } else {
+                            ratePlan.setRatePlanCategory("16");
+                        }
                         ratePlan.setRatePlanCode(roomTypeInfo.getRatePlanCode());
                         RatePlanDescription ratePlanDescription = new RatePlanDescription();
                         ratePlanDescription.setName(roomTypeInfo.getRatePlanCodeName());
                         Text rateText = new Text();
+                        rateText.setLanguage("en-US");
                         rateText.setValue(roomTypeInfo.getRatePlanCodeName());
                         ratePlanDescription.setText(rateText);
                         ratePlan.setRatePlanDescription(ratePlanDescription);
                         ratePlanList.add(ratePlan);
+                        roomRateList.add(roomRate);
                     }
 
                 }
+                roomStay.setRoomTypes(roomTypeList);
                 if (ArrayUtils.isEmpty(roomTypeList.toArray())) {
                     map.put("status", false);
                     map.put("data", new JointWisdomAvailCheckOrderSuccessResponse().getBasicError("房型剩余放量不足，请重试"));
                     return map;
                 }
                 roomStay.setRoomRates(roomRateList);
+                roomStay.setRatePlans(ratePlanList);
                 List<GuestCount> guestCountList = new ArrayList<>();
                 GuestCount guestCount = new GuestCount();
                 guestCount.setCount(String.valueOf(availOrder.getHomeAmount()));
@@ -314,6 +336,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
 //                responseResult.setXmlns(responseResult.getXmlns());
 
                 BasicPropertyInfo basicPropertyInfo = new BasicPropertyInfo();
+                basicPropertyInfo.setHotelName(list.get(0).getInnName());
                 basicPropertyInfo.setHotelCode(availOrder.getInnCode());
                 roomStay.setBasicPropertyInfo(basicPropertyInfo);
 

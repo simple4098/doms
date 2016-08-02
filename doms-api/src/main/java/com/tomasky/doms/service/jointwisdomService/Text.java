@@ -11,6 +11,16 @@ import javax.xml.bind.annotation.XmlValue;
 @XmlRootElement(name = "Text", namespace = "http://www.opentravel.org/OTA/2003/05")
 public class Text {
     private String value;
+    private String language;//语言
+
+    @XmlAttribute(name = "Language")
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
 
     @XmlValue
     public String getValue() {

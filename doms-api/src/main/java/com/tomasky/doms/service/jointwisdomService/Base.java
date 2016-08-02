@@ -13,7 +13,7 @@ public class Base {
     private String amountAfterTax;//税后价格
     private String currencyCode = "RMB";//货币类型
     private String amountBeforeTax;//税后价格
-//    private Taxes taxes;
+    private Taxes taxes;
 
     @XmlAttribute(name = "AmountAfterTax")
     public String getAmountAfterTax() {
@@ -42,12 +42,12 @@ public class Base {
         this.amountBeforeTax = amountBeforeTax;
     }
 
-   /* @XmlElement(name = "Taxes")
+    @XmlElement(name = "Taxes")
     public Taxes getTaxes() {
         return taxes;
     }
 
     public void setTaxes(Taxes taxes) {
         this.taxes = taxes;
-    }*/
+    }
 }
