@@ -384,15 +384,18 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
         logger.info("众荟下单单号为：" + order.getChannelOrderCode());
         // 根据下单酒店查询omsaccountId
         Integer accountId = null;
+        String omsRoomTypeName = "";
         Map<String, Integer> accountIdParam = new HashMap<>();
         accountIdParam.put("innId", order.getInnId());
         accountIdParam.put("innOtaId", DomsConstants.XCOtaId);
-        logger.info("下单获取accountId，传入参数=>>" + accountIdParam.toString());
+        accountIdParam.put("otaRoomTypeId", Integer.valueOf(order.getRoomTypeId()));
+        logger.info("下单获取accountIdAndOmsRoomTypeName，传入参数=>>" + accountIdParam.toString());
         String accountResponse = HttpClientUtil.httpKvPost(CommonApi.getOmsAccountIdUrl(), JSON.toJSON(accountIdParam));
-        logger.info("下单获取accountId，返回值=>" + accountResponse);
+        logger.info("下单获取accountIdAndOmsRoomTypeName，返回值=>" + accountResponse);
         if (StringUtils.isNotEmpty(accountResponse)) {
             JSONObject jsonObject = JSONObject.parseObject(accountResponse);
             accountId = jsonObject.getInteger("accountId");
+            omsRoomTypeName = jsonObject.getString("roomTypeName");
         } else {
             //预定失败
             map.put("status", false);
@@ -400,6 +403,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
             return map;
         }
         order.setAccountId(accountId);
+        order.setRoomTypeName(omsRoomTypeName);
         //请求oms下单接口
         OrderParamDto orderParamDto = order.toOrderParamDto(order, DomsConstants.XCOtaId, ResourceBundleUtil.getString("ctrip_oms_user_account"), ResourceBundleUtil.getString("ctrip_oms_password"));
         logger.info("请求oms下单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
