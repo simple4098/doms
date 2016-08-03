@@ -289,12 +289,8 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                             roomRate.setTotal(total);
                             //加载房型
                             roomType.setNumberOfUnits(isCanbook ? "true" : "false");
-                        } else {
-                            roomRate.setTotal(total);
-                            //加载房型
-                            roomType.setNumberOfUnits(isCanbook ? "true" : "false");
+                            roomTypeList.add(roomType);
                         }
-                        roomTypeList.add(roomType);
                         //价格计划
                         RatePlan ratePlan = new RatePlan();
                         if (roomTypeInfo.getRatePlanCode().equals("P_XCB")) {
@@ -324,7 +320,9 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
                         if (weatherAdd) {
                             ratePlanList.add(ratePlan);
                         }
-                        roomRateList.add(roomRate);
+                        if (isCanbook) {
+                            roomRateList.add(roomRate);
+                        }
                     }
 
                 }
