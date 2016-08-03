@@ -123,7 +123,7 @@
             <property name="version" value="1.0"/>
             <property name="operatorGuid" value="afanqie"/>
             <property name="operatorName" value="番茄来了"/>
-            <property name="omsCreateOrder" value="http://192.168.1.189:8888/api/order"/>
+            <property name="omsCreateOrder" value="http://oms.local.fanqiele.com/api/order"/>
             <property name="omsQunarBasicOrder" value="http://oms.local.fanqiele.com/qunar/createOrder"/>
             <property name="omsUpdateQunarOrder" value="http://oms.local.fanqiele.com/qunar/updateOrder"/>
             <property name="otaRoomTypeIdUrl" value="http://oms.local.fanqiele.com/qunar/getOtaRoomTypeId"/>
@@ -132,10 +132,11 @@
             <property name="omsMainOrderByChannelOrderCode"
                       value="http://oms.local.fanqiele.com/qunar/getOmsMainOrderByChannelOrderCode"/>
             <property name="updateOmsOrderStatus" value="http://oms.local.fanqiele.com/qunar/updateOmsOrderStatus"/>
-            <property name="omsRoomType" value="http://192.168.1.189:8888/api/queryRoomType"/>
-            <property name="omsRoomStatus" value="http://192.168.1.189:8888/api/queryRoomStatus"/>
-            <property name="omsAccountIdUrl" value="http://192.168.1.189:8888/api/getAccountIdAndOtaRoomTypeIdByInnId"/>
-            <property name="omsCtripOrderInfo" value="http://192.168.1.189:8888/api/getCtripCONNOrderInfo"/>
+            <property name="omsRoomType" value="http://oms.local.fanqiele.com/api/queryRoomType"/>
+            <property name="omsRoomStatus" value="http://oms.local.fanqiele.com/api/queryRoomStatus"/>
+            <property name="omsAccountIdUrl"
+                      value="http://oms.local.fanqiele.com/api/getAccountIdAndOtaRoomTypeIdByInnId"/>
+            <property name="omsCtripOrderInfo" value="http://oms.local.fanqiele.com/api/getCtripCONNOrderInfo"/>
         </bean>
         <bean id="sysConfig" class="com.tomasky.doms.support.system.SysConfig">
             <property name="domainOms" value="http://oms.local.fanqiele.com"/>
