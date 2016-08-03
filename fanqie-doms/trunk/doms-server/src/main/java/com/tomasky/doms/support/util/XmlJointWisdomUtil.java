@@ -78,7 +78,11 @@ public class XmlJointWisdomUtil {
         order.setRoomTypeId(order.getRoomTypeCode());
         order.setHomeAmount(Integer.parseInt(param.element("RoomStayCandidates").element("RoomStayCandidate").attributeValue("Quantity")));
         order.setChannelSource(ChannelSource.CTRIP_CONN);
-        order.setInnId(Integer.parseInt(order.getInnCode()));
+        if (StringUtils.isNotEmpty(order.getInnCode()) && order.getInnCode().contains("_")) {
+            order.setInnId(Integer.parseInt(order.getInnCode().split("_")[1]));
+        } else {
+            throw new RuntimeException("解析hotleCode出错，hotelCode=>" + order.getInnCode());
+        }
         order.setOtaId(DomsConstants.XCOtaId);
         return order;
     }
@@ -156,7 +160,11 @@ public class XmlJointWisdomUtil {
         order.setCurrency(CurrencyCode.CNY);
         order.setInnCode(roomTypeParam.element("BasicPropertyInfo").attributeValue("HotelCode"));
         order.setOTAHotelId(order.getInnCode());
-        order.setInnId(Integer.parseInt(order.getInnCode()));
+        if (StringUtils.isNotEmpty(order.getInnCode()) && order.getInnCode().contains("_")) {
+            order.setInnId(Integer.parseInt(order.getInnCode().split("_")[1]));
+        } else {
+            throw new RuntimeException("解析hotleCode出错，hotelCode=>" + order.getInnCode());
+        }
         order.setComment(getComment(roomTypeParam.element("SpecialRequests").element("SpecialRequest").elements("Text")));
         //入住人信息
         Element guestParam = param.element("ResGuests").element("ResGuest");
