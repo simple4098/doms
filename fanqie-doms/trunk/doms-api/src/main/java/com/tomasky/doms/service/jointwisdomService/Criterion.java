@@ -2,7 +2,9 @@ package com.tomasky.doms.service.jointwisdomService;
 
 
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * Created by wangdayin on 2016/1/18.
@@ -12,7 +14,17 @@ public class Criterion {
     private HotelRef hotelRef;
     private StayDateRange stayDateRange;
     private RoomStayCandidates roomStayCandidates;
+    private List<RatePlanCandidate> ratePlanCandidates;
 
+    @XmlElement(name = "RatePlanCandidate", namespace = "http://www.opentravel.org/OTA/2003/05")
+    @XmlElementWrapper(name = "RatePlanCandidates")
+    public List<RatePlanCandidate> getRatePlanCandidates() {
+        return ratePlanCandidates;
+    }
+
+    public void setRatePlanCandidates(List<RatePlanCandidate> ratePlanCandidates) {
+        this.ratePlanCandidates = ratePlanCandidates;
+    }
 
     @XmlElement(name = "HotelRef", namespace = "http://www.opentravel.org/OTA/2003/05")
     public HotelRef getHotelRef() {
