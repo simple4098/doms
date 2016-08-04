@@ -44,7 +44,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
             //解析xml得到order的查询对象
             Order availOrder = XmlJointWisdomUtil.getJointWisdomAvailOrder(xml);
             //检查试订单日期
-            if (availOrder.getLiveTime().getTime() > availOrder.getLeaveTime().getTime()) {
+            if (availOrder.getLiveTime().getTime() > availOrder.getLeaveTime().getTime() || availOrder.getLiveTime().getTime() < DateUtil.addDay(new Date(), -1).getTime() || availOrder.getLeaveTime().getTime() < DateUtil.addDay(new Date(), -1).getTime()) {
                 JointWisdomAvailCheckOrderSuccessResponse errorResult = new JointWisdomAvailCheckOrderSuccessResponse();
                 JointWisdomAvailCheckOrderErrorResponse basicError = errorResult.getBasicError("试订单入住时间必须小于等于离店时间");
                 map.put("data", basicError);
@@ -379,6 +379,11 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
         Map<String, Object> map = new HashMap<>();
         //解析xml得到订单对象
         Order order = XmlJointWisdomUtil.getAddOrder(xml);
+        if (order.getLiveTime().getTime() > order.getLeaveTime().getTime() || order.getLiveTime().getTime() < DateUtil.addDay(new Date(), -1).getTime() || order.getLeaveTime().getTime() < DateUtil.addDay(new Date(), -1).getTime()) {
+            map.put("status", false);
+            map.put("data", new JointWisdomAddOrderSuccessResponse().getBasicError("预定失败，请检查入住或离店时间", Version.v1003.getText(), OrderResponseType.Committed.name()));
+            return map;
+        }
         logger.info("众荟下单单号为：" + order.getChannelOrderCode());
         // 根据下单酒店查询omsaccountId
         Integer accountId = null;
