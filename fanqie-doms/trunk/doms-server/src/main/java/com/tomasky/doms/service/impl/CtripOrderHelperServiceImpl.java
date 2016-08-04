@@ -112,7 +112,7 @@ public class CtripOrderHelperServiceImpl implements ICtripOrderHelperService {
                 OTAHotelStayInfoNotifRS otaHotelStayInfoNotifRS = JointWiddomRequest.getDefaultInstance().otaHotelStayInfoNotifRQ(otaHotelStayInfoNotifRQ);
                 logger.info("请求众荟同步订单状态接口，返回值=>" + JSON.toJSONString(otaHotelStayInfoNotifRS));
             } else {
-                throw new RuntimeException("携程订单状态类型转换异常，pms订单状态=>" + qunarUpdateOrderRequest.getOrderStatus());
+                throw new RuntimeException("携程订单状态类型不在同步状态之中，pms订单状态=>" + qunarUpdateOrderRequest.getOrderStatus());
             }
         }
     }

@@ -1,6 +1,8 @@
 package com.tomasky.doms.support.util;
 
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.tomasky.doms.common.CommonApi;
 import com.tomasky.doms.dto.qunar.QunarBaseBean;
 import org.apache.commons.lang3.StringUtils;
@@ -120,10 +122,12 @@ public class HttpClientUtil {
 
     public static List<NameValuePair> commonParam(Object o) {
         String json = JacksonUtil.obj2json(o);
-        Map<String, String> json2map = JacksonUtil.json2map(json);
+//        Map<String, String> json2map = JacksonUtil.json2map(json);
+        Map<String, Object> json2map = JSON.parseObject(json, new TypeReference<Map<String, Object>>() {
+        });
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
-        for (Map.Entry<String, String> entry : json2map.entrySet()) {
-            nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+        for (Map.Entry<String, Object> entry : json2map.entrySet()) {
+            nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue() == null ? "" : entry.getValue().toString()));
         }
         return nameValuePairs;
     }
@@ -131,7 +135,7 @@ public class HttpClientUtil {
     public static List<NameValuePair> commonParam(Map<String, String> map) {
         List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         for (Map.Entry<String, String> entry : map.entrySet()) {
-            nameValuePairs.add(new BasicNameValuePair(entry.getKey(), String.valueOf(entry.getValue())));
+            nameValuePairs.add(new BasicNameValuePair(entry.getKey(), entry.getValue() == null ? "" : String.valueOf(entry.getValue())));
         }
         return nameValuePairs;
     }
