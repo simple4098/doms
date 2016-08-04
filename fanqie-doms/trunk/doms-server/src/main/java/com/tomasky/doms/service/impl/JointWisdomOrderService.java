@@ -46,7 +46,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
             //检查试订单日期
             if (availOrder.getLiveTime().getTime() > availOrder.getLeaveTime().getTime() || availOrder.getLiveTime().getTime() < DateUtil.addDay(new Date(), -1).getTime() || availOrder.getLeaveTime().getTime() < DateUtil.addDay(new Date(), -1).getTime()) {
                 JointWisdomAvailCheckOrderSuccessResponse errorResult = new JointWisdomAvailCheckOrderSuccessResponse();
-                JointWisdomAvailCheckOrderErrorResponse basicError = errorResult.getBasicError("试订单入住时间必须小于等于离店时间");
+                JointWisdomAvailCheckOrderErrorResponse basicError = errorResult.getBasicError("请检查入住或离店时间");
                 map.put("data", basicError);
                 map.put("status", true);
                 return map;
