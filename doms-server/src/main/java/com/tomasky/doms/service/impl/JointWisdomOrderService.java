@@ -417,6 +417,11 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
             //预定成功
             JointWisdomAddOrderSuccessResponse result = new JointWisdomAddOrderSuccessResponse();
             result.setMessage("预定成功");
+            //oms订单号
+            String orderNo = jsonObject.getString("orderNo");
+            if (StringUtils.isNotEmpty(orderNo)) {
+                order.setId(orderNo);
+            }
             result.setVersion(Version.v1003.getText());
             result.setResponseType(OrderResponseType.Committed.name());
             result.setHotelReservations(result.getHotelReservationResult(order.getChannelOrderCode(), order.getId()));
