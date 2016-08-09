@@ -31,7 +31,7 @@ public class CtripOrderHelperServiceImpl implements ICtripOrderHelperService {
         ResStatus ctripOrderStatus = DomsUtil.getCtripOrderStatus(qunarUpdateOrderRequest);
         if (null != ctripOrderStatus) {
             //只同步入住离店
-            if (ctripOrderStatus.equals(ResStatus.InHouse) || ctripOrderStatus.equals(ResStatus.CheckedOut)) {
+            if (ctripOrderStatus.equals(ResStatus.InHouse) || ctripOrderStatus.equals(ResStatus.CheckedOut) || ctripOrderStatus.equals(ResStatus.NoShow)) {
                 OTAHotelStayInfoNotifRQ otaHotelStayInfoNotifRQ = new OTAHotelStayInfoNotifRQ();
                 otaHotelStayInfoNotifRQ.setVersion(BigDecimal.valueOf(0.0));
                 StayInfosType stayInfosType = new StayInfosType();

@@ -52,12 +52,46 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
         } else if (qunarOrder.getStatusCode().equals("4")) {
             //拒单
             return refuseQunarOrderMethod(qunarOrder, result);
+        } else if (qunarOrder.getStatusCode().equals("7")) {
+            //变更已确认
+            return mofifyOrderMethod(qunarOrder, result);
         } else {
             logger.info("去哪儿请求的订单状态为=>" + qunarOrder.getStatusCode());
             result.put("status", DomsConstants.HTTP_SUCCESS);
             result.put("message", "处理成功");
         }
         return result;
+    }
+
+    /**
+     * 修改订单
+     *
+     * @param qunarOrder
+     * @param result
+     * @return
+     */
+    private Map<String, Object> mofifyOrderMethod(QunarOrder qunarOrder, Map<String, Object> result) {
+        try {
+            OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder, true);
+            //修改订单:1.新增；2.修改
+            omsOrder.setOperateType(2);
+            OrderParamDto orderParamDto = qunarOrder.getOrderParamDto(omsOrder, ResourceBundleUtil.getString("qunar_conn_ota_user_code"), ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
+            logger.info("请求oms修改单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
+            String response = HttpClientUtil.httpPostOrder(CommonApi.getOmsCreateOrder(), orderParamDto);
+            logger.info("请求oms修改单接口，响应值=>" + response);
+            //解析响应值
+            Map<String, Object> responseResult = QunarOrderUtil.dealOrderRequestResponse(response);
+            if (StringUtils.isNotEmpty((String) responseResult.get("orderNo"))) {
+                qunarOrder.setOmsOrderNo((String) responseResult.get("orderNo"));
+            }
+            //处理创建订单返回值
+            return responseResult;
+        } catch (Exception e) {
+            logger.error("修改单到oms接口异常", e);
+            result.put("status", DomsConstants.STATUS400);
+            result.put("message", "请求oms修改单接口异常");
+            return result;
+        }
     }
 
     /**
@@ -69,8 +103,8 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
      */
     private Map<String, Object> refuseQunarOrderMethod(QunarOrder qunarOrder, Map<String, Object> result) {
         try {
-            //拒单
-            logger.info("去哪儿拒绝订单，查询oms订单信息，请求地址=>" + CommonApi.getOmsMainOrderByChannelOrderCode() + "请求参数=>" + JSON.toJSONString(qunarOrder));
+            //拒单:不做任何处理，直接返回成功
+            /*logger.info("去哪儿拒绝订单，查询oms订单信息，请求地址=>" + CommonApi.getOmsMainOrderByChannelOrderCode() + "请求参数=>" + JSON.toJSONString(qunarOrder));
             String response = HttpClientUtil.httpKvPost(CommonApi.getOmsMainOrderByChannelOrderCode(), JSON.toJSONString(qunarOrder));
             logger.info("去哪儿拒绝订单，查询oms订单信息，返回值=>" + response);
             JSONObject jsonObject = JSONObject.parseObject(response);
@@ -88,7 +122,9 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
                 } else {
                     result.put("message", "处理失败");
                 }
-            }
+            }*/
+            result.put("status", DomsConstants.HTTP_SUCCESS);
+            result.put("message", "处理成功");
             return result;
         } catch (Exception e) {
             logger.error("去哪儿拒绝订单，调用oms接口异常", e);
