@@ -3,7 +3,6 @@ package com.tomasky.doms.model;
 import com.fanqie.core.Domain;
 import com.fanqie.core.domain.ChildOrder;
 import com.fanqie.core.domain.OMSOrder;
-import com.fanqie.core.domain.OrderSource;
 import com.fanqie.core.domain.Person;
 import com.fanqie.core.dto.CancelOrderParamDto;
 import com.fanqie.core.dto.OrderParamDto;
@@ -109,6 +108,16 @@ public class Order extends Domain {
     private Integer person;
     //房态更新时间
     private Date orderCreateTime;
+    //渠道来源：针对携程
+    private String parentCode;
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode;
+    }
 
     public Date getOrderCreateTime() {
         return orderCreateTime;
@@ -468,9 +477,10 @@ public class Order extends Domain {
      * 处理创建订单参数
      *
      * @param order
+     * @param operateType 1:新增；2：修改
      * @return
      */
-    public static OrderParamDto toOrderParamDto(Order order, int otaId, String userAccount, String password) {
+    public static OrderParamDto toOrderParamDto(Order order, int otaId, String userAccount, String password, Integer operateType) {
         OrderParamDto orderParamDto = new OrderParamDto();
         orderParamDto.setOtaId(otaId);
         orderParamDto.setvName(userAccount);
@@ -479,8 +489,11 @@ public class Order extends Domain {
         omsOrder.setOtaId(otaId);
         omsOrder.setAccountId(order.getAccountId());
         omsOrder.setContact(order.getGuestMobile());
-        omsOrder.setOperateType(1);
+        omsOrder.setOperateType(operateType);
         omsOrder.setOtaOrderNo(order.getChannelOrderCode());
+        if (null != order.getOmsOrderCode() && "" != order.getOmsOrderCode()) {
+            omsOrder.setOrderNo(order.getOmsOrderCode());
+        }
         //设置子渠道ID
         omsOrder.setChildOtaId(order.getChannelSource().name());
         //因为存在加减价，为了屏蔽老板的误解和方便对账，这里将实付价格设置为订单总价

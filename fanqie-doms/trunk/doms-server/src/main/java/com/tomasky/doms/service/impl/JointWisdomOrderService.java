@@ -408,7 +408,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
         order.setAccountId(accountId);
         order.setRoomTypeName(omsRoomTypeName);
         //请求oms下单接口
-        OrderParamDto orderParamDto = order.toOrderParamDto(order, DomsConstants.XCOtaId, ResourceBundleUtil.getString("ctrip_oms_user_account"), ResourceBundleUtil.getString("ctrip_oms_password"));
+        OrderParamDto orderParamDto = order.toOrderParamDto(order, DomsConstants.XCOtaId, ResourceBundleUtil.getString("ctrip_oms_user_account"), ResourceBundleUtil.getString("ctrip_oms_password"), 1);
         logger.info("请求oms下单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
         String response = com.fanqie.util.HttpClientUtil.httpPostOrder(CommonApi.getOmsCreateOrder(), orderParamDto);
         logger.info("请求oms下单接口，响应值=>" + response);
@@ -462,6 +462,68 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
         } else {
             map.put("status", false);
             map.put("data", new JointWisdomAddOrderSuccessResponse().getBasicError("酒店拒绝取消订单," + jsonObject.getString("message"), Version.v1003.getText(), OrderResponseType.Cancelled.name()));
+            return map;
+        }
+    }
+
+    @Override
+    public Map<String, Object> dealModifyOrder(String xml) throws Exception {
+        Map<String, Object> map = new HashMap<>();
+        //解析xml得到订单对象
+        Order order = XmlJointWisdomUtil.getAddOrder(xml);
+        if (order.getLiveTime().getTime() > order.getLeaveTime().getTime() || order.getLiveTime().getTime() < DateUtil.addDay(new Date(), -1).getTime() || order.getLeaveTime().getTime() < DateUtil.addDay(new Date(), -1).getTime()) {
+            map.put("status", false);
+            map.put("data", new JointWisdomAddOrderSuccessResponse().getBasicError("修改失败，请检查入住或离店时间", Version.v1003.getText(), OrderResponseType.Modified.name()));
+            return map;
+        }
+        logger.info("众荟修改订单单号为：" + order.getChannelOrderCode());
+        // 根据下单酒店查询omsaccountId
+        Integer accountId = null;
+        String omsRoomTypeName = "";
+        Map<String, Integer> accountIdParam = new HashMap<>();
+        accountIdParam.put("innId", order.getInnId());
+        accountIdParam.put("innOtaId", DomsConstants.XCOtaId);
+        accountIdParam.put("otaRoomTypeId", Integer.valueOf(order.getRoomTypeId()));
+        logger.info("修改订单获取accountIdAndOmsRoomTypeName，传入参数=>>" + accountIdParam.toString());
+        String accountResponse = HttpClientUtil.httpKvPost(CommonApi.getOmsAccountIdUrl(), JSON.toJSON(accountIdParam));
+        logger.info("修改订单获取accountIdAndOmsRoomTypeName，返回值=>" + accountResponse);
+        if (StringUtils.isNotEmpty(accountResponse)) {
+            JSONObject jsonObject = JSONObject.parseObject(accountResponse);
+            accountId = jsonObject.getInteger("accountId");
+            omsRoomTypeName = jsonObject.getString("roomTypeName");
+        } else {
+            //预定失败
+            map.put("status", false);
+            map.put("data", new JointWisdomAddOrderSuccessResponse().getBasicError("获取accountId失败," + "  修改失败", Version.v1003.getText(), OrderResponseType.Committed.name()));
+            return map;
+        }
+        order.setAccountId(accountId);
+        order.setRoomTypeName(omsRoomTypeName);
+        //请求oms下单接口
+        OrderParamDto orderParamDto = order.toOrderParamDto(order, DomsConstants.XCOtaId, ResourceBundleUtil.getString("ctrip_oms_user_account"), ResourceBundleUtil.getString("ctrip_oms_password"), 2);
+        logger.info("请求oms修改订单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
+        String response = com.fanqie.util.HttpClientUtil.httpPostOrder(CommonApi.getOmsCreateOrder(), orderParamDto);
+        logger.info("请求oms修改订单接口，响应值=>" + response);
+        JSONObject jsonObject = JSONObject.parseObject(response);
+        if (jsonObject.getInteger("status").equals(DomsConstants.HTTP_SUCCESS)) {
+            //预定成功
+            JointWisdomAddOrderSuccessResponse result = new JointWisdomAddOrderSuccessResponse();
+            result.setMessage("修改成功");
+            //oms订单号
+            String orderNo = jsonObject.getString("orderNo");
+            if (StringUtils.isNotEmpty(orderNo)) {
+                order.setId(orderNo);
+            }
+            result.setVersion(Version.v1003.getText());
+            result.setResponseType(OrderResponseType.Modified.name());
+            result.setHotelReservations(result.getHotelReservationResult(order.getChannelOrderCode(), order.getId()));
+            map.put("status", true);
+            map.put("data", result);
+            return map;
+        } else {
+            //修改失败
+            map.put("status", false);
+            map.put("data", new JointWisdomAddOrderSuccessResponse().getBasicError(jsonObject.getString("message") + "  修改订单失败", Version.v1003.getText(), OrderResponseType.Modified.name()));
             return map;
         }
     }

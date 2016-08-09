@@ -141,6 +141,8 @@ public class XmlJointWisdomUtil {
         order.setOTARoomTypeId(order.getRoomTypeCode());
         order.setRoomTypeId(order.getRoomTypeCode());
         order.setHomeAmount(Integer.parseInt(roomRate.attributeValue("NumberOfUnits")));
+        //真正的渠道来源:携程
+        order.setParentCode(element.element("POS").element("Source").element("RequestorID").attributeValue("ID"));
         //价格code
         order.setOTARateCode(roomRate.attributeValue("RatePlanCode"));
         String paymentTypeString = roomRate.attributeValue("RatePlanCategory");
@@ -175,12 +177,49 @@ public class XmlJointWisdomUtil {
         //联系人信息
         order.setGuestName(getGuestInfo(order.getOrderGuestses()));
         //渠道订单号
-        order.setChannelOrderCode(param.element("ResGlobalInfo").element("HotelReservationIDs").element("HotelReservationID").attributeValue("ResID_Value"));
+        order.setChannelOrderCode(getChannelOrderCode(param.element("ResGlobalInfo").element("HotelReservationIDs").elements("HotelReservationID")));
+        order.setOmsOrderCode(getOmsOrderCode(param.element("ResGlobalInfo").element("HotelReservationIDs").elements("HotelReservationID")));
         //设置预付金额
         order.setPrepayPrice(order.getTotalPrice());
         //设置已付金额
         order.setPayment(order.getTotalPrice());
         return order;
+    }
+
+    /**
+     * 得到pms订单号
+     *
+     * @param elements
+     * @return
+     */
+    private static String getOmsOrderCode(List<Element> elements) {
+        if (CollectionUtils.isNotEmpty(elements)) {
+            for (Element element : elements) {
+                if (element.attributeValue("ResID_Type").equals("10")) {
+                    return element.attributeValue("ResID_Value");
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 得到渠道订单号，携程
+     *
+     * @param elements
+     * @return
+     */
+    private static String getChannelOrderCode(List<Element> elements) {
+        if (CollectionUtils.isNotEmpty(elements)) {
+            for (Element element : elements) {
+                if (element.attributeValue("ResID_Type").equals("24")) {
+                    return element.attributeValue("ResID_Value");
+                }
+            }
+        } else {
+            throw new RuntimeException("解析众荟订单信息出错，获取渠道订单号");
+        }
+        return null;
     }
 
     /**

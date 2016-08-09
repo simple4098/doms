@@ -79,6 +79,11 @@ public class JoinWisdomCxfServiceImpl implements IJointWisdomCxfService {
                     Map<String, Object> map = this.jointWisdomOrderService.dealCancelOrder(xml);
                     logger.info("众荟取消订单返回值：" + XmlBeanUtil.fcRequest(map.get("data")));
                     return (JointWisdomAddOrderSuccessResponse) map.get("data");
+                } else if (OrderRequestType.Modify.equals(orderRequestType)) {
+                    //修改订单
+                    Map<String, Object> map = this.jointWisdomOrderService.dealModifyOrder(xml);
+                    logger.info("众荟修改订单返回值：" + XmlBeanUtil.fcRequest(map.get("data")));
+                    return (JointWisdomAddOrderSuccessResponse) map.get("data");
                 } else {
                     return new JointWisdomAddOrderSuccessResponse().getBasicError("订单流程中请求类型不存在", Version.v1003.getText(), OrderResponseType.Committed.name());
                 }

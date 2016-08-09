@@ -31,4 +31,12 @@ public interface IJointWisdomOrderService {
      * @return
      */
     Map<String, Object> dealCancelOrder(String xml) throws Exception;
+
+    /**
+     * 众荟修改订单
+     *
+     * @param xml
+     * @return
+     */
+    Map<String, Object> dealModifyOrder(String xml) throws Exception;
 }
