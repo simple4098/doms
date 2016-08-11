@@ -247,8 +247,6 @@ public class CommonUtil {
             for (Map.Entry entry : result.entrySet()) {
                 if (entry.getKey().toString().equals("code")) {
                     map.put(entry.getKey().toString(), entry.getValue());
-                } else if (entry.getKey().toString().equals("message")) {
-                    map.put(entry.getKey().toString(), entry.getValue());
                 } else if (entry.getKey().toString().equals("msg")) {
                     map.put(entry.getKey().toString(), entry.getValue());
                 }
