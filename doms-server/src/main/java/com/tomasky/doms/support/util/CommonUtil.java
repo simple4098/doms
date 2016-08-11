@@ -249,6 +249,8 @@ public class CommonUtil {
                     map.put(entry.getKey().toString(), entry.getValue());
                 } else if (entry.getKey().toString().equals("message")) {
                     map.put(entry.getKey().toString(), entry.getValue());
+                } else if (entry.getKey().toString().equals("msg")) {
+                    map.put(entry.getKey().toString(), entry.getValue());
                 }
             }
         }

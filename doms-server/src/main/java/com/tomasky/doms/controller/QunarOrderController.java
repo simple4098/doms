@@ -11,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -35,7 +36,7 @@ public class QunarOrderController {
      * @param qunarOrder
      * @return
      */
-    @RequestMapping(value = "/receiveOrder.do")
+    @RequestMapping(value = "/receiveOrder.do", method = RequestMethod.POST)
     @ResponseBody
     public Map<String, Object> receiveOrder(QunarOrder qunarOrder) {
         logger.info("去哪儿同步订单传入参数=>" + JSON.toJSONString(qunarOrder));
