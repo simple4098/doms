@@ -491,6 +491,7 @@ public class Order extends Domain {
         omsOrder.setContact(order.getGuestMobile());
         omsOrder.setOperateType(operateType);
         omsOrder.setOtaOrderNo(order.getChannelOrderCode());
+        omsOrder.setNeedConfirm(false);
         if (null != order.getOmsOrderCode() && "" != order.getOmsOrderCode()) {
             omsOrder.setOrderNo(order.getOmsOrderCode());
         }

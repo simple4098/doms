@@ -42,7 +42,7 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
         Map<String, Object> result = new HashMap<>();
         if (qunarOrder.getStatusCode().equals("1")) {
             //创建订单：待确定订单
-            return createOrderMethod(qunarOrder, result, true);
+            return createOrderMethod(qunarOrder, result, false);
         } else if (qunarOrder.getStatusCode().equals("3")) {
             //取消订单
             return cancelOrderMethod(qunarOrder, result);

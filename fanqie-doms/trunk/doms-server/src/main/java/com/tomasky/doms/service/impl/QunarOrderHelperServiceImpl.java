@@ -22,7 +22,7 @@ public class QunarOrderHelperServiceImpl implements IQunarOrderHelperService {
     @Override
     public void pushOrderStatusToQunar(QunarOrder qunarOrder, QunarUpdateOrderRequest qunarUpdateOrderRequest) {
         //根据传入参数同步不同状态
-        // 渠道订单状态（0:未处理、1:已接受（已分房）、2:已拒绝、3:已取消、4:验证失败、5：已接受（未分房）、6：入住、7：离店）
+        // 渠道订单状态（0:未处理、1:已接受（已分房）、2:已拒绝、3:已取消、4:验证失败、5：已接受（未分房）、6：入住、7：离店、8：noshow、9：变更已确认）
         try {
             //组装hmac
             String hmac = "";
