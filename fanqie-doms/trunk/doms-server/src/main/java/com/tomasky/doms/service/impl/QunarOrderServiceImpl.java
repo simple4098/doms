@@ -72,7 +72,7 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
      */
     private Map<String, Object> mofifyOrderMethod(QunarOrder qunarOrder, Map<String, Object> result) {
         try {
-            OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder, true);
+            OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder, false);
             //修改订单:1.新增；2.修改
             omsOrder.setOperateType(2);
             OrderParamDto orderParamDto = qunarOrder.getOrderParamDto(omsOrder, ResourceBundleUtil.getString("qunar_conn_ota_user_code"), ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
