@@ -33,7 +33,7 @@
         <dependency>
             <groupId>com.fanqie</groupId>
             <artifactId>JointWisdom</artifactId>
-            <version>1.3.4-SNAPSHOT</version>
+            <version>1.3.5-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
