@@ -338,7 +338,7 @@ public class ProvidToQunarService {
             String url = BASE_PATH + "/getInnList";
             log.debug("======url=======" + url);
             Map paramMap = new HashMap<>();
-            paramMap.put("innIds", hotelNos);
+            paramMap.put("innIds", StringUtils.isEmpty(hotelNos)?"":hotelNos);
             initOmsSecurityParam(paramMap);
             log.debug("=====参数====" + JacksonUtil.obj2json(paramMap));
             String data = HttpClientUtil.httpKvPost(url, paramMap);
