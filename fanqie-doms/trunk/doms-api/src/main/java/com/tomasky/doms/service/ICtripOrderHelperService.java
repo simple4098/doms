@@ -2,6 +2,8 @@ package com.tomasky.doms.service;
 
 import com.tomasky.doms.dto.qunar.QunarUpdateOrderRequest;
 
+import javax.xml.bind.JAXBException;
+
 /**
  * Created by wangdayin on 2016/7/28.
  */
@@ -12,5 +14,5 @@ public interface ICtripOrderHelperService {
      * @param qunarUpdateOrderRequest
      * @param otaRoomTypeId
      */
-    void pushOrderStatus(QunarUpdateOrderRequest qunarUpdateOrderRequest, String otaRoomTypeId);
+    void pushOrderStatus(QunarUpdateOrderRequest qunarUpdateOrderRequest, String otaRoomTypeId) throws JAXBException;
 }
