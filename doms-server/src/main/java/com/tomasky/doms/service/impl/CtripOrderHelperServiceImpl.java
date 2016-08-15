@@ -57,10 +57,17 @@ public class CtripOrderHelperServiceImpl implements ICtripOrderHelperService {
                 roomStay.setTimeSpan(timeSpan);
                 //房型信息
                 ArrayOfRoomTypeType arrayOfRoomTypeType = new ArrayOfRoomTypeType();
-                RoomTypeType roomTypeType = new RoomTypeType();
-                roomTypeType.setRoomTypeCode(otaRoomTypeId);
-                roomTypeType.setRoomID(qunarUpdateOrderRequest.getRoomNames());
-                arrayOfRoomTypeType.getRoomType().add(roomTypeType);
+                if (StringUtils.isNotEmpty(qunarUpdateOrderRequest.getRoomNos())) {
+                    String[] roomSplit = qunarUpdateOrderRequest.getRoomNos().split(",");
+                    if (roomSplit.length != 0) {
+                        for (int i = 0; i < roomSplit.length; i++) {
+                            RoomTypeType roomTypeType = new RoomTypeType();
+                            roomTypeType.setRoomTypeCode(otaRoomTypeId);
+                            roomTypeType.setRoomID(roomSplit[i]);
+                            arrayOfRoomTypeType.getRoomType().add(roomTypeType);
+                        }
+                    }
+                }
                 roomStay.setRoomTypes(arrayOfRoomTypeType);
                 arrayOfRoomStaysTypeRoomStay.getRoomStay().add(roomStay);
                 hotelReservationType.setRoomStays(arrayOfRoomStaysTypeRoomStay);
