@@ -14,6 +14,7 @@ public class QunarUpdateOrderRequest {
     private String roomIds;
     //房间号名称
     private String roomNames;
+    private String roomNos;
     //oms订单号
     private String omsOrderNo;
     //渠道订单号
@@ -32,6 +33,14 @@ public class QunarUpdateOrderRequest {
     private String innName;
     //入住人信息
     private List<Person> personList;
+
+    public String getRoomNos() {
+        return roomNos;
+    }
+
+    public void setRoomNos(String roomNos) {
+        this.roomNos = roomNos;
+    }
 
     public List<Person> getPersonList() {
         return personList;
