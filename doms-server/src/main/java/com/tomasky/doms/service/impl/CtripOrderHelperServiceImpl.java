@@ -8,7 +8,6 @@ import com.tomasky.doms.enums.ResStatus;
 import com.tomasky.doms.model.Person;
 import com.tomasky.doms.service.ICtripOrderHelperService;
 import com.tomasky.doms.support.util.DomsUtil;
-import com.tomasky.doms.support.util.XmlBeanUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.opentravel.ota._2003._05.*;
@@ -27,7 +26,7 @@ public class CtripOrderHelperServiceImpl implements ICtripOrderHelperService {
     private static final Logger logger = LoggerFactory.getLogger(CtripOrderHelperServiceImpl.class);
 
     @Override
-    public void pushOrderStatus(QunarUpdateOrderRequest qunarUpdateOrderRequest, String otaRoomTypeId) throws JAXBException {
+    public void pushOrderStatus(QunarUpdateOrderRequest qunarUpdateOrderRequest, String otaRoomTypeId) {
         //组装携程同步订单参数
         //1.根据同步状态设置订单状态
         ResStatus ctripOrderStatus = DomsUtil.getCtripOrderStatus(qunarUpdateOrderRequest);
@@ -117,7 +116,7 @@ public class CtripOrderHelperServiceImpl implements ICtripOrderHelperService {
                 }
                 otaHotelStayInfoNotifRQ.setStayInfos(stayInfosType);
                 //调用同步订单状态接口
-                logger.info("请求众荟同步订单状态接口，传入参数=>" + XmlBeanUtil.fcRequest(otaHotelStayInfoNotifRQ));
+                logger.info("请求众荟同步订单状态接口，传入参数=>" + JSON.toJSONString(otaHotelStayInfoNotifRQ));
                 OTAHotelStayInfoNotifRS otaHotelStayInfoNotifRS = JointWiddomRequest.getDefaultInstance().otaHotelStayInfoNotifRQ(otaHotelStayInfoNotifRQ);
                 logger.info("请求众荟同步订单状态接口，返回值=>" + JSON.toJSONString(otaHotelStayInfoNotifRS));
             } else {

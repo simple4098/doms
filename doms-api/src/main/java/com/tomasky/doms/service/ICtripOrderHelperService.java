@@ -14,5 +14,5 @@ public interface ICtripOrderHelperService {
      * @param qunarUpdateOrderRequest
      * @param otaRoomTypeId
      */
-    void pushOrderStatus(QunarUpdateOrderRequest qunarUpdateOrderRequest, String otaRoomTypeId) throws JAXBException;
+    void pushOrderStatus(QunarUpdateOrderRequest qunarUpdateOrderRequest, String otaRoomTypeId);
 }
