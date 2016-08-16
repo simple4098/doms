@@ -110,6 +110,16 @@ public class Order extends Domain {
     private Date orderCreateTime;
     //渠道来源：针对携程
     private String parentCode;
+    //是否有担保
+    private boolean weatherGuarantee;
+
+    public boolean getWeatherGuarantee() {
+        return weatherGuarantee;
+    }
+
+    public void setWeatherGuarantee(boolean weatherGuarantee) {
+        this.weatherGuarantee = weatherGuarantee;
+    }
 
     public String getParentCode() {
         return parentCode;
@@ -515,6 +525,9 @@ public class Order extends Domain {
             //现付
             omsOrder.setPaidAmount(BigDecimal.valueOf(0));
             omsOrder.setTypePay(2);
+        } else if (order.getWeatherGuarantee()) {
+            omsOrder.setPaidAmount(order.getTotalPrice());
+            omsOrder.setTypePay(4);
         }
         omsOrder.setUserName(order.getGuestName());
         //TODO需要传入房态更新时间
