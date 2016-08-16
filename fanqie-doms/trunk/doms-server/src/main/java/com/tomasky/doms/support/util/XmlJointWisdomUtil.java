@@ -161,6 +161,12 @@ public class XmlJointWisdomUtil {
         order.setTotalPrice(BigDecimal.valueOf(Double.valueOf(roomTypeParam.element("Total").attributeValue("AmountAfterTax"))));
         order.setCurrency(CurrencyCode.CNY);
         order.setInnCode(roomTypeParam.element("BasicPropertyInfo").attributeValue("HotelCode"));
+        String guaranteeType = roomTypeParam.element("Guarantee").attributeValue("GuaranteeType");
+        if (StringUtils.isNotEmpty(guaranteeType)) {
+            order.setWeatherGuarantee(true);
+        } else {
+            order.setWeatherGuarantee(false);
+        }
         order.setOTAHotelId(order.getInnCode());
         if (StringUtils.isNotEmpty(order.getInnCode()) && order.getInnCode().contains("_")) {
             order.setInnId(Integer.parseInt(order.getInnCode().split("_")[1]));
