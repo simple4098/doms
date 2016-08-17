@@ -13,6 +13,7 @@ public class ChannelHotel {
     private String dockingStatus;// "1", //1：已对接， 2：未对接
     private String otherRelationHotelNo;// "beijing0000",
     private String otherRelationHotelName;// "北京去呼呼酒店"
+    private String otherRelationPmsName;// 之前的其他pms厂商名称
 
     public String getChannelHotelNo() {
         return channelHotelNo;
@@ -52,5 +53,13 @@ public class ChannelHotel {
 
     public void setOtherRelationHotelName(String otherRelationHotelName) {
         this.otherRelationHotelName = otherRelationHotelName;
+    }
+
+    public String getOtherRelationPmsName() {
+        return otherRelationPmsName;
+    }
+
+    public void setOtherRelationPmsName(String otherRelationPmsName) {
+        this.otherRelationPmsName = otherRelationPmsName;
     }
 }
