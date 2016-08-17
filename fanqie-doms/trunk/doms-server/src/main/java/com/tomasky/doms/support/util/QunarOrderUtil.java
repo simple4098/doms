@@ -110,16 +110,18 @@ public class QunarOrderUtil {
     private static String getOtaRoomTypeId(QunarOrder qunarOrder) {
         try {
             String roomTypeCode = qunarOrder.getRoomTypeCode();
-            if (StringUtils.isNotEmpty(roomTypeCode)){
+            if(StringUtils.isEmpty(roomTypeCode)){
+                return null;
+            }else {
                 String[] split = roomTypeCode.split("-");
                 qunarOrder.setRoomTypeCode(split[0]);
-            }
-            String response = HttpClientUtil.httpKvPost(CommonApi.getOtaRoomTypeIdUrl(), qunarOrder);
-            JSONObject jsonObject = JSONObject.parseObject(response);
-            if (String.valueOf(jsonObject.get("status")).equals("200")) {
-                return String.valueOf(jsonObject.get("otaRoomTypeId"));
-            } else {
-                throw new RuntimeException("获取oms ota房型id异常");
+                String response = HttpClientUtil.httpKvPost(CommonApi.getOtaRoomTypeIdUrl(), qunarOrder);
+                JSONObject jsonObject = JSONObject.parseObject(response);
+                if (String.valueOf(jsonObject.get("status")).equals("200")) {
+                    return String.valueOf(jsonObject.get("otaRoomTypeId"));
+                } else {
+                    throw new RuntimeException("获取oms ota房型id异常");
+                }
             }
         } catch (Exception e) {
             throw new RuntimeException("获取oms ota房型id异常", e);
