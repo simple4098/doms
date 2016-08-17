@@ -40,9 +40,13 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
     @Override
     public Map<String, Object> createQunarOrderMethod(QunarOrder qunarOrder) {
         Map<String, Object> result = new HashMap<>();
+        boolean needConfirm = false;
+        if (StringUtils.isEmpty(qunarOrder.getRoomTypeCode())) {
+            needConfirm = true;
+        }
         if (qunarOrder.getStatusCode().equals("1")) {
             //创建订单：待确定订单
-            return createOrderMethod(qunarOrder, result, false);
+            return createOrderMethod(qunarOrder, result, needConfirm);
         } else if (qunarOrder.getStatusCode().equals("3")) {
             //取消订单
             return cancelOrderMethod(qunarOrder, result);
@@ -54,7 +58,7 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
             return refuseQunarOrderMethod(qunarOrder, result);
         } else if (qunarOrder.getStatusCode().equals("7")) {
             //变更已确认
-            return mofifyOrderMethod(qunarOrder, result);
+            return mofifyOrderMethod(qunarOrder, result,needConfirm);
         } else {
             logger.info("去哪儿请求的订单状态为=>" + qunarOrder.getStatusCode());
             result.put("status", DomsConstants.HTTP_SUCCESS);
@@ -70,9 +74,9 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
      * @param result
      * @return
      */
-    private Map<String, Object> mofifyOrderMethod(QunarOrder qunarOrder, Map<String, Object> result) {
+    private Map<String, Object> mofifyOrderMethod(QunarOrder qunarOrder, Map<String, Object> result,boolean needConfirm) {
         try {
-            OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder, false);
+            OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder, needConfirm);
             //修改订单:1.新增；2.修改
             omsOrder.setOperateType(2);
             OrderParamDto orderParamDto = qunarOrder.getOrderParamDto(omsOrder, ResourceBundleUtil.getString("qunar_conn_ota_user_code"), ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
