@@ -76,7 +76,8 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
             //获取房态
             String room_type = DcUtil.omsRoomTYpeUrl(DomsConstants.XCOtaId, ResourceBundleUtil.getString("ctrip_oms_user_account"), ResourceBundleUtil.getString("ctrip_oms_password"), String.valueOf(accountId), CommonApi.getOmsRoomType());
             String roomStatus = DcUtil.omsRoomTYpeUrl(DomsConstants.XCOtaId, ResourceBundleUtil.getString("ctrip_oms_user_account"), ResourceBundleUtil.getString("ctrip_oms_password"), String.valueOf(accountId), CommonApi.getOmsRoomStatus());
-
+            logger.info("room_type url:"+room_type);
+            logger.info("roomStatus url:"+roomStatus);
             List<RoomTypeInfo> list = InnRoomHelper.getRoomTypeInfo(room_type);
             List<RoomStatusDetail> statusDetails = InnRoomHelper.getRoomStatus(roomStatus);
             InnRoomHelper.updateRoomTypeInfo(list, statusDetails);
