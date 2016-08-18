@@ -525,10 +525,14 @@ public class Order extends Domain {
             //现付
             omsOrder.setPaidAmount(BigDecimal.valueOf(0));
             omsOrder.setTypePay(2);
-        } else if (order.getWeatherGuarantee()) {
+            if(order.getWeatherGuarantee()) {
+               //omsOrder.setPaidAmount(order.getTotalPrice());
+                omsOrder.setTypePay(4);
+            }
+        } /*else if (order.getWeatherGuarantee()) {
             omsOrder.setPaidAmount(order.getTotalPrice());
             omsOrder.setTypePay(4);
-        }
+        }*/
         omsOrder.setUserName(order.getGuestName());
         //TODO需要传入房态更新时间
         omsOrder.setProductTime(order.getOrderCreateTime() == null ? new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getOrderTime()) : new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(order.getOrderCreateTime()));

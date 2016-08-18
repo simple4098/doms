@@ -409,6 +409,7 @@ public class JointWisdomOrderService implements IJointWisdomOrderService {
         order.setAccountId(accountId);
         order.setRoomTypeName(omsRoomTypeName);
         //请求oms下单接口
+        logger.info("order 参数值:"+JSON.toJSONString(order));
         OrderParamDto orderParamDto = order.toOrderParamDto(order, DomsConstants.XCOtaId, ResourceBundleUtil.getString("ctrip_oms_user_account"), ResourceBundleUtil.getString("ctrip_oms_password"), 1);
         logger.info("请求oms下单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
         String response = com.fanqie.util.HttpClientUtil.httpPostOrder(CommonApi.getOmsCreateOrder(), orderParamDto);
