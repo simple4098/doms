@@ -15,6 +15,8 @@ public class QunarProductionInfo {
     private String channelProductionName;//": "渠道产品名称"
     //渠道产品类型 0 为预付产品 1 为现付产品"
     private String payType;
+    private String bizType;
+
 
     public String getPayType() {
         return payType;
@@ -70,5 +72,13 @@ public class QunarProductionInfo {
 
     public void setChannelProductionName(String channelProductionName) {
         this.channelProductionName = channelProductionName;
+    }
+
+    public String getBizType() {
+        return bizType;
+    }
+
+    public void setBizType(String bizType) {
+        this.bizType = bizType;
     }
 }
