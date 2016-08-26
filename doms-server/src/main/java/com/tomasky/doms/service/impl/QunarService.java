@@ -121,11 +121,11 @@ public class QunarService implements IQunarService {
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 logger.info("匹配酒店返回:"+JSON.toJSONString(qunarResult));
                 if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
-                    throw  new DmsException("酒店匹配异常 account:"+qunarDockingHotel.getHotelNo()+qunarResult.getMsg());
+                    throw  new DmsException("【"+qunarDockingHotel.getChannelHotelName()+"】酒店匹配异常:"+qunarResult.getMsg());
                 }
             }
         } catch (Exception e) {
-            throw  new DmsException("酒店匹配异常"+e.getMessage());
+            throw  new DmsException(e.getMessage());
         }
         return qunarResult;
     }
