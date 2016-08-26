@@ -16,6 +16,8 @@ import com.tomasky.doms.model.QunarPriceDetail;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,6 +30,8 @@ import java.util.Map;
  * 去哪儿订单处理工具类
  */
 public class QunarOrderUtil {
+
+    private static final Logger logger= LoggerFactory.getLogger(QunarOrderUtil.class);
 
     /**
      * 转换去哪儿订单对象为oms订单对象
@@ -110,12 +114,13 @@ public class QunarOrderUtil {
     private static String getOtaRoomTypeId(QunarOrder qunarOrder) {
         try {
             String roomTypeCode = qunarOrder.getRoomTypeCode();
-            if(StringUtils.isEmpty(roomTypeCode)){
+            if(StringUtils.isEmpty(roomTypeCode) || StringUtils.isEmpty(qunarOrder.getRatePlanCode())){
                 return null;
             }else {
                 String[] split = roomTypeCode.split("-");
                 qunarOrder.setRoomTypeCode(split[0]);
                 String response = HttpClientUtil.httpKvPost(CommonApi.getOtaRoomTypeIdUrl(), qunarOrder);
+                logger.debug("获取oms ota房型id返回值========="+response);
                 JSONObject jsonObject = JSONObject.parseObject(response);
                 if (String.valueOf(jsonObject.get("status")).equals("200")) {
                     return String.valueOf(jsonObject.get("otaRoomTypeId"));
