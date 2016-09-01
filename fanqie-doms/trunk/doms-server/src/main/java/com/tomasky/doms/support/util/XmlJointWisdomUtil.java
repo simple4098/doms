@@ -162,11 +162,18 @@ public class XmlJointWisdomUtil {
         order.setCurrency(CurrencyCode.CNY);
         order.setInnCode(roomTypeParam.element("BasicPropertyInfo").attributeValue("HotelCode"));
         String guaranteeType = roomTypeParam.element("Guarantee").attributeValue("GuaranteeType");
-        if (StringUtils.isNotEmpty(guaranteeType)) {
+        if("None".equals(guaranteeType)){
+            order.setWeatherGuarantee(false);
+        }
+        if("GuaranteeRequired".equals(guaranteeType)) {
+            order.setWeatherGuarantee(true);
+        }
+        //// TODO: 2016/9/1  注释此段代码  担保非担保问题
+        /*if (StringUtils.isNotEmpty(guaranteeType)) {
             order.setWeatherGuarantee(true);
         } else {
             order.setWeatherGuarantee(false);
-        }
+        }*/
         order.setOTAHotelId(order.getInnCode());
         if (StringUtils.isNotEmpty(order.getInnCode()) && order.getInnCode().contains("_")) {
             order.setInnId(Integer.parseInt(order.getInnCode().split("_")[1]));
