@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -116,13 +117,20 @@ public class QunarService implements IQunarService {
         QunarResult qunarResult =null;
         String httpPost = null;
         try {
+            List<String> success = new ArrayList<>();
             for (QunarDockingHotel qunarDockingHotel:qunarDockingHotelList){
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.matchHotelUrl(), qunarDockingHotel);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
                 logger.info("匹配酒店返回:"+JSON.toJSONString(qunarResult));
-                if (!QunarResultUtil.isSuccess(httpPost,qunarResult)){
-                    throw  new DmsException("【"+qunarDockingHotel.getChannelHotelName()+"】酒店匹配异常:"+qunarResult.getMsg());
+                if (QunarResultUtil.isSuccess(httpPost,qunarResult)){
+                    //throw  new DmsException("【"+qunarDockingHotel.getChannelHotelName()+"】酒店匹配异常:"+qunarResult.getMsg());
+                    success.add(qunarDockingHotel.getChannelHotelNo());
+                }else {
+                    qunarResult.setMsg("【"+qunarDockingHotel.getChannelHotelName()+"】酒店匹配异常:"+qunarResult.getMsg());
                 }
+            }
+            if (CollectionUtils.isNotEmpty(success)){
+                qunarResult.setMsg(JSON.toJSONString(success));
             }
         } catch (Exception e) {
             throw  new DmsException(e.getMessage());

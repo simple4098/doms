@@ -86,6 +86,8 @@ public class QunarOtaController {
             QunarResult qunarResult = qunarService.matchQunarHotel(omsPram);
             if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())) {
                 jsonModel = new JsonModel(DomsConstants.STATUS400, qunarResult.getMsg());
+            }else {
+                jsonModel.setMessage(qunarResult.getMsg());
             }
         } catch (Exception e) {
             logger.error("匹配酒店异常", e);
