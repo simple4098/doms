@@ -26,9 +26,11 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -112,12 +114,14 @@ public class QunarService implements IQunarService {
     }
 
     @Override
-    public QunarResult matchQunarHotel(OmsPram omsPram) throws DmsException {
+    public   Map<String,String> matchQunarHotel(OmsPram omsPram) throws DmsException {
+        Map<String,String> param = new HashMap<>();
         List<QunarDockingHotel> qunarDockingHotelList = qunarServiceHelper.matchQunarHotelParam(omsPram);
         QunarResult qunarResult =null;
         String httpPost = null;
         try {
             List<String> success = new ArrayList<>();
+            List<String> error = new ArrayList<>();
             for (QunarDockingHotel qunarDockingHotel:qunarDockingHotelList){
                 httpPost = HttpClientUtil.httpKvPost(QunarUrlUtil.matchHotelUrl(), qunarDockingHotel);
                 qunarResult = JacksonUtil.json2obj(httpPost, QunarResult.class);
@@ -126,16 +130,19 @@ public class QunarService implements IQunarService {
                     //throw  new DmsException("【"+qunarDockingHotel.getChannelHotelName()+"】酒店匹配异常:"+qunarResult.getMsg());
                     success.add(qunarDockingHotel.getChannelHotelNo());
                 }else {
-                    qunarResult.setMsg("【"+qunarDockingHotel.getChannelHotelName()+"】酒店匹配异常:"+qunarResult.getMsg());
+                    qunarResult.setMsg("【"+qunarDockingHotel.getChannelHotelName()+" "+qunarResult.getMsg()+"】");
+                    error.add("【"+qunarDockingHotel.getChannelHotelName()+" "+qunarResult.getMsg()+"】");
                 }
             }
             if (CollectionUtils.isNotEmpty(success)){
                 qunarResult.setMsg(JSON.toJSONString(success));
             }
+            param.put("success",JSON.toJSONString(success));
+            param.put("error",JSON.toJSONString(error));
         } catch (Exception e) {
             throw  new DmsException(e.getMessage());
         }
-        return qunarResult;
+        return  param;
     }
 
     @Override

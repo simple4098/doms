@@ -5,6 +5,8 @@ import com.tomasky.doms.dto.qunar.QunarMobile;
 import com.tomasky.doms.dto.qunar.response.*;
 import com.tomasky.doms.exception.DmsException;
 
+import java.util.Map;
+
 /**
  * DESC : 去哪儿对接接口逻辑层
  * @author : 番茄木-ZLin
@@ -39,7 +41,7 @@ public interface IQunarService {
      * @param omsPram oms匹配酒店参数
      * @throws DmsException
      */
-    QunarResult matchQunarHotel(OmsPram omsPram)throws DmsException;
+    Map<String,String> matchQunarHotel(OmsPram omsPram)throws DmsException;
 
 
     /**
