@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * DESC : oms 渠道直连控制层
@@ -83,12 +84,9 @@ public class QunarOtaController {
     public Object matchHotel(OmsPram omsPram) {
         JsonModel jsonModel = new JsonModel(DomsConstants.STATUS200, DomsConstants.HANDLE_SUCCESS);
         try {
-            QunarResult qunarResult = qunarService.matchQunarHotel(omsPram);
-            if (!DomsConstants.SUCCESS_QUNAR.equals(qunarResult.getCode())) {
-                jsonModel = new JsonModel(DomsConstants.STATUS400, qunarResult.getMsg());
-            }else {
-                jsonModel.setMessage(qunarResult.getMsg());
-            }
+            Map<String,String> map = qunarService.matchQunarHotel(omsPram);
+            jsonModel.put("success",map.get("success"));
+            jsonModel.put("error",map.get("error"));
         } catch (Exception e) {
             logger.error("匹配酒店异常", e);
             jsonModel = new JsonModel(DomsConstants.STATUS400, e.getMessage());
