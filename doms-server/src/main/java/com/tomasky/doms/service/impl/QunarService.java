@@ -136,8 +136,8 @@ public class QunarService implements IQunarService {
             }
             if (CollectionUtils.isNotEmpty(success)){
                 qunarResult.setMsg(JSON.toJSONString(success));
+                param.put("success",JSON.toJSONString(success));
             }
-            param.put("success",JSON.toJSONString(success));
             param.put("error",JSON.toJSONString(error));
         } catch (Exception e) {
             throw  new DmsException(e.getMessage());
