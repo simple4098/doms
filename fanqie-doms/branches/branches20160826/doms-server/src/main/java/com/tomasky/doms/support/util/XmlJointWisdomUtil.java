@@ -152,6 +152,14 @@ public class XmlJointWisdomUtil {
         } else {
             //现付
             order.setPaymentType(PaymentType.FG);
+            //现付才会传担保的数据
+            String guaranteeType = roomTypeParam.element("Guarantee").attributeValue("GuaranteeType");
+            if("None".equals(guaranteeType)){
+                order.setWeatherGuarantee(false);
+            }
+            if("GuaranteeRequired".equals(guaranteeType)) {
+                order.setWeatherGuarantee(true);
+            }
         }
         //得到每日入住信息
         order.setDailyInfoses(getOrderDailyInfos(roomRate.element("Rates").elements("Rate"), order));
@@ -161,12 +169,12 @@ public class XmlJointWisdomUtil {
         order.setTotalPrice(BigDecimal.valueOf(Double.valueOf(roomTypeParam.element("Total").attributeValue("AmountAfterTax"))));
         order.setCurrency(CurrencyCode.CNY);
         order.setInnCode(roomTypeParam.element("BasicPropertyInfo").attributeValue("HotelCode"));
-        String guaranteeType = roomTypeParam.element("Guarantee").attributeValue("GuaranteeType");
+        /*String guaranteeType = roomTypeParam.element("Guarantee").attributeValue("GuaranteeType");
         if (StringUtils.isNotEmpty(guaranteeType)) {
             order.setWeatherGuarantee(true);
         } else {
             order.setWeatherGuarantee(false);
-        }
+        }*/
         order.setOTAHotelId(order.getInnCode());
         if (StringUtils.isNotEmpty(order.getInnCode()) && order.getInnCode().contains("_")) {
             order.setInnId(Integer.parseInt(order.getInnCode().split("_")[1]));
