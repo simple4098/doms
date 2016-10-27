@@ -100,6 +100,12 @@ public class QunarOrder {
     private String roomNo;
     //房间名称
     private String roomName;
+    //价格类型
+    private String priceType;
+    //底价
+    private String basePrice;
+    //卖价
+    private String sellPrice;
 
     public String getRoomNo() {
         return roomNo;
@@ -443,6 +449,30 @@ public class QunarOrder {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getPriceType() {
+        return priceType;
+    }
+
+    public void setPriceType(String priceType) {
+        this.priceType = priceType;
+    }
+
+    public String getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(String basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public String getSellPrice() {
+        return sellPrice;
+    }
+
+    public void setSellPrice(String sellPrice) {
+        this.sellPrice = sellPrice;
     }
 
     /**

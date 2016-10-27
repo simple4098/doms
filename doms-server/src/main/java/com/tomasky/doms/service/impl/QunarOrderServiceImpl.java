@@ -80,9 +80,9 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
             //修改订单:1.新增；2.修改
             omsOrder.setOperateType(2);
             OrderParamDto orderParamDto = qunarOrder.getOrderParamDto(omsOrder, ResourceBundleUtil.getString("qunar_conn_ota_user_code"), ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
-            logger.info("请求oms修改单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
+            logger.info("请求oms修改单接口，请求地址=> 【"+qunarOrder.getChannelOrderNo()+"】" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
             String response = HttpClientUtil.httpPostOrder(CommonApi.getOmsCreateOrder(), orderParamDto);
-            logger.info("请求oms修改单接口，响应值=>" + response);
+            logger.info("请求oms修改单接口，响应值=> 【"+qunarOrder.getChannelOrderNo()+"】" + response);
             //解析响应值
             Map<String, Object> responseResult = QunarOrderUtil.dealOrderRequestResponse(response);
             if (StringUtils.isNotEmpty((String) responseResult.get("orderNo"))) {
@@ -147,16 +147,16 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
      */
     private Map<String, Object> confirmQunarOrderMethod(QunarOrder qunarOrder, Map<String, Object> result) {
         try {
-            logger.info("去哪儿确认订单，查询oms订单信息，请求地址=>" + CommonApi.getOmsMainOrderByChannelOrderCode() + "请求参数=>" + JSON.toJSONString(qunarOrder));
+            logger.info("去哪儿确认订单，查询oms订单信息，请求地址=> 【"+qunarOrder.getChannelOrderNo()+"】" + CommonApi.getOmsMainOrderByChannelOrderCode() + "请求参数=>" + JSON.toJSONString(qunarOrder));
             String response = HttpClientUtil.httpKvPost(CommonApi.getOmsMainOrderByChannelOrderCode(), JSON.toJSONString(qunarOrder));
-            logger.info("去哪儿确认订单，查询oms订单信息，返回值=>" + response);
+            logger.info("去哪儿确认订单，查询oms订单信息，返回值=> 【"+qunarOrder.getChannelOrderNo()+"】" + response);
             JSONObject jsonObject = JSONObject.parseObject(response);
             if (jsonObject.containsKey("omsOrderId") && StringUtils.isNotEmpty(jsonObject.get("omsOrderId").toString())) {
                 //订单存在，更新订单状态
                 qunarOrder.setOmsOrderNo(jsonObject.get("omsOrderId").toString());
-                logger.info("去哪儿确认订单，同步订单状态，请求地址=>" + CommonApi.getUpdateOmsOrderStatus() + "请求参数=>" + JSON.toJSONString(qunarOrder));
+                logger.info("去哪儿确认订单，同步订单状态，请求地址=> 【"+qunarOrder.getChannelOrderNo()+"】" + CommonApi.getUpdateOmsOrderStatus() + "请求参数=>" + JSON.toJSONString(qunarOrder));
                 String updateOrderStatusResponse = HttpClientUtil.httpKvPost(CommonApi.getUpdateOmsOrderStatus(), JSON.toJSONString(qunarOrder));
-                logger.info("去哪儿确认订单，同步订单状态，返回值=>" + updateOrderStatusResponse);
+                logger.info("去哪儿确认订单，同步订单状态，返回值=> 【"+qunarOrder.getChannelOrderNo()+"】" + updateOrderStatusResponse);
                 JSONObject orderStatusObject = JSONObject.parseObject(updateOrderStatusResponse);
                 result.put("status", orderStatusObject.get("status"));
                 if (orderStatusObject.get("status").toString().equals(DomsConstants.STATUS200)) {
@@ -206,7 +206,7 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
             } else {
                 //取消订单成功，同步订单状态到oms基本订单表
                 String updateResponse = com.tomasky.doms.support.util.HttpClientUtil.httpKvPost(CommonApi.getOmsUpdateQunarOrder(), qunarOrder);
-                logger.info("同步取消订单状态到oms去哪儿订单，返回值=>" + updateResponse);
+                logger.info("同步取消订单状态到oms去哪儿订单，返回值=> 【"+qunarOrder.getChannelOrderNo()+"】" + updateResponse);
                 result.put("status", DomsConstants.HTTP_SUCCESS);
                 result.put("message", "取消订单处理成功");
             }
@@ -229,15 +229,15 @@ public class QunarOrderServiceImpl implements IQunarOrderService {
     private Map<String, Object> createOrderMethod(QunarOrder qunarOrder, Map<String, Object> result, boolean needConfirm) {
         try {
             //调用oms接口保存去哪儿原始订单信息
-            logger.info("请求oms创建去哪儿初始订单，请求地址=>" + CommonApi.getOmsQunarBasicOrder() + "参数=>" + JSON.toJSONString(QunarOrderUtil.toNameValuePair(qunarOrder)));
+            logger.info("请求oms创建去哪儿初始订单，请求地址=> 【"+qunarOrder.getChannelOrderNo()+"】" + CommonApi.getOmsQunarBasicOrder() + "参数=>" + JSON.toJSONString(QunarOrderUtil.toNameValuePair(qunarOrder)));
             String baseOrderResponse = HttpClientUtil.httpPostQunarBasicOrder(CommonApi.getOmsQunarBasicOrder(), QunarOrderUtil.toNameValuePair(qunarOrder));
-            logger.info("请求oms创建去哪儿初始订单，返回值=>" + baseOrderResponse);
+            logger.info("请求oms创建去哪儿初始订单，返回值=> 【"+qunarOrder.getChannelOrderNo()+"】" + baseOrderResponse);
 
             OMSOrder omsOrder = QunarOrderUtil.getOmsOrderObject(qunarOrder, needConfirm);
             OrderParamDto orderParamDto = qunarOrder.getOrderParamDto(omsOrder, ResourceBundleUtil.getString("qunar_conn_ota_user_code"), ResourceBundleUtil.getString("qunar_conn_ota_user_pwd"));
-            logger.info("请求oms下单接口，请求地址=>" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
+            logger.info("请求oms下单接口，请求地址=> 【"+qunarOrder.getChannelOrderNo()+"】" + CommonApi.getOmsCreateOrder() + "参数=>" + JSON.toJSONString(orderParamDto));
             String response = HttpClientUtil.httpPostOrder(CommonApi.getOmsCreateOrder(), orderParamDto);
-            logger.info("请求oms下单接口，响应值=>" + response);
+            logger.info("请求oms下单接口，响应值=> 【"+qunarOrder.getChannelOrderNo()+"】" + response);
             //解析响应值
             Map<String, Object> responseResult = QunarOrderUtil.dealOrderRequestResponse(response);
             if (StringUtils.isNotEmpty((String) responseResult.get("orderNo"))) {
